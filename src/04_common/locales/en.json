@@ -1,0 +1,38 @@
+{
+  "ui": {
+    "button": {
+      "default": "Send"
+    }
+  },
+  "sidebar": {
+    "main": {
+      "home": "Home",
+      "docs": "Documentation",
+      "research": "Research"
+    }
+  },
+  "drawing-grid": {
+    "aria-label": "Cell is",
+    "aria-label-filled": "filled",
+    "aria-label-empty": "empty"
+  },
+  "hebbian": {
+    "tabs": {
+      "dataGeneration": "Data generation",
+      "training": "Training",
+      "qualityAssessment": "Quality assessment",
+      "recognition": "Recognition"
+    },
+    "buttons": {
+      "even": {
+        "title": "Even"
+      },
+      "odd": {
+        "title": "Odd"
+      }
+    },
+    "tables": {
+      "examples": "Examples"
+    }
+  }
+}

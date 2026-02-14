@@ -1,0 +1,25 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: var(--color-black-700);
+    --text-primary: var(--color-white-900);
+    --text-tertiary: var(--color-gray-400);
+    --bg-button-primary: var(--color-black-500);
+    --bg-button-outline: var(--color-black-600);
+    --bg-button-outline-border: var(--color-black-500);
+    --sidebar-bg-primary: var(--color-black-800);
+    --border-light: var(--color-white-alpha-50);
+    --surface-hover: var(--color-white-alpha-100);
+    --surface-active: var(--color-white-alpha-50);
+  }
+}
+
+:root.dark {
+  --bg-primary: var(--color-black-700);
+  --text-primary: var(--color-white-900);
+  --text-tertiary: var(--color-gray-400);
+  --bg-button-primary: var(--color-black-500);
+  --bg-button-outline: var(--color-black-700);
+  --sidebar-bg-primary: var(--color-black-800);
+  --surface-hover: var(--color-white-alpha-100);
+  --surface-active: var(--color-white-alpha-50);
+}

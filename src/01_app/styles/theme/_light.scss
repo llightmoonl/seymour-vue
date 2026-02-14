@@ -1,0 +1,11 @@
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-primary: var(--color-white-900);
+    --text-primary: var(--color-black-700);
+  }
+}
+
+:root.light {
+  --bg-primary: var(--color-white-900);
+  --text-primary: var(--color-black-700);
+}

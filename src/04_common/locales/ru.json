@@ -1,0 +1,38 @@
+{
+  "ui": {
+    "button": {
+      "default": "Отправить"
+    }
+  },
+  "sidebar": {
+    "main": {
+      "home": "Главная",
+      "docs": "Документация",
+      "research": "Исследование"
+    }
+  },
+  "drawing-grid": {
+    "aria-label": "Ячейка",
+    "aria-label-filled": "закрашена",
+    "aria-label-empty": "пустая"
+  },
+  "hebbian": {
+    "tabs": {
+      "dataGeneration": "Формирование данных",
+      "training": "Обучение",
+      "qualityAssessment": "Оценка качества",
+      "recognition": "Распознавание"
+    },
+    "buttons": {
+      "even": {
+        "title": "Четное"
+      },
+      "odd": {
+        "title": "Нечетное"
+      }
+    },
+    "tables": {
+      "examples": "Примеры"
+    }
+  }
+}

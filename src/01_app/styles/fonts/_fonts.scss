@@ -1,0 +1,71 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+@use 'settings' as *;
+
+@mixin font-face($name, $weight: 400, $stretch: 100, $variable: false) {
+  @font-face {
+    font-display: swap;
+    font-style: normal;
+
+    @if $variable {
+      font-family: $name + '-Variable';
+      src:
+        local($name + '-Variable'),
+        url('@app/assets/fonts/' + $name + '-Variable.woff2') format('woff2 supports variations'),
+        url('@app/assets/fonts/' + $name + '-Variable.woff2') format('woff2-variations');
+
+      @if meta.type-of($weight) == 'map' and meta.type-of($stretch) == 'map' {
+        font-weight: map.get($weight, min) map.get($weight, max);
+        font-stretch: map.get($stretch, min) map.get($stretch, max);
+      } @else {
+        font-weight: $weight;
+        font-stretch: $stretch;
+      }
+    } @else {
+      font-family: $name;
+      src:
+        url('@app/assets/fonts/' + $name + '-' + $weight + '.woff2') format('woff2'),
+        url('@app/assets/fonts/' + $name + '-' + $weight + '.woff') format('woff');
+
+      @if meta.type-of($weight) == 'number' and meta.type-of($stretch) == 'number' {
+        font-weight: $weight;
+        font-stretch: $stretch;
+      }
+    }
+  }
+}
+
+@if $staticFonts {
+  @each $name, $property in $staticFonts {
+    $valuesWeight: map.get($property, weight);
+    $valuesStretch: map.get($property, stretch);
+
+    @if $valuesWeight {
+      @if meta.type-of($valuesWeight) == 'list' {
+        @each $value in $valuesWeight {
+          @include font-face($name, $value);
+        }
+      } @else {
+        @include font-face($name, $valuesWeight);
+      }
+    } @else {
+      @warn 'Шрифт не содержит параметр ширины';
+    }
+  }
+}
+
+@supports (font-variation-settings: normal) {
+  @if meta.variable-exists(variableFonts) {
+    @each $name, $property in variableFonts {
+      $valuesWeight: map.get($property, weight);
+      $valuesStretch: map.get($property, stretch);
+
+      @if $valuesWeight {
+        @include font-face($name, $weight: $valuesWeight, $variable: true);
+      } @else {
+        @warn 'Шрифт не содержит параметр ширины';
+      }
+    }
+  }
+}

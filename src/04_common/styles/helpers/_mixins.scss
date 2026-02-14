@@ -1,0 +1,58 @@
+@mixin flex-center($direction: row) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @if $direction == column {
+    flex-direction: column;
+  }
+}
+
+@mixin square($size) {
+  inline-size: $size;
+  block-size: $size;
+}
+
+@mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+@mixin abs-x {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin abs-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+@mixin grid-cards($type: fit, $min: 280px, $max: 1fr, $gap: 30px) {
+  display: grid;
+  grid-template-columns: repeat(auto-#{$type}, minmax($min, $max));
+  gap: $gap;
+}
+
+@mixin font($size, $line-height, $weight: null) {
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $line-height;
+}
