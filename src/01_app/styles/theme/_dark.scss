@@ -1,25 +1,56 @@
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: var(--color-black-700);
-    --text-primary: var(--color-white-900);
-    --text-tertiary: var(--color-gray-400);
-    --bg-button-primary: var(--color-black-500);
-    --bg-button-outline: var(--color-black-600);
-    --bg-button-outline-border: var(--color-black-500);
-    --sidebar-bg-primary: var(--color-black-800);
-    --border-light: var(--color-white-alpha-50);
-    --surface-hover: var(--color-white-alpha-100);
-    --surface-active: var(--color-white-alpha-50);
+    --background: var(--black-700);
+    --foreground: var(--white-900);
+    --primary: var(--white-900);
+    --primary-foreground: var(--black-900);
+
+    --foreground-tertiary: var(--gray-400);
+    --bg-button-primary: var(--black-500);
+    --bg-button-outline-border: var(--black-500);
+    --sidebar-bg-primary: var(--black-800);
+    --border-light: var(--white-alpha-50);
+    --surface-hover: var(--white-alpha-100);
+    --surface-active: var(--white-alpha-50);
+
+    --muted: oklch(0.742 0 0);
+    --ring: color-mix(in srgb, var(--primary) 15%, transparent);
+    --destructive: oklch(55.3% 0.197 29.5);
   }
 }
 
 :root.dark {
-  --bg-primary: var(--color-black-700);
-  --text-primary: var(--color-white-900);
-  --text-tertiary: var(--color-gray-400);
-  --bg-button-primary: var(--color-black-500);
-  --bg-button-outline: var(--color-black-700);
-  --sidebar-bg-primary: var(--color-black-800);
-  --surface-hover: var(--color-white-alpha-100);
-  --surface-active: var(--color-white-alpha-50);
+  --background: var(--black-700);
+  --foreground: var(--white-900);
+  --primary: var(--white-900);
+  --primary-foreground: var(--black-900);
+
+  --foreground-tertiary: var(--gray-400);
+  --bg-button-primary: var(--black-500);
+  --sidebar-bg-primary: var(--black-800);
+  --surface-hover: var(--white-alpha-100);
+  --surface-active: var(--white-alpha-50);
+
+  --destructive: oklch(55.3% 0.197 29.5);
 }
+
+//--background: 141 17% 5%;
+//--foreground: 0 0% 95%;
+//--card: 24 9.8% 10%;
+//--card-foreground: 0 0% 95%;
+//--popover: 0 0% 9%;
+//--popover-foreground: 0 0% 95%;
+//--primary: 151 62% 59%;
+//--primary-foreground: 144.9 80.4% 10%;
+//--secondary: 240 3.7% 15.9%;
+//--secondary-foreground: 0 0% 98%;
+//--muted: 0 0% 15%;
+//--muted-foreground: 168 2.6% 62.9%;
+//--accent: 12 6.5% 15.1%;
+//--accent-foreground: 0 0% 98%;
+//--destructive: 0 62.8% 30.6%;
+//--destructive-foreground: 0 85.7% 97.3%;
+//--border: 240 3.7% 15.9%;
+//--input: 240 3.7% 15.9%;
+//--ring: 142.4 71.8% 29.2%;
+//--vp-c-neutral: #fff;

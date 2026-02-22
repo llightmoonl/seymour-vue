@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'reka-ui';
-import type { TabsBaseProps } from './VTabs';
+import type { VTabsProps } from './VTabs';
 
-defineProps<TabsBaseProps>();
+defineProps<VTabsProps>();
 </script>
 
 <template>
   <TabsRoot class="tabs" :default-value="defaultValue" :orientation="orientation">
     <TabsList class="list">
       <TabsTrigger
-        v-for="element in data"
-        :key="element.id"
-        :value="element.value"
-        :disabled="element.disabled"
+        v-for="item in items"
+        :key="item.id"
+        :value="item.value"
+        :disabled="item.disabled"
         class="trigger">
-        {{ element.title }}
+        {{ item.title }}
       </TabsTrigger>
     </TabsList>
-    <TabsContent class="content" v-for="element in data" :key="element.id" :value="element.value">
-      <Component :is="element.component" />
+    <TabsContent class="content" v-for="item in items" :key="item.id" :value="item.value">
+      <Component :is="item.component" />
     </TabsContent>
   </TabsRoot>
 </template>

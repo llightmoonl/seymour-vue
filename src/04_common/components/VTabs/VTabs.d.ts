@@ -1,6 +1,6 @@
 import type { Component } from 'vue';
 
-export interface TabsBaseData {
+export interface VTabsItems {
   id: number;
   title: string;
   value: string;
@@ -8,8 +8,8 @@ export interface TabsBaseData {
   disabled?: boolean;
 }
 
-export interface TabsBaseProps {
-    data: TabsBaseData[];
+export interface VTabsProps {
+    items: VTabsItems[];
     defaultValue: string;
     orientation?: 'horizontal' | 'vertical';
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-import { TabsBase, BaseContainer } from '@common/components';
+import { VTabs, VContainer } from '@common/components';
 import { HebbianGeneration, HebbianTraining, HebbianRecognition } from '@modules/hebbian';
 
 const { t } = useI18n();
@@ -15,9 +15,9 @@ const tabsPages = [
 </script>
 
 <template>
-  <BaseContainer>
-    <TabsBase :data="tabsPages" default-value="generation" />
-  </BaseContainer>
+  <VContainer>
+    <VTabs :items="tabsPages" default-value="generation" />
+  </VContainer>
 </template>
 
 <style scoped lang="scss"></style>

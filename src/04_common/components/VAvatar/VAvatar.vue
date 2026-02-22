@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AvatarImage, AvatarFallback, AvatarRoot } from 'reka-ui';
-import type { AvatarProps } from '@common/components/BaseAvatar/BaseAvatar';
+import type { AvatarProps } from './VAvatar';
 
 defineProps<AvatarProps>();
 </script>

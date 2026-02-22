@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue';
 
-import { VButton, DrawingGrid, DetailBlock } from '@common/components';
-import { getRandomArbitrary } from '@common/utils/random.ts';
-import BaseTable from '@common/components/BaseTable/BaseTable.vue';
+import { VButton, DrawingGridEditable, DetailBlock } from '@common/components';
+import { random } from '@common/utils/random.ts';
+import VTable from '@common/components/VTable/VTable.vue';
 
 const x = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => 0)));
-const w = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => getRandomArbitrary(1, 3))));
+const w = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => random(1, 3))));
 const y = ref(0);
 const s = ref(0);
-const neuron = getRandomArbitrary(1, 3);
+const neuron = random(1, 3);
 const setsX: Ref<number[][]> = ref([]);
 const setsW: Ref<number[][]> = ref([w.value.flat()]);
 
@@ -43,7 +43,7 @@ const detailsData = computed(() => [
     <div class="header">
       <div class="drawing-section">
         <div>
-          <DrawingGrid v-model:grid="x" />
+          <DrawingGridEditable v-model:grid="x" />
         </div>
         <div class="detail-information">
           <DetailBlock v-for="detail in detailsData" :key="detail.id" :marker="detail.marker">
@@ -55,22 +55,22 @@ const detailsData = computed(() => [
       </div>
       <div class="tables-data">
         <div class="table-element">
-          <BaseTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `x${i + 1}`)]" :data="setsX" />
+          <VTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `x${i + 1}`)]" :data="setsX" />
         </div>
         <div class="table-element">
-          <BaseTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `w${i + 1}`)]" :data="setsW" />
+          <VTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `w${i + 1}`)]" :data="setsW" />
         </div>
       </div>
     </div>
 
     <div class="controller-section">
       <div class="group group__left">
-        <Button>Четное</Button>
-        <Button>Нечетное</Button>
+        <VButton>Четное</VButton>
+        <VButton>Нечетное</VButton>
       </div>
       <div class="group group__right">
-        <Button>Завершить обучение</Button>
-        <Button size="icon"><i-custom-play></i-custom-play></Button>
+        <VButton>Завершить обучение</VButton>
+        <VButton size="icon-md"><i-custom-play></i-custom-play></VButton>
       </div>
     </div>
   </div>

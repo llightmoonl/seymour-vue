@@ -1,29 +1,32 @@
 <script setup lang="ts">
-import { type Ref, ref } from 'vue';
-import { VButton, DrawingGrid } from '@common/components';
-import BaseTable from '@common/components/BaseTable/BaseTable.vue';
+import { VButton, DrawingGridEditable, VTable } from '@common/components';
+import { useHebbian } from '../models/useHebbian';
+import { EVEN, ODD } from '../models/constant';
 
-const x = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => 0)));
-const generatedData: Ref<number[][]> = ref([]);
+const { x, samples, addSample } = useHebbian();
 </script>
 
 <template>
   <div class="hebbian-generation">
     <div class="header">
-      <DrawingGrid class="drawing-grid" v-model:grid="x" />
+      <DrawingGridEditable class="drawing-grid" v-model:grid="x" />
       <div class="table">
-        <BaseTable
+        <VTable
           :headers="[$t('hebbian.tables.examples'), 'y', ...Array.from({ length: 15 }, (_, i) => `x${i + 1}`)]"
-          :data="generatedData" />
+          :data="samples" />
       </div>
     </div>
     <div class="controllers">
       <div class="group">
-        <VButton>{{ $t('hebbian.buttons.even.title') }}</VButton>
-        <VButton variant="outline">{{ $t('hebbian.buttons.odd.title') }}</VButton>
+        <VButton @click="() => addSample(EVEN)" size="md" variant="subtle">{{ $t('hebbian.buttons.even.title') }}</VButton>
+        <VButton @click="() => addSample(ODD)" size="md">{{ $t('hebbian.buttons.odd.title') }}</VButton>
       </div>
     </div>
-    <div class="slider"></div>
+<!--    <VCarousel :options = "{slidesToScroll: 5}" :items="samples">-->
+<!--      <template #slide="{ item }">-->
+<!--        <DrawingGridView :grid="item"></DrawingGridView>-->
+<!--      </template>-->
+<!--    </VCarousel>-->
   </div>
 </template>
 
@@ -51,7 +54,7 @@ const generatedData: Ref<number[][]> = ref([]);
 
   & .group {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     gap: rem(8);
   }
 }

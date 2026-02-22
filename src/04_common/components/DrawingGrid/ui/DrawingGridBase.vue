@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { DrawingGridProps } from '../DrawingGrid';
-import { useDrawingGrid } from '../models/useDrawingGrid.ts';
-import { TAB_FOCUS, TAB_NO_FOCUS } from '@common/constants/a11y.ts';
+import type { DrawingGridBaseEmits, DrawingGridBaseProps } from '../DrawingGrid';
+import { TAB_FOCUS, TAB_NO_FOCUS } from '@common/constants/a11y';
 
-defineProps<DrawingGridProps>();
-const grid = defineModel<number[][]>('grid', { required: true });
-
-const { paintOverCell } = useDrawingGrid(grid);
+defineProps<DrawingGridBaseProps>();
+defineEmits<DrawingGridBaseEmits>();
 </script>
 
 <template>
@@ -24,11 +21,12 @@ const { paintOverCell } = useDrawingGrid(grid);
           :aria-disabled="disabled"
           :tabIndex="disabled ? TAB_NO_FOCUS : TAB_FOCUS"
           :aria-label="`${$t('drawing-grid.aria-label')} ${rowKey + 1}-${columnKey + 1} - ${column ? $t('drawing-grid.aria-label-filled') : $t('drawing-grid.aria-label-empty')}`"
-          @click="() => !disabled && paintOverCell(rowKey, columnKey)"></td>
+          @click="$emit('click', rowKey, columnKey)"></td>
       </tr>
     </tbody>
   </table>
 </template>
+
 
 <style scoped lang="scss">
 .drawing-grid {
@@ -37,11 +35,11 @@ const { paintOverCell } = useDrawingGrid(grid);
   & .column {
     width: 90px;
     height: 90px;
-    border: 1px solid var(--text-primary);
+    border: 1px solid var(--foreground);
   }
 
   & .filled {
-    background-color: var(--text-primary);
+    background-color: var(--foreground);
   }
 
   & .disabled {
@@ -50,3 +48,4 @@ const { paintOverCell } = useDrawingGrid(grid);
   }
 }
 </style>
+

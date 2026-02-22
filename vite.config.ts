@@ -17,6 +17,15 @@ export default defineConfig({
       customCollections: {
         custom: FileSystemIconLoader('./src/01_app/assets/icons'),
       },
+      iconCustomizer(collection, icon, props) {
+        if (!props.height) {
+          props.height = '1em'
+        }
+
+        if (!props.width) {
+          props.width = '1em'
+        }
+      }
     }),
     Components({
       resolvers: [

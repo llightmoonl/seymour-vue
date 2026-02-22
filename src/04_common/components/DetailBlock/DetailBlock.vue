@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSlots } from 'vue';
-import { TooltipBase, MarkdownBase } from '@common/components';
+import { VTooltip, VMarkdown } from '@common/components';
 
 defineProps<{
   marker: string;
@@ -18,16 +18,16 @@ const tooltipContent = typeof tooltipSlot === 'string' ? tooltipSlot : '';
       <p v-if="$slots.title" class="title">
         <slot name="title"></slot>:
       </p>
-      <TooltipBase class="tooltip" side="right" :side-offset="5">
+      <VTooltip class="tooltip" side="right" :side-offset="5">
         <template #trigger>
           <i-custom-info class="tooltip-trigger__icon" />
         </template>
         <template #content>
           <div v-if="$slots.tooltip">
-            <MarkdownBase :content="tooltipContent" />
+            <VMarkdown :content="tooltipContent" />
           </div>
         </template>
-      </TooltipBase>
+      </VTooltip>
     </div>
     <div class="value">
       <span v-if="marker">{{marker}} = </span>

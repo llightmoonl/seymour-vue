@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Logo, VButton } from '@common/components';
+import { VLogo, VButton } from '@common/components';
 import { useSidebar } from '../models/useSidebar.ts';
 
 const { expanded, toggleExpanded } = useSidebar();
@@ -7,7 +7,7 @@ const { expanded, toggleExpanded } = useSidebar();
 
 <template>
   <div class="sidebar__header">
-    <Logo v-if="expanded" />
+    <VLogo v-if="expanded" />
     <VButton class="sidebar__button" variant="ghost" @click="toggleExpanded">
       <i-custom-panel-left class="sidebar__button-icon" />
     </VButton>
