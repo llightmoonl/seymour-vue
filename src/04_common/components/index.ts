@@ -3,6 +3,7 @@ export { default as VSpinner } from './VSpinner/VSpinner.vue';
 export { default as VContainer } from './VContainer/VContainer.vue';
 export { default as VInput } from './VInput/VInput.vue';
 export { default as VSelect } from './VSelect/VSelect.vue';
+export { default as VCheckbox } from './VCheckbox/VCheckbox.vue';
 export { default as VCarousel } from './VCarousel/ui/VCarousel.vue';
 export { default as VLogo } from './VLogo/VLogo.vue';
 export { default as VTabs } from './VTabs/VTabs.vue';

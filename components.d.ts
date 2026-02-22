@@ -11,9 +11,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Check: typeof import('./src/01_app/assets/icons/check.svg')['default']
     Compass: typeof import('./src/01_app/assets/icons/compass.svg')['default']
     Docs: typeof import('./src/01_app/assets/icons/docs.svg')['default']
     Home: typeof import('./src/01_app/assets/icons/home.svg')['default']
+    ICustomCheck: typeof import('~icons/custom/check')['default']
     ICustomInfo: typeof import('~icons/custom/info')['default']
     ICustomPanelLeft: typeof import('~icons/custom/panel-left')['default']
     ICustomPlay: typeof import('~icons/custom/play')['default']
