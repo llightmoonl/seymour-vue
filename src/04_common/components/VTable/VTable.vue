@@ -1,14 +1,14 @@
 <script setup lang="ts" generic="T">
+import { computed, h, ref } from 'vue';
 import type { VTableProps } from './VTable';
 import {
   FlexRender,
   getCoreRowModel,
   useVueTable,
-  type SortingState,
   getSortedRowModel,
 } from '@tanstack/vue-table'
-import { computed, h, ref } from 'vue';
 import { faker } from '@faker-js/faker';
+import { VCheckbox } from '@common/components';
 
 defineProps<VTableProps>();
 
@@ -48,29 +48,64 @@ function makeData(...lens: number[]) {
 
 const data = ref(makeData(10));
 
-const sorting = ref<SortingState>([]);
-
 const columns = computed(() => [
   {
+    accessorKey: 'select',
+    header: ({ table }: { table: any }) => {
+      return h(VCheckbox, {
+        modelValue: table.getIsSomeRowsSelected() ? 'indeterminate' : table.getIsAllRowsSelected(),
+        'onUpdate:modelValue': (value) => table.toggleAllRowsSelected(value),
+      })
+    },
+    cell: ({ row }: { row: any }) => {
+      return h(VCheckbox, {
+        modelValue: row.getIsSelected(),
+        'onUpdate:modelValue': (value) => row.toggleSelected(value),
+      })
+    },
+  },
+  {
     accessorKey: 'lastName',
-    header: () => h('span', 'Last Name'),
+    header: () => [h('span', 'x'), h('sub', '1')],
   },
   {
-    accessorKey: 'age',
-    header: () => h('span', 'Age'),
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '2')],
   },
   {
-    accessorKey: 'visits',
-    header: () => h('span', 'Visits'),
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '3')],
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '4')],
   },
   {
-    accessorKey: 'progress',
-    header: 'Profile Progress',
-  }
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '5')],
+  },
+  {
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '6')],
+  },
+  {
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '7')],
+  },
+  {
+    accessorKey: 'lastName',
+    header: () => [h('span', 'x'), h('sub', '8')],
+  },
+  {
+    accessorKey: 'actions',
+    header: () => '',
+    cell: ({ row }: { row }) => {
+      return h(VCheckbox, {
+        modelValue: row.getIsSelected(),
+        'onUpdate:modelValue': (value) => row.toggleSelected(value),
+      })
+    },
+  },
 ]);
 
 const table = useVueTable({
@@ -94,12 +129,9 @@ const table = useVueTable({
             :key="header.id"
             :colSpan="header.colSpan"
             class="column"
-            :class="header.column.getCanSort() ? 'cursor-pointer select-none' : ''"
-            @click="header.column.getToggleSortingHandler()?.($event)">
+          >
             <template v-if="!header.isPlaceholder">
               <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
-
-              {{ { asc: ' 🔼', desc: ' 🔽' }[header.column.getIsSorted() as string] }}
             </template>
           </th>
         </tr>
