@@ -1,21 +1,24 @@
 <script setup lang="ts">
-import { CheckboxIndicator, CheckboxRoot } from 'reka-ui';
 import { computed } from 'vue';
-import type { CheckboxProps } from './VCheckbox';
+import { CheckboxIndicator, CheckboxRoot } from 'reka-ui';
+import type { CheckboxProps, CheckboxEmits } from './VCheckbox';
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
   color: 'primary',
   size: 'md',
 });
 
+defineEmits<CheckboxEmits>()
+
 const colorsObject = computed(() => (props.color ? `checkbox__${props.color}` : 'checkbox__primary'));
 const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'checkbox__md'));
 </script>
 
 <template>
-  <CheckboxRoot class="checkbox" :class="[colorsObject, sizesObject]">
+  <CheckboxRoot class="checkbox" :class="[colorsObject, sizesObject]" :model-value="props.modelValue" @update:model-value="$emit('update:modelValue', $event)">
     <CheckboxIndicator class="checkbox__indicator">
-      <i-custom-check class="checkbox-icon" />
+      <i-custom-minus v-if="props.modelValue === 'indeterminate'" class="checkbox-icon" />
+      <i-custom-check v-else class="checkbox-icon" />
     </CheckboxIndicator>
   </CheckboxRoot>
 </template>
