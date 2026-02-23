@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { VButton, DrawingGridEditable, VTable, VCheckbox } from '@common/components';
+import { VButton, VTable } from '@common/components';
+import { DrawingGridEditable } from '@modules/Research';
+
 import { useHebbian } from '../models/useHebbian';
 import { EVEN, ODD } from '../models/constant';
 
@@ -22,7 +24,6 @@ const { x, samples, addSample } = useHebbian();
         <VButton @click="() => addSample(ODD)" size="md">{{ $t('hebbian.buttons.odd.title') }}</VButton>
       </div>
     </div>
-    <VCheckbox/>
 <!--    <VCarousel :options = "{slidesToScroll: 5}" :items="samples">-->
 <!--      <template #slide="{ item }">-->
 <!--        <DrawingGridView :grid="item"></DrawingGridView>-->

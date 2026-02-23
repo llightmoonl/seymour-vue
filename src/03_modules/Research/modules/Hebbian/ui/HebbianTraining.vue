@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue';
 
-import { VButton, DrawingGridEditable, DetailBlock } from '@common/components';
-import { random } from '@common/utils/random.ts';
-import VTable from '@common/components/VTable/VTable.vue';
+import { VButton, VTable } from '@common/components';
+import { DrawingGridEditable, DetailBlock } from '@modules/Research';
+
+import { random } from '@common/utils/random';
 
 const x = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => 0)));
 const w = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => random(1, 3))));

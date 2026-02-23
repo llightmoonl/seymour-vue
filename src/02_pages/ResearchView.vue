@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 
 import { VTabs, VContainer } from '@common/components';
-import { HebbianGeneration, HebbianTraining, HebbianRecognition } from '@modules/hebbian';
+import { HebbianGeneration, HebbianTraining, HebbianRecognition } from '@modules/Research';
 
 const { t } = useI18n();
 
