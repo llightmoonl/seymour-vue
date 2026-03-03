@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue';
 
-import { VButton, VTable } from '@common/components';
-import { DrawingGridEditable, DetailBlock } from '@modules/Research';
+import { VButton } from '@common/components';
+import { DetailBlock, PerceptronBase } from '@modules/Research';
 
 import { random } from '@common/utils/random';
 
@@ -42,10 +42,8 @@ const detailsData = computed(() => [
 <template>
   <div class="root">
     <div class="header">
+      <perceptron-base :x1="1" :x2="0" :x3="1" :w1='1.2' :w2="1.3" :w3="1.2"></perceptron-base>
       <div class="drawing-section">
-        <div>
-          <DrawingGridEditable v-model:grid="x" />
-        </div>
         <div class="detail-information">
           <DetailBlock v-for="detail in detailsData" :key="detail.id" :marker="detail.marker">
             <template #title>{{ detail.title }}</template>
@@ -57,10 +55,6 @@ const detailsData = computed(() => [
     </div>
 
     <div class="controller-section">
-      <div class="group group__left">
-        <VButton>Четное</VButton>
-        <VButton>Нечетное</VButton>
-      </div>
       <div class="group group__right">
         <VButton>Завершить обучение</VButton>
         <VButton size="icon-md"><i-custom-play></i-custom-play></VButton>

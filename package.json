@@ -17,6 +17,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@antv/g6": "^5.0.51",
     "@tanstack/vue-table": "^8.21.3",
     "@tiptap/starter-kit": "^3.17.1",
     "@tiptap/vue-3": "^3.17.1",

@@ -5,6 +5,7 @@ import { DrawingGridEditable } from '@modules/Research';
 import { useHebbian, createSamplesColumns } from '../models/useHebbian';
 import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
 
+
 const { x, samples, addSample } = useHebbian();
 const columns = createSamplesColumns(SAMPLE_LENGTH);
 </script>
@@ -12,6 +13,7 @@ const columns = createSamplesColumns(SAMPLE_LENGTH);
 <template>
   <div class="hebbian-generation">
     <div class="header">
+
       <DrawingGridEditable class="drawing-grid" v-model:grid="x" />
       <div class="table">
         <VTable :data="samples" :columns="columns" />
