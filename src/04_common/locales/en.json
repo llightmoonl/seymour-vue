@@ -11,6 +11,9 @@
       "research": "Research"
     }
   },
+  "table": {
+    "empty": "No data"
+  },
   "drawing-grid": {
     "aria-label": "Cell is",
     "aria-label-filled": "filled",

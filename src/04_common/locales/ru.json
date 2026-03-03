@@ -11,6 +11,9 @@
       "research": "Исследование"
     }
   },
+  "table": {
+    "empty": "Нет данных"
+  },
   "drawing-grid": {
     "aria-label": "Ячейка",
     "aria-label-filled": "закрашена",

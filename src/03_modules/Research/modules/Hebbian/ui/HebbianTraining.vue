@@ -54,14 +54,6 @@ const detailsData = computed(() => [
           </DetailBlock>
         </div>
       </div>
-      <div class="tables-data">
-        <div class="table-element">
-          <VTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `x${i + 1}`)]" :data="setsX" />
-        </div>
-        <div class="table-element">
-          <VTable :headers="['№', ...Array.from({ length: 15 }, (_, i) => `w${i + 1}`)]" :data="setsW" />
-        </div>
-      </div>
     </div>
 
     <div class="controller-section">

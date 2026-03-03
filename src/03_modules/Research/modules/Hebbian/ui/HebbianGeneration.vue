@@ -2,10 +2,11 @@
 import { VButton, VTable } from '@common/components';
 import { DrawingGridEditable } from '@modules/Research';
 
-import { useHebbian } from '../models/useHebbian';
-import { EVEN, ODD } from '../models/constant';
+import { useHebbian, createSamplesColumns } from '../models/useHebbian';
+import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
 
 const { x, samples, addSample } = useHebbian();
+const columns = createSamplesColumns(SAMPLE_LENGTH);
 </script>
 
 <template>
@@ -13,22 +14,22 @@ const { x, samples, addSample } = useHebbian();
     <div class="header">
       <DrawingGridEditable class="drawing-grid" v-model:grid="x" />
       <div class="table">
-        <VTable
-          :headers="[$t('hebbian.tables.examples'), 'y', ...Array.from({ length: 15 }, (_, i) => `x${i + 1}`)]"
-          :data="samples" />
+        <VTable :data="samples" :columns="columns" />
       </div>
     </div>
     <div class="controllers">
       <div class="group">
-        <VButton @click="() => addSample(EVEN)" size="md" variant="subtle">{{ $t('hebbian.buttons.even.title') }}</VButton>
+        <VButton @click="() => addSample(EVEN)" size="md" variant="subtle">
+          {{ $t('hebbian.buttons.even.title') }}
+        </VButton>
         <VButton @click="() => addSample(ODD)" size="md">{{ $t('hebbian.buttons.odd.title') }}</VButton>
       </div>
     </div>
-<!--    <VCarousel :options = "{slidesToScroll: 5}" :items="samples">-->
-<!--      <template #slide="{ item }">-->
-<!--        <DrawingGridView :grid="item"></DrawingGridView>-->
-<!--      </template>-->
-<!--    </VCarousel>-->
+    <VCarousel :options="{ slidesToScroll: 5 }" :items="samples">
+      <template #slide="{ item }">
+        <DrawingGridView :grid="item"></DrawingGridView>
+      </template>
+    </VCarousel>
   </div>
 </template>
 
