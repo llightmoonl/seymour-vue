@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { DrawingGridBaseEmits, DrawingGridBaseProps } from '../DrawingGrid';
 import { TAB_FOCUS, TAB_NO_FOCUS } from '@common/constants/a11y';
+import { computed } from 'vue';
 
-defineProps<DrawingGridBaseProps>();
+const props = defineProps<DrawingGridBaseProps>();
 defineEmits<DrawingGridBaseEmits>();
+
+const sizeStyle = computed(() => props.size ? { width: `${props.size}px`, height: `${props.size}px` } : {});
 </script>
 
 <template>
@@ -17,6 +20,7 @@ defineEmits<DrawingGridBaseEmits>();
             filled: column,
             disabled: disabled,
           }"
+          :style="sizeStyle"
           :key="columnKey"
           :aria-disabled="disabled"
           :tabIndex="disabled ? TAB_NO_FOCUS : TAB_FOCUS"

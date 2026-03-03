@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { type EmblaOptionsType } from 'embla-carousel';
 
 import { VButton } from '@common/components';
@@ -6,10 +6,10 @@ import { useCarousel } from '../models/useCarousel';
 
 const props = defineProps<{
   options: EmblaOptionsType;
-  items: any;
+  items: T[];
 }>();
 
-const { carouselRef, goToNext, goToPrev, countVisibleSlides } = useCarousel(props.options);
+const { carouselRef, goToNext, goToPrev, countVisibleSlides, canScrollNext, canScrollPrev} = useCarousel(props.options);
 </script>
 
 <template>
@@ -21,13 +21,17 @@ const { carouselRef, goToNext, goToPrev, countVisibleSlides } = useCarousel(prop
         </div>
       </div>
     </div>
-    <VButton class="carousel__prev" @click="goToPrev">Scroll to prev</VButton>
-    <VButton class="carousel__next" @click="goToNext">Scroll to next</VButton>
+    <div class="carousel__navigation">
+      <VButton v-if="canScrollPrev" class="carousel__prev" size="icon-xs" @click="goToPrev"><i-custom-arrow-left /></VButton>
+      <VButton v-if="canScrollNext" class="carousel__next" size="icon-xs" @click="goToNext"><i-custom-arrow-right /></VButton>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .carousel {
+  position: relative;
+
   &__viewport {
     overflow: hidden;
   }
@@ -40,6 +44,21 @@ const { carouselRef, goToNext, goToPrev, countVisibleSlides } = useCarousel(prop
   &__slide {
     flex: 0 0 100%;
     min-width: 0;
+  }
+
+  &__prev,
+  &__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__prev {
+    left: 0;
+  }
+
+  &__next {
+    right: 0;
   }
 }
 </style>

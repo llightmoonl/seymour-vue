@@ -21,6 +21,7 @@ export function useHebbian() {
   const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   const x = ref(initialX);
   const samples: Ref<number[][]> = ref([]);
+  const rawSamples: Ref<number[][][]> = ref([]);
 
   const resetX = () => {
     x.value = initialX;
@@ -28,12 +29,14 @@ export function useHebbian() {
 
   const addSample = (y: number) => {
     samples.value = [...samples.value, [y, ...x.value.flat()]];
+    rawSamples.value = [...rawSamples.value, x.value];
     resetX();
   }
 
   return {
     x,
     samples,
+    rawSamples,
     addSample,
   }
 }

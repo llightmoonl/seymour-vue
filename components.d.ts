@@ -11,15 +11,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ArrowLeft: typeof import('./src/01_app/assets/icons/arrow-left.svg')['default']
+    ArrowRight: typeof import('./src/01_app/assets/icons/arrow-right.svg')['default']
     Check: typeof import('./src/01_app/assets/icons/check.svg')['default']
     Compass: typeof import('./src/01_app/assets/icons/compass.svg')['default']
     Docs: typeof import('./src/01_app/assets/icons/docs.svg')['default']
     Ellipsis: typeof import('./src/01_app/assets/icons/ellipsis.svg')['default']
     Home: typeof import('./src/01_app/assets/icons/home.svg')['default']
+    ICustomArrowLeft: typeof import('~icons/custom/arrow-left')['default']
+    ICustomArrowRight: typeof import('~icons/custom/arrow-right')['default']
     ICustomCheck: typeof import('~icons/custom/check')['default']
     ICustomInfo: typeof import('~icons/custom/info')['default']
     ICustomMinus: typeof import('~icons/custom/minus')['default']
     ICustomPanelLeft: typeof import('~icons/custom/panel-left')['default']
+    ICustomPanelRight: typeof import('~icons/custom/panel-right')['default']
     ICustomPlay: typeof import('~icons/custom/play')['default']
     IIconCustomPanelLeft: typeof import('~icons/icon/custom-panel-left')['default']
     IIconPanelLeft: typeof import('~icons/ic/on-panel-left')['default']

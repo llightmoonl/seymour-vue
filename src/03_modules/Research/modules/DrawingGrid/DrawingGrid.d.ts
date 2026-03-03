@@ -3,6 +3,7 @@ import type { MaybeRefOrGetter } from 'vue';
 export interface DrawingGridBaseProps {
   grid: MaybeRefOrGetter<number[][]>;
   disabled?: boolean;
+  size?: number;
 }
 
 export interface DrawingGridBaseEmits {
