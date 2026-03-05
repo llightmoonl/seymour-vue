@@ -1,38 +1,43 @@
 <script setup lang="ts">
-import { computed, ref, type Ref } from 'vue';
+import { computed, ref } from 'vue';
 
-import { VButton } from '@common/components';
-import { DetailBlock, PerceptronBase } from '@modules/Research';
+import { VButton, VTable } from '@common/components';
+import { NeuronBase, DetailList } from '@modules/Research';
+
+import { createSamplesColumns, useHebbian } from '../models/useHebbian';
+import { SAMPLE_LENGTH } from '../models/constant';
 
 import { random } from '@common/utils/random';
 
-const x = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => 0)));
-const w = ref(Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => random(1, 3))));
+const epoch = ref(0);
 const y = ref(0);
 const s = ref(0);
 const neuron = random(1, 3);
-const setsX: Ref<number[][]> = ref([]);
-const setsW: Ref<number[][]> = ref([w.value.flat()]);
+
+const { samples } = useHebbian();
+const xColumns = createSamplesColumns(SAMPLE_LENGTH);
 
 const detailsData = computed(() => [
   {
     id: 1,
+    title: 'Эпохи обучения:',
+    value: epoch,
+  },
+  {
+    id: 1,
     title: 'Порог чувствительности нейрона (Ө)',
-    tooltip: 'Генерируется случайным образом',
     marker: 'Ө',
     value: neuron,
   },
   {
     id: 2,
     title: 'Взвешенное суммирование входных сигналов',
-    tooltip: '$S = \\sum_{j=1}^N w_j x_j$',
     marker: 'S',
     value: s.value,
   },
   {
     id: 3,
     title: 'Выходной сигнал',
-    tooltip: 'Условие: если S ≥ Θ, то y = 1\n если S < Θ, то y = 0',
     marker: 'y',
     value: y.value,
   },
@@ -42,14 +47,13 @@ const detailsData = computed(() => [
 <template>
   <div class="root">
     <div class="header">
-      <perceptron-base :x1="1" :x2="0" :x3="1" :w1='1.2' :w2="1.3" :w3="1.2"></perceptron-base>
-      <div class="drawing-section">
-        <div class="detail-information">
-          <DetailBlock v-for="detail in detailsData" :key="detail.id" :marker="detail.marker">
-            <template #title>{{ detail.title }}</template>
-            <template #tooltip>{{ detail.tooltip }}</template>
-            <template #value>{{ detail.value }}</template>
-          </DetailBlock>
+      <neuron-base></neuron-base>
+      <div class="tables-data">
+        <div class="table">
+          <VTable :data="samples" :columns="xColumns" />
+        </div>
+        <div class="table">
+          <VTable :data="samples" :columns="xColumns" />
         </div>
       </div>
     </div>
@@ -60,6 +64,7 @@ const detailsData = computed(() => [
         <VButton size="icon-md"><i-custom-play></i-custom-play></VButton>
       </div>
     </div>
+    <DetailList :details="detailsData" />
   </div>
 </template>
 
@@ -85,7 +90,6 @@ const detailsData = computed(() => [
     display: flex;
     flex-direction: column;
     row-gap: rem(20);
-    max-width: rem(350);
   }
 }
 
@@ -110,7 +114,7 @@ const detailsData = computed(() => [
 .controller-section {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   margin-top: rem(16);
 
   & .group {

@@ -4,7 +4,7 @@ import type { ContainerProps } from './VContainer';
 
 const props = defineProps<ContainerProps>();
 
-const sizeObject = computed(() => computed(() => props.size ?? 'outline'));
+const sizeObject = computed(() => props.size ?? 'md');
 </script>
 
 <template>
@@ -20,9 +20,5 @@ const sizeObject = computed(() => computed(() => props.size ?? 'outline'));
   max-width: 100%;
   margin-inline: auto;
   padding-inline: rem(16);
-
-  &.lg {
-    max-width: rem(1440);
-  }
 }
 </style>

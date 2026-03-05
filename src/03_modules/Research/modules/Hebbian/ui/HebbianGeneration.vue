@@ -12,24 +12,24 @@ const columns = createSamplesColumns(SAMPLE_LENGTH);
 <template>
   <div class="hebbian-generation">
     <div class="header">
-      <DrawingGridEditable class="drawing-grid" v-model:grid="x" />
-      <div class="table">
-        <VTable :data="samples" :columns="columns" />
+      <div class="drawing-canvas">
+        <drawing-grid-editable class="drawing-grid" v-model:grid="x" />
+        <div class="drawing-canvas__controllers">
+          <v-button class="drawing-canvas__button" @click="() => addSample(EVEN)" size="md" variant="subtle">
+            {{ $t('hebbian.buttons.even.title') }}
+          </v-button>
+          <v-button class="drawing-canvas__button" @click="() => addSample(ODD)" size="md">
+            {{ $t('hebbian.buttons.odd.title') }}
+          </v-button>
+        </div>
       </div>
+      <v-table class="table" :data="samples" :columns="columns" />
     </div>
-    <div class="controllers">
-      <div class="group">
-        <VButton @click="() => addSample(EVEN)" size="md" variant="subtle">
-          {{ $t('hebbian.buttons.even.title') }}
-        </VButton>
-        <VButton @click="() => addSample(ODD)" size="md">{{ $t('hebbian.buttons.odd.title') }}</VButton>
-      </div>
-    </div>
-    <VCarousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
+    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
       <template #slide="{ item }">
-        <DrawingGridView :size="50" :grid="item"></DrawingGridView>
+        <drawing-grid-view :size="50" :grid="item"></drawing-grid-view>
       </template>
-    </VCarousel>
+    </v-carousel>
   </div>
 </template>
 
@@ -41,11 +41,23 @@ const columns = createSamplesColumns(SAMPLE_LENGTH);
 
   & .header {
     display: flex;
+    align-items: start;
     column-gap: rem(48);
   }
+}
 
-  & .drawing-grid {
-    flex-shrink: 0;
+.drawing-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+
+  &__controllers {
+    display: flex;
+    gap: rem(8);
+  }
+
+  &__button {
+    flex-grow: 1;
   }
 }
 

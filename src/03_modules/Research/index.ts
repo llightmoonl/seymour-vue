@@ -1,5 +1,4 @@
 export { DrawingGridView, DrawingGridEditable } from './modules/DrawingGrid';
-export { HebbianGeneration, HebbianTraining, HebbianRecognition } from './modules/Hebbian';
-export { PerceptronBase } from './modules/Perceptron';
-
-export { default as DetailBlock } from './ui/DetailBlock.vue'
+export { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality } from './modules/Hebbian';
+export { NeuronBase } from './modules/Neuron';
+export { DetailList, DetailBlock } from './modules/DetailList';
