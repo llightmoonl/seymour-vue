@@ -3,17 +3,16 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'reka-ui';
 import type { VTabsProps } from './VTabs';
 
 defineProps<VTabsProps>();
+const model = defineModel<number | string | undefined>();
 </script>
 
 <template>
-  <TabsRoot class="tabs" :default-value="defaultValue" :orientation="orientation">
+  <TabsRoot
+    class="tabs"
+    :orientation="orientation"
+    v-model:value="model">
     <TabsList class="list">
-      <TabsTrigger
-        v-for="item in items"
-        :key="item.id"
-        :value="item.value"
-        :disabled="item.disabled"
-        class="trigger">
+      <TabsTrigger v-for="item in items" :key="item.id" :value="item.value" :disabled="item.disabled" class="trigger">
         {{ item.title }}
       </TabsTrigger>
     </TabsList>

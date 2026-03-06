@@ -2,3 +2,5 @@ export { DrawingGridView, DrawingGridEditable } from './modules/DrawingGrid';
 export { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality } from './modules/Hebbian';
 export { NeuronBase } from './modules/Neuron';
 export { DetailList, DetailBlock } from './modules/DetailList';
+
+export { useTabs } from './models/useTabs';

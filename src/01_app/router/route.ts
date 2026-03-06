@@ -2,7 +2,7 @@ import { type RouteRecordRaw } from 'vue-router';
 
 import HomeView from '@pages/HomeView.vue';
 import DocsView from '@pages/DocsView.vue';
-import ResearchView from '@pages/ResearchView.vue';
+import HebbianView from '@pages/HebbianView.vue';
 
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 
@@ -20,8 +20,8 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: DocsView,
       },
       {
-        path: '/research',
-        component: ResearchView,
+        path: '/research/hebbian/:id',
+        component: HebbianView,
       },
     ],
   },

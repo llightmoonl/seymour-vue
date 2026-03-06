@@ -16,7 +16,7 @@ import {
 import type { SelectProps, SelectModel } from './VSelect';
 
 // icons
-import { ChevronDown, ChevronUp } from 'lucide-vue-next';
+// import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 
 defineProps<SelectProps>();
 const selectedValue = defineModel<SelectModel>('value');
@@ -32,11 +32,9 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
           <span v-if="required" class="select__required">*</span>
         </div>
         <SelectValue :placeholder="placeholder" class="select__value" />
-        <ChevronDown class="select__icon" />
       </SelectTrigger>
       <SelectContent :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="10">
         <SelectScrollUpButton class="select__scroll-up">
-          <ChevronUp />
         </SelectScrollUpButton>
         <SelectViewport class="select__viewport">
           <SelectItem v-for="option in options" :value="option" :key="option.id" class="select__item">
@@ -44,7 +42,6 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
           </SelectItem>
         </SelectViewport>
         <SelectScrollDownButton class="select__scroll-down">
-          <ChevronDown />
         </SelectScrollDownButton>
       </SelectContent>
     </SelectRoot>

@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+
 import { VButton, VTable, VCarousel } from '@common/components';
-import { DrawingGridEditable, DrawingGridView } from '@modules/Research';
+import { DrawingGridEditable, DrawingGridView, useTabs } from '@modules/Research';
 
 import { useHebbian, createSamplesColumns } from '../models/useHebbian';
 import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
 
+import { generateData } from '../api/generateData.ts';
+
+const route = useRoute();
+const pageId = route.params.id ? String(route.params.id) : '';
+
 const { x, samples, rawSamples, addSample } = useHebbian();
 const columns = createSamplesColumns(SAMPLE_LENGTH);
+
+const { setActiveTab } = useTabs();
+
+const handleFinishData = () => {
+  generateData(pageId, rawSamples.value);
+  setActiveTab('training');
+};
 </script>
 
 <template>
@@ -22,9 +36,13 @@ const columns = createSamplesColumns(SAMPLE_LENGTH);
             {{ $t('hebbian.buttons.odd.title') }}
           </v-button>
         </div>
+        <v-button v-if="samples.length >= 10" class="finish-data" @click="handleFinishData">
+          Закончить сбор данных
+        </v-button>
       </div>
       <v-table class="table" :data="samples" :columns="columns" />
     </div>
+
     <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
       <template #slide="{ item }">
         <drawing-grid-view :size="50" :grid="item"></drawing-grid-view>
