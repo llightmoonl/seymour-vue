@@ -13,8 +13,10 @@
     "test:unit": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
+    "format": "prettier --write --experimental-cli src/",
     "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "prettier": "prettier --write .",
+    "lintfix": "npm run lint && npm run prettier"
   },
   "dependencies": {
     "@tanstack/vue-table": "^8.21.3",
@@ -50,6 +52,8 @@
     "eslint-plugin-vue": "~10.6.2",
     "jiti": "^2.6.1",
     "jsdom": "^27.4.0",
+    "lefthook": "^2.1.4",
+    "lint-staged": "^16.3.3",
     "npm-run-all2": "^8.0.4",
     "prettier": "3.7.4",
     "reka-ui": "^2.7.0",
