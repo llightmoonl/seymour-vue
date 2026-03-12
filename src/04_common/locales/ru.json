@@ -8,7 +8,7 @@
     "main": {
       "home": "Главная",
       "docs": "Документация",
-      "research": "Исследование"
+      "research": "Исследования"
     }
   },
   "table": {
@@ -18,6 +18,11 @@
     "aria-label": "Ячейка",
     "aria-label-filled": "закрашена",
     "aria-label-empty": "пустая"
+  },
+  "research": {
+    "title": "Исследования",
+    "search": "Поиск ваших исследований...",
+    "create": "Новое исследование"
   },
   "hebbian": {
     "tabs": {

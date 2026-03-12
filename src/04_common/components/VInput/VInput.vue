@@ -28,7 +28,6 @@ const model = defineModel<string | number>();
 .input {
   $item: &;
   position: relative;
-  margin-top: rem(13);
   display: flex;
   flex-direction: column;
   row-gap: rem(4);
@@ -51,38 +50,31 @@ const model = defineModel<string | number>();
   }
 
   &__required {
-    color: var(--tg-theme-destructive-text-color, #ec3942);
+    color: var(--destructive, oklch(55.3% 0.197 29.5));
   }
 
   &__error {
-    color: var(--tg-theme-destructive-text-color, #ec3942);
+    color: var(--destructive, oklch(55.3% 0.197 29.5));
     font-weight: 600;
     font-size: rem(13);
     margin-inline: rem(12);
   }
 
   &__field {
-    margin-top: rem(12);
     width: 100%;
-    padding: rem(14) rem(16);
+    padding: rem(8) rem(16);
     display: flex;
     justify-content: space-between;
     background-color: transparent;
-    color: var(--tg-theme-text-color, #000000);
-    border: 2px solid color-mix(in srgb, var(--tg-theme-text-color, #000000) 5%, transparent);
-    border-radius: rem(14);
-    font-size: rem(16);
+    color: var(--foreground, --white-900);
+    border: 2px solid var(--input, oklch(1 0 0 / 15%));
+    border-radius: rem(8);
+    font-size: rem(14);
     line-height: rem(24);
     transition: border-color 0.25s ease-in-out;
 
     &::placeholder {
       color: var(--tg-theme-hint-color, #a2acb0);
-    }
-
-    &:active,
-    &:focus,
-    &:focus-within {
-      border-color: var(--tg-theme-button-color, #007aff);
     }
 
     &:focus-visible {
@@ -106,10 +98,10 @@ const model = defineModel<string | number>();
   &:has(#{$item}__error) {
     #{$item} {
       &__title {
-        color: var(--tg-theme-destructive-text-color, #ec3942);
+        color: var(--destructive, oklch(55.3% 0.197 29.5));
       }
       &__field {
-        border-color: var(--tg-theme-destructive-text-color, #ec3942);
+        border-color: var(--destructive, oklch(55.3% 0.197 29.5));
       }
     }
   }

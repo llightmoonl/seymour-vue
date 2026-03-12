@@ -19,6 +19,11 @@
     "aria-label-filled": "filled",
     "aria-label-empty": "empty"
   },
+  "research": {
+    "title": "Research",
+    "search": "Search your research...",
+    "create": "New research"
+  },
   "hebbian": {
     "tabs": {
       "dataGeneration": "Data generation",
