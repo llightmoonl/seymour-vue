@@ -4,6 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -15,14 +18,12 @@ body {
   color: var(--foreground);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
+:where(h1, h2, h3, h4, h5, h6, p) {
   margin: 0;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: 'PlayfairDisplay', sans-serif;
 }
 
 ul {
