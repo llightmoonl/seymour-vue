@@ -41,8 +41,6 @@ const table = useVueTable({
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .table-container {
   border-radius: rem(4);
   border: 1px solid var(--ring);

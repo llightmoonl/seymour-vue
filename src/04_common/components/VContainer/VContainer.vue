@@ -14,8 +14,6 @@ const sizeObject = computed(() => props.size ?? 'md');
 </template>
 
 <style lang="scss" scoped>
-@use '@common/styles/helpers' as *;
-
 .container {
   max-width: 100%;
   margin-inline: auto;

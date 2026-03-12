@@ -33,8 +33,6 @@ const sizesObject = computed(() => (props.size ? `button__${props.size}` : 'butt
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .button {
   --btn-bg: var(--primary);
   --btn-color: var(--primary-foreground);

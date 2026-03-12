@@ -11,7 +11,3 @@ defineProps<AvatarProps>();
     <AvatarFallback />
   </AvatarRoot>
 </template>
-
-<style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-</style>

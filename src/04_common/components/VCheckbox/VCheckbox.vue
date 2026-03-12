@@ -24,8 +24,6 @@ const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'ch
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .checkbox {
   $base: &;
   --size: #{rem(16)};

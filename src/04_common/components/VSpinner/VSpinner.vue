@@ -9,8 +9,6 @@ defineProps<SpinnerProps>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .spinner {
   display: inline-block;
   width: rem(18);

@@ -18,8 +18,6 @@ defineProps<DetailListProps>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .detail-list {
   display: flex;
   flex-direction: column;

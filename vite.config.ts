@@ -51,4 +51,11 @@ export default defineConfig({
     port: 3000,
     host: '0.0.0.0',
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use '@common/styles/helpers' as *;`
+      }
+    }
+  }
 });

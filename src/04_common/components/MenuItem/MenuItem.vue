@@ -15,8 +15,6 @@ defineProps<MenuItemProps>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .menu__item {
   padding: rem(8);
   min-height: rem(36);

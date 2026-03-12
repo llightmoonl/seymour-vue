@@ -194,8 +194,6 @@ withDefaults(defineProps<NeuronBaseProps>(), {
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .perceptron {
   border-radius: rem(16);
   padding: rem(16);

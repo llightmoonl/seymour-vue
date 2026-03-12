@@ -13,8 +13,6 @@ import { SidebarMain } from '@modules/sidebar';
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .layout {
   display: flex;
 

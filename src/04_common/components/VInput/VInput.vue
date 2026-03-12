@@ -25,8 +25,6 @@ const model = defineModel<string | number>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .input {
   $item: &;
   position: relative;

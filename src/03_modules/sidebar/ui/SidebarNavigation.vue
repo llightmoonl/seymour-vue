@@ -32,8 +32,6 @@ const sidebarElements = [
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .sidebar__navigation {
   display: flex;
   flex-direction: column;

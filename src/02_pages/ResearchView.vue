@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { VContainer } from '@common/components';
 </script>
 
-<template>Research</template>
-
-<style scoped lang="scss"></style>
+<template>
+  <VContainer size="lg">
+    Research
+  </VContainer>
+</template>

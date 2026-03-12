@@ -15,8 +15,6 @@ const { expanded, toggleExpanded } = useSidebar();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .sidebar {
   &__header {
     display: flex;

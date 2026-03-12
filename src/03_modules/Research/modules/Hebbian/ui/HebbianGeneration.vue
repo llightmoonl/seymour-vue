@@ -52,8 +52,6 @@ const handleFinishData = () => {
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .hebbian-generation {
   margin-top: rem(32);
 

@@ -52,8 +52,6 @@ const detailsData = computed(() => [
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .root {
   margin-top: rem(32);
 }

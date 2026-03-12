@@ -15,8 +15,6 @@ const { expanded } = useSidebar();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .sidebar {
   max-width: rem(53);
   width: 100%;

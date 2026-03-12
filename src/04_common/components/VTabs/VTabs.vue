@@ -23,8 +23,6 @@ const model = defineModel<number | string | undefined>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .tabs {
   display: flex;
   flex-direction: column;

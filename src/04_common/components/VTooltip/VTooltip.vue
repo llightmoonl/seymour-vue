@@ -19,8 +19,6 @@ defineProps<TooltipBaseProps>();
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .trigger {
   background-color: transparent;
   border: none;

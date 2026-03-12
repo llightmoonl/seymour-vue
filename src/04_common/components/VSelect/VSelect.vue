@@ -50,8 +50,6 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
 </template>
 
 <style scoped lang="scss">
-@use '@common/styles/helpers' as *;
-
 .select {
   $item: &;
 
