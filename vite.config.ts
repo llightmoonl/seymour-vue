@@ -9,6 +9,8 @@ import Components from 'unplugin-vue-components/vite';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import IconsResolver from 'unplugin-icons/resolver';
 
+import { visualizer } from 'rollup-plugin-visualizer';
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -20,13 +22,13 @@ export default defineConfig({
       },
       iconCustomizer(collection, icon, props) {
         if (!props.height) {
-          props.height = '1em'
+          props.height = '1em';
         }
 
         if (!props.width) {
-          props.width = '1em'
+          props.width = '1em';
         }
-      }
+      },
     }),
     Components({
       resolvers: [
@@ -35,6 +37,9 @@ export default defineConfig({
         }),
       ],
       globs: ['src/01_app/assets/icons/*.svg'],
+    }),
+    visualizer({
+      open: true,
     }),
   ],
   resolve: {
@@ -55,8 +60,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use '@common/styles/helpers' as *;`
-      }
-    }
-  }
+        additionalData: `@use '@common/styles/helpers' as *;`,
+      },
+    },
+  },
 });

@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+// import { computed, ref } from 'vue';
 
 import { VButton, VTable } from '@common/components';
-import { NeuronBase, DetailList } from '@modules/Research';
+import { NeuronBase } from '@modules/Research';
 
 import { createSamplesColumns, useHebbian } from '../models/useHebbian';
 import { SAMPLE_LENGTH } from '../models/constant';
 
-import { random } from '@common/utils/random';
+// import { random } from '@common/utils/random';
 
-const epoch = ref(0);
-const y = ref(0);
-const s = ref(0);
-const neuron = random(1, 3);
+// const epoch = ref(0);
+// const y = ref(0);
+// const s = ref(0);
+// const neuron = random(1, 3);
 
 const { samples } = useHebbian();
 const xColumns = createSamplesColumns(SAMPLE_LENGTH);
 
-const detailsData = computed(() => [
-  {
-    id: 1,
-    title: 'Эпохи обучения:',
-    value: epoch,
-  },
-  {
-    id: 1,
-    title: 'Порог чувствительности нейрона (Ө)',
-    marker: 'Ө',
-    value: neuron,
-  },
-  {
-    id: 2,
-    title: 'Взвешенное суммирование входных сигналов',
-    marker: 'S',
-    value: s.value,
-  },
-  {
-    id: 3,
-    title: 'Выходной сигнал',
-    marker: 'y',
-    value: y.value,
-  },
-]);
+// const detailsData = computed(() => [
+//   {
+//     id: 1,
+//     title: 'Эпохи обучения:',
+//     value: epoch,
+//   },
+//   {
+//     id: 1,
+//     title: 'Порог чувствительности нейрона (Ө)',
+//     marker: 'Ө',
+//     value: neuron,
+//   },
+//   {
+//     id: 2,
+//     title: 'Взвешенное суммирование входных сигналов',
+//     marker: 'S',
+//     value: s.value,
+//   },
+//   {
+//     id: 3,
+//     title: 'Выходной сигнал',
+//     marker: 'y',
+//     value: y.value,
+//   },
+// ]);
 </script>
 
 <template>
@@ -64,7 +64,7 @@ const detailsData = computed(() => [
         <VButton size="icon-md"><i-custom-play></i-custom-play></VButton>
       </div>
     </div>
-    <DetailList :details="detailsData" />
+    <!--    <DetailList :details="detailsData" />-->
   </div>
 </template>
 

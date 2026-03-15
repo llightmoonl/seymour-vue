@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { useHead } from '@unhead/vue';
 
 import { VTabs, VContainer } from '@common/components';
 import { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality, useTabs } from '@modules/Research';
 
 const { t } = useI18n();
+
+useHead({
+  title: 'Hebbian',
+});
 
 const tabsPages = [
   { id: 1, title: t('hebbian.tabs.dataGeneration'), value: 'generation', component: HebbianGeneration },

@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { VButton, VContainer, VInput } from '@common/components';
 import { useI18n } from 'vue-i18n';
+import { useHead } from '@unhead/vue';
+import { VButton, VContainer, VSearchInput } from '@common/components';
 
 const { t } = useI18n();
+
+useHead({
+  title: t('research.title'),
+});
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const { t } = useI18n();
       </div>
       <div class="research__header-bottom">
         <form>
-          <v-input name="search" :placeholder="t('research.search')"></v-input>
+          <v-search-input name="search" :placeholder="t('research.search')"></v-search-input>
         </form>
       </div>
     </header>
@@ -26,131 +31,93 @@ const { t } = useI18n();
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-title">Title Test Item title test item title test item</div>
+              <div class="research__list-badge">Правило Хебба</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item2</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
             </div>
-            <div class="research__list-badge">Delta</div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+            </div>
           </a>
         </li>
         <li class="research__list-item">
           <a class="research__list-link" href="#">
             <div class="research__list-information">
               <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+              <div class="research__list-badge">Hebbian</div>
             </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
+            <div class="research__list-time">
+              {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
             </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
-            </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
-            </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
-            </div>
-            <div class="research__list-badge">Hebbian</div>
-          </a>
-        </li>
-        <li class="research__list-item">
-          <a class="research__list-link" href="#">
-            <div class="research__list-information">
-              <div class="research__list-title">Title Test Item</div>
-              <div class="research__list-time">Обновлено 12 часов назад</div>
-            </div>
-            <div class="research__list-badge">Hebbian</div>
           </a>
         </li>
 
-        <v-button class="research__list-more" variant="outline" size="md">Показать еще</v-button>
+        <v-button class="research__list-more" variant="outline" size="md">{{ $t('shared.show-more') }}</v-button>
       </ul>
     </div>
   </VContainer>
@@ -188,13 +155,12 @@ const { t } = useI18n();
 .research__list {
   overflow-y: auto;
   height: calc(100vh - 224px);
-  padding-right: rem(12);
   padding-bottom: rem(64);
 
   &-item {
     border-top: 1px solid var(--input);
 
-    &:last-child {
+    &:last-of-type {
       border-bottom: 1px solid var(--input);
     }
 
@@ -205,16 +171,26 @@ const { t } = useI18n();
     }
   }
 
-  &-link {
-    padding: rem(16);
+  &-information {
     display: flex;
-    align-items: start;
-    justify-content: space-between;
+    align-items: center;
+    column-gap: rem(4);
+  }
+
+  &-link {
+    padding: rem(16) rem(8);
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(4);
+  }
+
+  &-title {
+    font-weight: 700;
   }
 
   &-time {
-    margin-top: rem(4);
     font-size: rem(12);
+    font-weight: 300;
   }
 
   &-more {

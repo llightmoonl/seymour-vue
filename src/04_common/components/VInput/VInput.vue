@@ -1,5 +1,4 @@
 <script setup lang="ts">
-//types
 import type { InputProps } from './VInput';
 
 defineProps<InputProps>();
@@ -11,6 +10,7 @@ const model = defineModel<string | number>();
       {{ title }}
       <span v-if="required" class="input__required">*</span>
     </label>
+    <Component v-if="icon" class="input__icon" :is="icon" />
     <input
       v-model="model"
       class="input__field"
@@ -31,6 +31,20 @@ const model = defineModel<string | number>();
   display: flex;
   flex-direction: column;
   row-gap: rem(4);
+
+  &:has(#{$item}__icon) {
+    #{$item}__field {
+      padding-left: rem(40);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: rem(12);
+    @include abs-y;
+    width: rem(20);
+    height: rem(20);
+  }
 
   &__title {
     display: flex;
@@ -61,6 +75,7 @@ const model = defineModel<string | number>();
   }
 
   &__field {
+    position: relative;
     width: 100%;
     padding: rem(8) rem(16);
     display: flex;

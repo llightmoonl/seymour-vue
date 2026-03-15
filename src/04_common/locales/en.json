@@ -4,6 +4,13 @@
       "default": "Send"
     }
   },
+  "shared": {
+    "created": "Created by",
+    "updated": "Updated by",
+    "hours": "{count} hour | {count} hours",
+    "ago": "ago",
+    "show-more": "Show more"
+  },
   "sidebar": {
     "main": {
       "home": "Home",
