@@ -4,17 +4,20 @@ import { debounce } from '@common/utils/debounce';
 
 import SearchIcon from '~icons/custom/Search';
 
-import type { SearchInputProps } from './VInput';
+import type { InputEmits, SearchInputProps } from './VInput';
 
 defineProps<SearchInputProps>();
-const model = defineModel<string>();
 
-const debouncedInput = debounce((value: string) => (model.value = value), 1000);
+const model = defineModel<string>();
+const emit = defineEmits<InputEmits>();
+
+const updateInput = (value: string) => emit('update:modelValue', value);
+const debouncedInput = debounce(updateInput, 1000);
 </script>
 
 <template>
   <v-input
-    v-model="model"
+    :model-value="model"
     @update:model-value="debouncedInput"
     :icon="SearchIcon"
     :name="name"

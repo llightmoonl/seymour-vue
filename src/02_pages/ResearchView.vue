@@ -8,10 +8,6 @@ const { t } = useI18n();
 useHead({
   title: t('research.title'),
 });
-
-function logger(value: string) {
-  console.log(value);
-}
 </script>
 
 <template>
