@@ -13,3 +13,7 @@ export type SearchInputProps = Omit<InputProps, 'required' | 'type' | 'inputmode
   type?: 'text' | 'search';
   inputmode?: 'text' | 'search';
 };
+
+export interface InputEmits {
+  (e: 'update:modelValue', value: string): void;
+}

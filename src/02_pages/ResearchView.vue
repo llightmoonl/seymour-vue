@@ -8,6 +8,10 @@ const { t } = useI18n();
 useHead({
   title: t('research.title'),
 });
+
+function logger(value: string) {
+  console.log(value);
+}
 </script>
 
 <template>
@@ -22,7 +26,7 @@ useHead({
       </div>
       <div class="research__header-bottom">
         <form>
-          <v-search-input name="search" :placeholder="t('research.search')"></v-search-input>
+          <v-search-input name="search" :placeholder="t('research.search')" @update:model-value="logger" />
         </form>
       </div>
     </header>

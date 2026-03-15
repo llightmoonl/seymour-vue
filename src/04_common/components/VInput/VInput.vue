@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import type { InputProps } from './VInput';
+import type { InputEmits, InputProps } from './VInput';
 
 defineProps<InputProps>();
+const emits = defineEmits<InputEmits>();
+
 const model = defineModel<string | number>();
+const updateInput = (value: string) => emits('update:modelValue', value);
 </script>
 <template>
   <div class="input">
@@ -13,6 +16,7 @@ const model = defineModel<string | number>();
     <Component v-if="icon" class="input__icon" :is="icon" />
     <input
       v-model="model"
+      @update:model="updateInput"
       class="input__field"
       :type="type"
       :inputmode="inputmode"
