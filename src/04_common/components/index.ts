@@ -11,3 +11,4 @@ export { default as VTabs } from './VTabs/VTabs.vue';
 export { default as VTooltip } from './VTooltip/VTooltip.vue';
 export { default as VMarkdown } from './VMarkdown/VMarkdown.vue';
 export { default as VTable } from './VTable/VTable.vue';
+export { default as VModal } from './VModal/VModal.vue';

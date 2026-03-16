@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@unhead/vue';
-import { VButton, VContainer, VSearchInput } from '@common/components';
+import { VButton, VContainer, VSearchInput, VModal } from '@common/components';
 
 const { t } = useI18n();
 
 useHead({
   title: t('research.title'),
 });
+
+const logger = (value: string) => {
+  console.log(value);
+};
 </script>
 
 <template>
@@ -15,6 +19,7 @@ useHead({
     <header class="research__header">
       <div class="research__header-top">
         <h2 class="research__title">{{ $t('research.title') }}</h2>
+        <VModal></VModal>
         <v-button class="research__create" variant="solid" size="md">
           <i-custom-plus class="research__create-plus"></i-custom-plus>
           {{ $t('research.create') }}
