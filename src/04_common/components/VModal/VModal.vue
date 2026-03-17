@@ -74,13 +74,12 @@ defineProps<ModalProps>();
     margin: 0;
     font-weight: 500;
     color: var(--foreground);
-    font-family: Geologica, sans-serif;
-    font-size: 17px;
+    font-size: rem(20);
   }
 
   &__description {
     margin: 10px 0 20px;
-    color: var(--mauve-11);
+    color: var(--foreground);
     font-size: 15px;
     line-height: 1.5;
   }

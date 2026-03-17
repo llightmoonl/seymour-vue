@@ -14,7 +14,7 @@ const pluralRules = {
   ru: declensionSlavicWords,
 };
 
-const currentLanguage = 'ru';
+const currentLanguage = import.meta.env.VITE_CURRENT_LANGUAGE;
 
 export const i18n = createI18n({
   locale: currentLanguage,

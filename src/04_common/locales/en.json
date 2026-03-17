@@ -9,7 +9,9 @@
     "updated": "Updated by",
     "hours": "{count} hour | {count} hours",
     "ago": "ago",
-    "show-more": "Show more"
+    "show-more": "Show more",
+    "cancel": "Cancel",
+    "create": "Create"
   },
   "sidebar": {
     "main": {
@@ -31,7 +33,9 @@
     "search": "Search your research...",
     "create": "New research",
     "createModal": {
-      "title": "Create a new research"
+      "title": "Create a new research",
+      "name": "Enter the name of the research",
+      "type": "Select the type of research"
     }
   },
   "hebbian": {
