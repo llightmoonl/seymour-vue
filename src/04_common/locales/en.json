@@ -29,7 +29,10 @@
   "research": {
     "title": "Research",
     "search": "Search your research...",
-    "create": "New research"
+    "create": "New research",
+    "createModal": {
+      "title": "Create a new research"
+    }
   },
   "hebbian": {
     "tabs": {

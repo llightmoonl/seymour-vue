@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@unhead/vue';
-import { VButton, VContainer, VSearchInput, VModal } from '@common/components';
+import { VButton, VContainer, VSearchInput, VModal, VInput, VSelect } from '@common/components';
+import { ref } from 'vue';
 
 const { t } = useI18n();
 
@@ -12,6 +13,13 @@ useHead({
 const logger = (value: string) => {
   console.log(value);
 };
+
+const ALGORITHMS_OPTIONS = [
+  { id: 0, name: 'Правило Хебба' },
+  { id: 1, name: 'Дельта-правило' },
+];
+
+const selectedAlgorithm = ref<typeof ALGORITHMS_OPTIONS>(ALGORITHMS_OPTIONS[0]);
 </script>
 
 <template>
@@ -19,15 +27,38 @@ const logger = (value: string) => {
     <header class="research__header">
       <div class="research__header-top">
         <h2 class="research__title">{{ $t('research.title') }}</h2>
-        <VModal></VModal>
-        <v-button class="research__create" variant="solid" size="md">
-          <i-custom-plus class="research__create-plus"></i-custom-plus>
-          {{ $t('research.create') }}
-        </v-button>
+        <v-modal :title="t('research.createModal.title')">
+          <v-button class="research__create" variant="solid" size="md">
+            <i-custom-plus class="research__create-plus"></i-custom-plus>
+            {{ $t('research.create') }}
+          </v-button>
+
+          <template #content>
+            <form class="research__form">
+              <v-input size="lg" required name="title" placeholder="Название исследования"></v-input>
+              <v-select
+                v-model:value="selectedAlgorithm"
+                placeholder="Выберите тип исследования"
+                :options="ALGORITHMS_OPTIONS"></v-select>
+            </form>
+          </template>
+
+          <template #footer>
+            <div class="research__footer">
+              <v-button variant="subtle">Отмена</v-button>
+              <v-button>Создать</v-button>
+            </div>
+          </template>
+        </v-modal>
       </div>
       <div class="research__header-bottom">
         <form>
-          <v-search-input name="search" :placeholder="t('research.search')" @update:model-value="logger" />
+          <v-search-input
+            variant="subtle"
+            size="lg"
+            name="search"
+            :placeholder="t('research.search')"
+            @update:model-value="logger" />
         </form>
       </div>
     </header>
@@ -209,5 +240,19 @@ const logger = (value: string) => {
     border-radius: rem(8);
     padding: rem(0.5) rem(8);
   }
+}
+
+.research__form {
+  margin-top: rem(16);
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(8);
+}
+
+.research__footer {
+  margin-top: rem(20);
+  display: flex;
+  column-gap: rem(8);
+  justify-content: end;
 }
 </style>
