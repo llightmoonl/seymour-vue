@@ -16,15 +16,21 @@ import {
 import type { SelectProps, SelectModel } from './VSelect';
 
 // icons
-// import { ChevronDown, ChevronUp } from 'lucide-vue-next';
+import ChevronUpIcon from '~icons/custom/chevron-up.svg';
+import ChevronDownIcon from '~icons/custom/chevron-down.svg';
+import { computed } from 'vue';
 
-defineProps<SelectProps>();
+const props = defineProps<SelectProps>();
 const selectedValue = defineModel<SelectModel>('value');
 const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
+
+const variantsObject = computed(() => (props.variant ? `select__${props.variant}` : 'select__outline'));
+const colorsObject = computed(() => (props.color ? `select__${props.color}` : 'select__primary'));
+const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'select__md'));
 </script>
 
 <template>
-  <div class="select">
+  <div class="select" :class="[variantsObject, colorsObject, sizesObject]">
     <SelectRoot v-model:value="selectedValue" @update:modelValue="onSelect($event)" class="select__root">
       <SelectTrigger ref="selectTrigger" class="select__trigger">
         <div class="select__title">
@@ -32,9 +38,11 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
           <span v-if="required" class="select__required">*</span>
         </div>
         <SelectValue :placeholder="placeholder" class="select__value" />
+        <chevron-down-icon class="select__icon"></chevron-down-icon>
       </SelectTrigger>
       <SelectContent :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="10">
         <SelectScrollUpButton class="select__scroll-up">
+          <chevron-up-icon></chevron-up-icon>
         </SelectScrollUpButton>
         <SelectViewport class="select__viewport">
           <SelectItem v-for="option in options" :value="option" :key="option.id" class="select__item">
@@ -42,6 +50,7 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
           </SelectItem>
         </SelectViewport>
         <SelectScrollDownButton class="select__scroll-down">
+          <chevron-down-icon></chevron-down-icon>
         </SelectScrollDownButton>
       </SelectContent>
     </SelectRoot>
@@ -52,6 +61,11 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
 <style scoped lang="scss">
 .select {
   $item: &;
+  --select-bg: var(--primary);
+  --select-color: var(--primary-foreground);
+  --select-padding: #{rem(9)} #{rem(12)};
+  --select-border-color: transparent;
+  --select-font-size: #{rem(16)};
 
   &__title {
     position: absolute;
@@ -67,38 +81,25 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
   }
 
   &__trigger {
-    margin-top: rem(13);
     position: relative;
     width: 100%;
-    padding: rem(14) rem(16);
+    padding: var(--select-padding);
     display: flex;
     justify-content: space-between;
-    background-color: transparent;
-    color: var(--tg-theme-text-color, #000000);
-    border: 2px solid color-mix(in srgb, var(--tg-theme-text-color, #000000) 5%, transparent);
-    border-radius: rem(14);
-    font-size: rem(16);
-    line-height: rem(24);
+    align-items: center;
+    background-color: var(--select-bg);
+    color: var(--select-color);
+    border: 2px solid var(--select-border-color);
+    border-radius: rem(8);
+    font-size: var(--select-font-size);
     transition:
       border-color 0.25s ease-in-out,
       color 0.25s ease-in-out;
 
     &[data-state='open'] {
-      border-color: var(--tg-theme-button-color, #007aff);
-
-      #{$item}__title {
-        color: var(--tg-theme-button-color, #007aff);
-      }
-
       & > #{$item}__icon {
         transform: rotate(180deg);
       }
-    }
-
-    #{$item}__title,
-    & [data-placeholder],
-    & svg {
-      color: var(--tg-theme-hint-color, #a2acb0);
     }
 
     &:focus,
@@ -109,27 +110,23 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
 
   &:has(#{$item}__error) {
     #{$item}__trigger {
-      border-color: var(--tg-theme-destructive-text-color, #ec3942);
-    }
-    #{$item}__title {
-      color: var(--tg-theme-destructive-text-color, #ec3942);
+      border-color: var(--destructive);
     }
   }
 
   &__required {
-    color: var(--tg-theme-destructive-text-color, #ec3942);
+    color: var(--destructive);
   }
 
   &__item {
-    background-color: var(--tg-theme-bg-color, #ffffff);
-    color: var(--tg-theme-text-color, #000000);
+    background-color: var(--background);
+    color: var(--foreground);
     padding: rem(12) rem(16);
     font-size: rem(16);
     line-height: rem(24);
 
     @include hover {
       outline: none;
-      background-color: var(--tg-theme-button-color, #007aff);
       cursor: pointer;
     }
 
@@ -150,6 +147,76 @@ const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
     font-size: rem(13);
     margin-inline: rem(12);
     margin-top: rem(4);
+  }
+
+  &__outline {
+    & #{$item}__trigger {
+      --select-bg: transparent;
+      --select-color: var(--primary);
+      --select-border-color: var(--ring);
+    }
+  }
+
+  &__soft {
+    & #{$item}__trigger {
+      --select-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+      --select-color: var(--primary);
+
+      @include hover {
+        filter: initial;
+        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__subtle {
+    & #{$item}__trigger {
+      --select-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+      --select-color: var(--primary);
+      --select-border-color: var(--ring);
+
+      @include hover {
+        filter: initial;
+        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__ghost {
+    & #{$item}__trigger {
+      --select-bg: transparent;
+      --select-color: var(--primary);
+
+      @include hover {
+        filter: initial;
+        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__xs {
+    --select-padding: #{rem(3.6)} #{rem(8)};
+    --select-font-size: #{rem(12)};
+  }
+
+  &__sm {
+    --select-padding: #{rem(5.6)} #{rem(10)};
+    --select-font-size: #{rem(12)};
+  }
+
+  &__md {
+    --select-padding: #{rem(6)} #{rem(10)};
+    --select-font-size: #{rem(14)};
+  }
+
+  &__lg {
+    --select-padding: #{rem(7.2)} #{rem(10)};
+    --select-font-size: #{rem(16)};
+  }
+
+  &__xl {
+    --select-padding: #{rem(9.2)} #{rem(10)};
+    --select-font-size: #{rem(16)};
   }
 }
 
