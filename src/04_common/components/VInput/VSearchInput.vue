@@ -23,6 +23,8 @@ const debouncedInput = debounce(updateInput, 1000);
     :name="name"
     :placeholder="placeholder"
     :type="type"
+    :size="size"
+    :variant="variant"
     :inputmode="inputmode"
     :id="name" />
 </template>

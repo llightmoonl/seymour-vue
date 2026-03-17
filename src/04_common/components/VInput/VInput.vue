@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import type { InputEmits, InputProps } from './VInput';
+import { computed } from 'vue';
 
-defineProps<InputProps>();
+const props = defineProps<InputProps>();
 const emit = defineEmits<InputEmits>();
 
 const model = defineModel<string | number>();
 const updateInput = (value: string) => emit('update:modelValue', value);
+
+const variantsObject = computed(() => (props.variant ? `input__${props.variant}` : 'input__outline'));
+const colorsObject = computed(() => (props.color ? `input__${props.color}` : 'input__primary'));
+const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input__md'));
 </script>
 <template>
-  <div class="input">
+  <div class="input" :class="[variantsObject, colorsObject, sizesObject]">
     <label v-if="title" :for="name" class="input__title">
       {{ title }}
       <span v-if="required" class="input__required">*</span>
@@ -30,6 +35,12 @@ const updateInput = (value: string) => emit('update:modelValue', value);
 
 <style scoped lang="scss">
 .input {
+  --input-bg: var(--primary);
+  --input-color: var(--primary-foreground);
+  --input-padding: #{rem(9)} #{rem(12)};
+  --input-border-color: transparent;
+  --input-font-size: #{rem(16)};
+
   $item: &;
   position: relative;
   display: flex;
@@ -57,11 +68,11 @@ const updateInput = (value: string) => emit('update:modelValue', value);
     top: 0;
     left: rem(10);
     padding-inline: rem(6);
-    background-color: var(--tg-theme-bg-color, #ffffff);
+    background-color: var(--background);
     font-weight: 600;
     font-size: rem(15);
     line-height: rem(22);
-    color: var(--tg-theme-hint-color, #a2acb0);
+    color: var(--foreground);
     z-index: 1;
     white-space: nowrap;
     transition: color 0.25s ease-in-out;
@@ -81,15 +92,14 @@ const updateInput = (value: string) => emit('update:modelValue', value);
   &__field {
     position: relative;
     width: 100%;
-    padding: rem(8) rem(16);
+    padding: var(--input-padding);
     display: flex;
     justify-content: space-between;
-    background-color: transparent;
-    color: var(--foreground, --white-900);
-    border: 2px solid var(--input, oklch(1 0 0 / 15%));
+    background-color: var(--input-bg);
+    color: var(--input-color);
+    border: 2px solid var(--input-border-color);
     border-radius: rem(8);
-    font-size: rem(14);
-    line-height: rem(24);
+    font-size: var(--input-font-size);
     transition: border-color 0.25s ease-in-out;
 
     &::placeholder {
@@ -123,6 +133,76 @@ const updateInput = (value: string) => emit('update:modelValue', value);
         border-color: var(--destructive, oklch(55.3% 0.197 29.5));
       }
     }
+  }
+
+  &__outline {
+    & #{$item}__field {
+      --input-bg: transparent;
+      --input-color: var(--primary);
+      --input-border-color: var(--ring);
+    }
+  }
+
+  &__soft {
+    & #{$item}__field {
+      --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+      --input-color: var(--primary);
+
+      @include hover {
+        filter: initial;
+        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__subtle {
+    & #{$item}__field {
+      --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+      --input-color: var(--primary);
+      --input-border-color: var(--ring);
+
+      @include hover {
+        filter: initial;
+        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__ghost {
+    & #{$item}__field {
+      --input-bg: transparent;
+      --input-color: var(--primary);
+
+      @include hover {
+        filter: initial;
+        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      }
+    }
+  }
+
+  &__xs {
+    --input-padding: #{rem(3.6)} #{rem(8)};
+    --input-font-size: #{rem(12)};
+  }
+
+  &__sm {
+    --input-padding: #{rem(5.6)} #{rem(10)};
+    --input-font-size: #{rem(12)};
+  }
+
+  &__md {
+    --input-padding: #{rem(6)} #{rem(10)};
+    --input-font-size: #{rem(14)};
+  }
+
+  &__lg {
+    --input-padding: #{rem(7.2)} #{rem(10)};
+    --input-font-size: #{rem(16)};
+  }
+
+  &__xl {
+    --input-padding: #{rem(9.2)} #{rem(10)};
+    --input-font-size: #{rem(16)};
   }
 }
 </style>

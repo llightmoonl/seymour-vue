@@ -4,6 +4,9 @@ export interface InputProps {
   icon?: string;
   name: string;
   placeholder?: string;
+  variant?: 'outline' | 'soft' | 'subtle' | 'ghost';
+  color?: 'primary' | 'secondary' | 'neutral' | 'destructive';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   type?: 'text' | 'email' | 'search' | 'tel' | 'url' | 'password' | 'number';
   inputmode?: 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
   error?: string;
