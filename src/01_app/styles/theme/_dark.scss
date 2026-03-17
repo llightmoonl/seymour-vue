@@ -17,6 +17,8 @@
     --input: oklch(1 0 0 / 15%);
     --ring: color-mix(in srgb, var(--primary) 15%, transparent);
     --destructive: oklch(55.3% 0.197 29.5);
+    --color-black: var(--black-900);
+    --color-white: var(--white-900);
   }
 }
 
@@ -28,7 +30,9 @@
 
   --foreground-tertiary: var(--gray-400);
   --bg-button-primary: var(--black-500);
+  --bg-button-outline-border: var(--black-500);
   --sidebar-bg-primary: var(--black-800);
+  --border-light: var(--white-alpha-50);
   --surface-hover: var(--white-alpha-100);
   --surface-active: var(--white-alpha-50);
 
@@ -36,6 +40,8 @@
   --input: oklch(1 0 0 / 15%);
   --ring: color-mix(in srgb, var(--primary) 15%, transparent);
   --destructive: oklch(55.3% 0.197 29.5);
+  --color-black: var(--black-900);
+  --color-white: var(--white-900);
 }
 
 //:root {

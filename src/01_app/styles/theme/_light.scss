@@ -3,6 +3,9 @@
     --background: var(--white-900);
     --foreground: var(--black-700);
     --destructive: oklch(55.3% 0.197 29.5);
+
+    --color-black: var(--black-900);
+    --color-white: var(--white-900);
   }
 }
 
@@ -10,4 +13,7 @@
   --background: var(--white-900);
   --foreground: var(--black-700);
   --destructive: oklch(55.3% 0.197 29.5);
+
+  --color-black: var(--black-900);
+  --color-white: var(--white-900);
 }
