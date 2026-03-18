@@ -19,6 +19,7 @@
     "lintfix": "npm run lint && npm run prettier"
   },
   "dependencies": {
+    "@pinia/colada": "^1.0.0",
     "@tanstack/vue-table": "^8.21.3",
     "@tiptap/starter-kit": "^3.17.1",
     "@tiptap/vue-3": "^3.17.1",
@@ -33,12 +34,14 @@
     "pinia-plugin-persistedstate": "^4.7.1",
     "sass-embedded": "^1.97.2",
     "universal-cookie": "^7.2.2",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.26",
     "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.3.0",
+    "@pinia/colada-devtools": "^0.4.5",
     "@tsconfig/node24": "^24.0.3",
     "@types/jsdom": "^27.0.0",
     "@types/markdown-it": "^14.1.2",

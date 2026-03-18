@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import {
   type AcceptableValue,
   SelectContent,
@@ -18,7 +19,6 @@ import type { SelectProps, SelectModel } from './VSelect';
 // icons
 import ChevronUpIcon from '~icons/custom/chevron-up.svg';
 import ChevronDownIcon from '~icons/custom/chevron-down.svg';
-import { computed } from 'vue';
 
 const props = defineProps<SelectProps>();
 const selectedValue = defineModel<SelectModel>('value');
@@ -33,14 +33,10 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   <div class="select" :class="[variantsObject, colorsObject, sizesObject]">
     <SelectRoot v-model:value="selectedValue" @update:modelValue="onSelect($event)" class="select__root">
       <SelectTrigger ref="selectTrigger" class="select__trigger">
-        <div class="select__title">
-          {{ title }}
-          <span v-if="required" class="select__required">*</span>
-        </div>
         <SelectValue :placeholder="placeholder" class="select__value" />
         <chevron-down-icon class="select__icon"></chevron-down-icon>
       </SelectTrigger>
-      <SelectContent :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="10">
+      <SelectContent :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="4">
         <SelectScrollUpButton class="select__scroll-up">
           <chevron-up-icon></chevron-up-icon>
         </SelectScrollUpButton>
@@ -64,21 +60,9 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   --select-bg: var(--primary);
   --select-color: var(--primary-foreground);
   --select-padding: #{rem(9)} #{rem(12)};
-  --select-border-color: transparent;
+  --select-border-color: var(--ring);
   --select-font-size: #{rem(16)};
-
-  &__title {
-    position: absolute;
-    top: rem(-13);
-    left: rem(10);
-    padding-inline: rem(6);
-    background-color: var(--tg-theme-bg-color, #ffffff);
-    font-weight: 600;
-    font-size: rem(15);
-    line-height: rem(22);
-    transition: color 0.3s ease-in-out;
-    white-space: nowrap;
-  }
+  --select-size-icon: #{rem(24)};
 
   &__trigger {
     position: relative;
@@ -114,20 +98,19 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     }
   }
 
-  &__required {
-    color: var(--destructive);
-  }
-
   &__item {
-    background-color: var(--background);
     color: var(--foreground);
-    padding: rem(12) rem(16);
-    font-size: rem(16);
+    padding: var(--select-padding);
+    font-size: var(--select-font-size);
     line-height: rem(24);
+    width: 100%;
+    border-radius: rem(8);
 
     @include hover {
       outline: none;
       cursor: pointer;
+      background-color: var(--foreground);
+      color: var(--background);
     }
 
     &:focus,
@@ -136,9 +119,18 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     }
   }
 
+  &__value {
+    &[data-placeholder] {
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 300;
+    }
+  }
+
   &__icon {
     transition: transform 0.2s ease-in-out;
     transform: rotate(0deg);
+    width: var(--select-size-icon);
+    height: var(--select-size-icon);
   }
 
   &__error {
@@ -195,37 +187,42 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   }
 
   &__xs {
-    --select-padding: #{rem(3.6)} #{rem(8)};
+    --select-padding: #{rem(2.4)} #{rem(8)};
     --select-font-size: #{rem(12)};
+    --select-size-icon: #{rem(16)};
   }
 
   &__sm {
-    --select-padding: #{rem(5.6)} #{rem(10)};
+    --select-padding: #{rem(4.4)} #{rem(10)};
     --select-font-size: #{rem(12)};
+    --select-size-icon: #{rem(16)};
   }
 
   &__md {
-    --select-padding: #{rem(6)} #{rem(10)};
+    --select-padding: #{rem(4.4)} #{rem(10)};
     --select-font-size: #{rem(14)};
+    --select-size-icon: #{rem(20)};
   }
 
   &__lg {
     --select-padding: #{rem(7.2)} #{rem(10)};
     --select-font-size: #{rem(16)};
+    --select-size-icon: #{rem(20)};
   }
 
   &__xl {
     --select-padding: #{rem(9.2)} #{rem(10)};
     --select-font-size: #{rem(16)};
+    --select-size-icon: #{rem(24)};
   }
 }
 
 [data-reka-popper-content-wrapper] {
   width: var(--reka-popper-anchor-width);
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 0 2px 1px color-mix(in srgb, var(--tg-theme-text-color, #000000) 2%, transparent),
-    0 32px 64px 0 color-mix(in srgb, var(--tg-theme-text-color, #000000) 4%, transparent);
+  border: 1px solid var(--ring);
+  background-color: var(--background);
+  overflow: clip;
+  padding: rem(4);
 }
 </style>

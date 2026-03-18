@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import { PiniaColada } from '@pinia/colada';
 import { createHead } from '@unhead/vue/client';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
@@ -16,6 +17,7 @@ const head = createHead();
 
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
+app.use(PiniaColada);
 app.use(head);
 app.use(router);
 app.use(i18n);

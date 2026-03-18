@@ -1,11 +1,11 @@
 export interface ResearchListItem {
-  id: number;
+  id: string;
   title: string;
   type: string;
   url: string;
   datetime: string;
 }
 
-export interface DetailListProps {
-  details: DetailListItem[];
+export interface ResearchListProps {
+  items: ResearchListItem[];
 }

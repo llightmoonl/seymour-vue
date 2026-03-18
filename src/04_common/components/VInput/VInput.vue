@@ -14,10 +14,6 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
 </script>
 <template>
   <div class="input" :class="[variantsObject, colorsObject, sizesObject]">
-    <label v-if="title" :for="name" class="input__title">
-      {{ title }}
-      <span v-if="required" class="input__required">*</span>
-    </label>
     <Component v-if="icon" class="input__icon" :is="icon" />
     <input
       v-model="model"
@@ -61,27 +57,6 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
     height: rem(20);
   }
 
-  &__title {
-    display: flex;
-    column-gap: rem(4);
-    position: absolute;
-    top: 0;
-    left: rem(10);
-    padding-inline: rem(6);
-    background-color: var(--background);
-    font-weight: 600;
-    font-size: rem(15);
-    line-height: rem(22);
-    color: var(--foreground);
-    z-index: 1;
-    white-space: nowrap;
-    transition: color 0.25s ease-in-out;
-  }
-
-  &__required {
-    color: var(--destructive, oklch(55.3% 0.197 29.5));
-  }
-
   &__error {
     color: var(--destructive, oklch(55.3% 0.197 29.5));
     font-weight: 600;
@@ -103,7 +78,7 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
     transition: border-color 0.25s ease-in-out;
 
     &::placeholder {
-      color: var(--tg-theme-hint-color, #a2acb0);
+      color: rgba(255, 255, 255, 0.3);
     }
 
     &:focus-visible {
@@ -118,10 +93,6 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
       }
       -moz-appearance: textfield;
     }
-  }
-
-  &:focus-within &__title {
-    color: var(--tg-theme-button-color, #007aff);
   }
 
   &:has(#{$item}__error) {

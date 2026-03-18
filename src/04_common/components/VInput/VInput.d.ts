@@ -1,6 +1,5 @@
 export interface InputProps {
   required?: boolean;
-  title?: string;
   icon?: string;
   name: string;
   placeholder?: string;

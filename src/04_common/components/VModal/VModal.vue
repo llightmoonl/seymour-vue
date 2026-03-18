@@ -18,7 +18,7 @@ defineProps<ModalProps>();
 </script>
 
 <template>
-  <DialogRoot class="modal">
+  <DialogRoot class="modal" v-slot="{ close, open }">
     <DialogTrigger class="modal__trigger" as-child>
       <slot>
         <v-button variant="solid" size="md"></v-button>
@@ -37,7 +37,7 @@ defineProps<ModalProps>();
         <DialogClose class="modal__close" as-child>
           <v-button variant="ghost" size="icon-sm"><CloseIcon /></v-button>
         </DialogClose>
-        <slot name="footer"></slot>
+        <slot name="footer" :close="close" :open="open"></slot>
       </DialogContent>
     </DialogPortal>
   </DialogRoot>
@@ -53,6 +53,7 @@ defineProps<ModalProps>();
   }
 
   &__content {
+    border: 1px solid var(--ring);
     background-color: var(--background);
     border-radius: 6px;
     position: fixed;

@@ -12,3 +12,5 @@ export { default as VTooltip } from './VTooltip/VTooltip.vue';
 export { default as VMarkdown } from './VMarkdown/VMarkdown.vue';
 export { default as VTable } from './VTable/VTable.vue';
 export { default as VModal } from './VModal/VModal.vue';
+export { default as VSkeleton } from './VSkeleton/VSkeleton.vue';
+export { default as VFormField } from './VFormField/VFormField.vue';

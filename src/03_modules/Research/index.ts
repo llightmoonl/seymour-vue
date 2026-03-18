@@ -3,5 +3,6 @@ export { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality 
 export { NeuronBase } from './modules/Neuron';
 export { DetailList, DetailBlock } from './modules/DetailList';
 export { CreateResearchModal } from './modules/Modals';
+export { ResearchList, ResearchListItem } from './modules/ResearchList';
 
 export { useTabs } from './models/useTabs';

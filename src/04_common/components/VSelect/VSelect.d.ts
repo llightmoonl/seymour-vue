@@ -6,7 +6,6 @@ export interface SelectOptions {
 }
 
 export interface SelectProps {
-  title?: string | undefined | null;
   options: SelectOptions[];
   placeholder?: string;
   align?: 'start' | 'center' | 'end';
