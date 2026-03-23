@@ -11,6 +11,10 @@ const table = useVueTable({
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
 });
+
+function isCellHighlighted(rowIndex: number, columnIndex: number): boolean {
+  return rowIndex === props.rowIndexHighlight && columnIndex === props.columnIndexHighlight;
+}
 </script>
 
 <template>
@@ -28,10 +32,16 @@ const table = useVueTable({
 
       <tbody>
         <tr v-if="table.getRowModel().rows.length === 0">
-          <td :colspan="props.columns.length" class="column">{{$t('table.empty')}}</td>
+          <td :colspan="props.columns.length" class="column">{{ $t('table.empty') }}</td>
         </tr>
-        <tr class="row" v-for="row in table.getRowModel().rows" :key="row.id">
-          <td class="column" v-for="cell in row.getVisibleCells()" :key="cell.id">
+        <tr class="row" v-for="(row, rowIndex) in table.getRowModel().rows" :key="row.id">
+          <td
+            v-for="(cell, cellIndex) in row.getVisibleCells()"
+            class="column"
+            :class="{
+              column__highlight: isCellHighlighted(rowIndex, cellIndex),
+            }"
+            :key="cell.id">
             <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
           </td>
         </tr>
@@ -44,7 +54,7 @@ const table = useVueTable({
 .table-container {
   border-radius: rem(4);
   border: 1px solid var(--ring);
-  overflow: hidden;
+  overflow: clip;
 }
 
 .table {
@@ -69,6 +79,10 @@ const table = useVueTable({
     padding: rem(8);
     min-width: rem(60);
     min-height: rem(60);
+
+    &__highlight {
+      border: rem(4) solid var(--destructive);
+    }
   }
 }
 </style>

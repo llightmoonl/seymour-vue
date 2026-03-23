@@ -4,7 +4,7 @@
 import { VButton, VTable } from '@common/components';
 import { NeuronBase } from '@modules/Research';
 
-import { createSamplesColumns, useHebbian } from '../models/useHebbian';
+import { createSamplesColumns, createWeightColumns, useHebbian } from '../models/useHebbian';
 import { SAMPLE_LENGTH } from '../models/constant';
 
 // import { random } from '@common/utils/random';
@@ -15,7 +15,8 @@ import { SAMPLE_LENGTH } from '../models/constant';
 // const neuron = random(1, 3);
 
 const { samples } = useHebbian();
-const xColumns = createSamplesColumns(SAMPLE_LENGTH);
+const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
+const weightColumns = createWeightColumns(SAMPLE_LENGTH);
 
 // const detailsData = computed(() => [
 //   {
@@ -50,10 +51,10 @@ const xColumns = createSamplesColumns(SAMPLE_LENGTH);
       <neuron-base></neuron-base>
       <div class="tables-data">
         <div class="table">
-          <VTable :data="samples" :columns="xColumns" />
+          <VTable :data="samples" :columns="samplesColumns" />
         </div>
         <div class="table">
-          <VTable :data="samples" :columns="xColumns" />
+          <VTable :data="samples" :columns="weightColumns" />
         </div>
       </div>
     </div>

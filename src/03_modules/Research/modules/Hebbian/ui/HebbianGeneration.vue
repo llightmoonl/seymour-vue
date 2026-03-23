@@ -40,7 +40,7 @@ const handleFinishData = () => {
           Закончить сбор данных
         </v-button>
       </div>
-      <v-table class="table" :data="samples" :columns="columns" />
+      <v-table class="table" :data="samples" :columns="columns" :row-index-highlight="1" :column-index-highlight="1" />
     </div>
 
     <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">

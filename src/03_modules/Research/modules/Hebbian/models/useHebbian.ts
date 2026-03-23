@@ -17,6 +17,16 @@ export function createSamplesColumns(length: number): ColumnDef<number[]>[] {
   ];
 }
 
+export function createWeightColumns(length: number): ColumnDef<number[]>[] {
+  return [
+    ...Array.from({ length }, (_, i) => ({
+      id: String(i + 1),
+      header: () => h('span', [h('span', 'w'), h('sub', {}, i + 1)]),
+      accessorFn: (row: number[]) => row[i + 1],
+    })),
+  ];
+}
+
 export function useHebbian() {
   const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   const x = ref(initialX);
@@ -25,18 +35,18 @@ export function useHebbian() {
 
   const resetX = () => {
     x.value = initialX;
-  }
+  };
 
   const addSample = (y: number) => {
     samples.value = [...samples.value, [y, ...x.value.flat()]];
     rawSamples.value = [...rawSamples.value, x.value];
     resetX();
-  }
+  };
 
   return {
     x,
     samples,
     rawSamples,
     addSample,
-  }
+  };
 }
