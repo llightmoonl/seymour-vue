@@ -1,41 +1,63 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+import { VButton, VCarousel } from '@common/components';
 import { DetailList, DrawingGridView, NeuronBase } from '@modules/Research';
 
+import { useGetHebbianData } from '@modules/Research/modules/Hebbian/models/useGetHebbianData.ts';
+import { COLS, ROWS } from '@modules/Research/modules/Hebbian/models/constant.ts';
 
-import { random } from '@common/utils/random';
-import { useHebbian } from '@modules/Research/modules/Hebbian/models/useHebbian.ts';
-import { VButton, VCarousel } from '@common/components';
+const route = useRoute();
+const pageId = computed(() => (route.params.id ? String(route.params.id) : ''));
 
-const { x, rawSamples } = useHebbian();
-const y = ref(0);
-const s = ref(0);
-const neuron = random(1, 3);
+const { state } = useGetHebbianData(pageId.value);
+
+const data = computed(() => {
+  const data = state.value?.data?.data;
+
+  return {
+    y: data?.y_pred ?? 0,
+    s: data?.s ?? 0,
+    neuron: data?.neuron ?? 0,
+    samples: (data?.data ?? []).map(({ x }) =>
+      Array.from({ length: ROWS }, (_, i) => x.slice(i * COLS, i * COLS + COLS)),
+    ),
+    weights: data?.w ?? [],
+  };
+});
+
+const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+const x = ref(initialX);
+
+const clickItem = (item) => {
+  x.value = item;
+};
 
 const detailsData = computed(() => [
   {
     id: 1,
     title: 'Порог чувствительности нейрона (Ө)',
     marker: 'Ө',
-    value: neuron,
+    value: data.value.neuron,
   },
   {
     id: 2,
     title: 'Взвешенное суммирование входных сигналов',
     marker: 'S',
-    value: s.value,
+    value: data.value.s,
   },
   {
     id: 3,
     title: 'Выходной сигнал',
     marker: 'y',
-    value: y.value,
+    value: data.value.y,
   },
-  {
-    id: 4,
-    title: 'Ответ:',
-    value: y.value,
-  },
+  // {
+  //   id: 4,
+  //   title: 'Ответ:',
+  //   value: y.value,
+  // },
 ]);
 </script>
 
@@ -50,9 +72,13 @@ const detailsData = computed(() => [
       <detail-list :details="detailsData"></detail-list>
     </div>
 
-    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
+    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
       <template #slide="{ item }">
-        <drawing-grid-view :size="50" :grid="item"></drawing-grid-view>
+        <drawing-grid-view
+          class="carousel-samples-item"
+          :size="50"
+          :grid="item"
+          @click="() => clickItem(item)"></drawing-grid-view>
       </template>
     </v-carousel>
   </div>
@@ -80,5 +106,9 @@ const detailsData = computed(() => [
 
 .carousel-samples {
   margin-block: rem(32);
+
+  &-item {
+    cursor: pointer;
+  }
 }
 </style>

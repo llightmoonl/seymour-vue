@@ -81,7 +81,7 @@ function isCellHighlighted(rowIndex: number, columnIndex: number): boolean {
     min-height: rem(60);
 
     &__highlight {
-      border: rem(4) solid var(--destructive);
+      box-shadow: inset 0 0 0 rem(4) var(--destructive);
     }
   }
 }

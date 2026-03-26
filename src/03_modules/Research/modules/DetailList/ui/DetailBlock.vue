@@ -10,7 +10,7 @@ defineProps<DetailListItem>();
       <p v-if="title" class="title">{{ title }}</p>
     </header>
     <div class="value">
-      <span v-if="marker">{{ marker }} = </span>
+      <span v-if="marker">{{ marker }} =</span>
       <span>{{ value }}</span>
     </div>
   </div>
@@ -21,6 +21,7 @@ defineProps<DetailListItem>();
   display: flex;
   flex-direction: column;
   row-gap: rem(6);
+  flex: 1 0 calc(100% / 4);
 
   & .header {
     display: flex;

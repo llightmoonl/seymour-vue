@@ -1,71 +1,117 @@
 <script setup lang="ts">
-// import { computed, ref } from 'vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { VButton, VTable } from '@common/components';
-import { NeuronBase } from '@modules/Research';
+import { NeuronBase, DetailList } from '@modules/Research';
 
-import { createSamplesColumns, createWeightColumns, useHebbian } from '../models/useHebbian';
+import { createSamplesColumns, createWeightColumns } from '../models/useHebbian';
+import { useGetHebbianData } from '../models/useGetHebbianData';
+import { useChangeWeight } from '../models/useChangeWeight';
+
 import { SAMPLE_LENGTH } from '../models/constant';
 
-// import { random } from '@common/utils/random';
-
-// const epoch = ref(0);
-// const y = ref(0);
-// const s = ref(0);
-// const neuron = random(1, 3);
-
-const { samples } = useHebbian();
 const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
 const weightColumns = createWeightColumns(SAMPLE_LENGTH);
 
-// const detailsData = computed(() => [
-//   {
-//     id: 1,
-//     title: 'Эпохи обучения:',
-//     value: epoch,
-//   },
-//   {
-//     id: 1,
-//     title: 'Порог чувствительности нейрона (Ө)',
-//     marker: 'Ө',
-//     value: neuron,
-//   },
-//   {
-//     id: 2,
-//     title: 'Взвешенное суммирование входных сигналов',
-//     marker: 'S',
-//     value: s.value,
-//   },
-//   {
-//     id: 3,
-//     title: 'Выходной сигнал',
-//     marker: 'y',
-//     value: y.value,
-//   },
-// ]);
+const route = useRoute();
+const pageId = computed(() => (route.params.id ? String(route.params.id) : ''));
+
+const { state, refetch } = useGetHebbianData(pageId.value);
+const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId.value);
+
+const data = computed(() => {
+  const data = state.value?.data?.data;
+
+  return {
+    epoch: data?.epoch ?? 0,
+    y: data?.y_pred ?? 0,
+    s: data?.s ?? 0,
+    neuron: data?.neuron ?? 0,
+
+    samples: (data?.data ?? []).map(({ x, y_true }) => [...x, y_true]),
+
+    weights: data?.w ?? [],
+    weightsTable: [data?.w ?? []],
+
+    isTrained: data?.isTrained ?? false,
+    i: data?.i ?? 0,
+    j: data?.j ?? 0,
+    error: data?.error ?? 0,
+  };
+});
+
+const handleChangeWeight = () => {
+  changeWeight().then(() => refetch());
+};
+
+const detailsData = computed(() => [
+  {
+    id: 1,
+    title: 'Эпохи обучения:',
+    value: data.value.epoch,
+  },
+  {
+    id: 2,
+    title: 'Порог чувствительности нейрона (Ө):',
+    marker: 'Ө',
+    value: data.value.neuron,
+  },
+  {
+    id: 3,
+    title: 'Взвешенное суммирование входных сигналов:',
+    marker: 'S',
+    value: data.value.s,
+  },
+  {
+    id: 4,
+    title: 'Выходной сигнал:',
+    marker: 'y',
+    value: data.value.y,
+  },
+  {
+    id: 5,
+    title: 'Количество ошибок за эпоху:',
+    value: data.value.error,
+  },
+]);
 </script>
 
 <template>
   <div class="root">
     <div class="header">
-      <neuron-base></neuron-base>
+      <neuron-base :w="data.weights" :s="data.s" :y="data.y"></neuron-base>
       <div class="tables-data">
         <div class="table">
-          <VTable :data="samples" :columns="samplesColumns" />
+          <VTable
+            :data="data.samples"
+            :columns="samplesColumns"
+            :row-index-highlight="data.i"
+            :column-index-highlight="data.j" />
         </div>
         <div class="table">
-          <VTable :data="samples" :columns="weightColumns" />
+          <VTable
+            :data="data.weightsTable"
+            :columns="weightColumns"
+            :row-index-highlight="0"
+            :column-index-highlight="data.j" />
         </div>
       </div>
     </div>
 
     <div class="controller-section">
       <div class="group group__right">
-        <VButton>Завершить обучение</VButton>
-        <VButton size="icon-md"><i-custom-play></i-custom-play></VButton>
+        <VButton v-if="data.isTrained">Завершить обучение</VButton>
+        <VButton
+          v-if="!data.isTrained"
+          @click="handleChangeWeight"
+          :disabled="changeWeightAsyncStatus === 'loading'"
+          size="icon-md">
+          <i-custom-play></i-custom-play>
+        </VButton>
       </div>
     </div>
-    <!--    <DetailList :details="detailsData" />-->
+    <DetailList class="information-list" :details="detailsData" />
   </div>
 </template>
 
@@ -96,6 +142,7 @@ const weightColumns = createWeightColumns(SAMPLE_LENGTH);
   display: flex;
   flex-direction: column;
   row-gap: rem(20);
+  align-items: start;
 
   & .table-element {
     flex-shrink: 1;
@@ -121,5 +168,9 @@ const weightColumns = createWeightColumns(SAMPLE_LENGTH);
     align-items: stretch;
     gap: rem(8);
   }
+}
+
+.information-list {
+  margin-top: rem(64);
 }
 </style>

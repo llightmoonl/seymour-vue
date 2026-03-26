@@ -10,7 +10,9 @@ const model = defineModel<number | string | undefined>();
   <TabsRoot
     class="tabs"
     :orientation="orientation"
-    v-model:value="model">
+    :default-value="defaultValue"
+    :model-value="model"
+    @update:modelValue="(val) => (model = val)">
     <TabsList class="list">
       <TabsTrigger v-for="item in items" :key="item.id" :value="item.value" :disabled="item.disabled" class="trigger">
         {{ item.title }}

@@ -2,8 +2,9 @@
 import type { NeuronBaseProps } from '../Neuron';
 
 withDefaults(defineProps<NeuronBaseProps>(), {
-  x: () => Array.from({ length: 4 }, () => 0),
   w: () => Array.from({ length: 4 }, () => 0),
+  y: 0,
+  s: 0,
 });
 </script>
 
@@ -62,53 +63,58 @@ withDefaults(defineProps<NeuronBaseProps>(), {
         stroke-opacity="0.4"
         marker-end="url(#arrow)" />
 
-      <rect x="120" y="76" width="62" height="22" rx="4" fill="var(--background)" stroke="var(--foreground)" stroke-width="1" />
-      <text
-        x="151"
-        y="87"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="11"
-      >
-        w₁=1.04
+      <rect
+        x="120"
+        y="76"
+        width="62"
+        height="22"
+        rx="4"
+        fill="var(--background)"
+        stroke="var(--foreground)"
+        stroke-width="1" />
+      <text x="151" y="87" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
+        w₁={{ (w[0] ?? 0).toFixed(2) }}
       </text>
 
       <!-- w2 mx=149 my=134 -->
-      <rect x="118" y="122" width="62" height="22" rx="4" fill="var(--background)" stroke="var(--foreground)" stroke-width="1" />
-      <text
-        x="149"
-        y="133"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="11"
-      >
-        w₂=1.04
+      <rect
+        x="118"
+        y="122"
+        width="62"
+        height="22"
+        rx="4"
+        fill="var(--background)"
+        stroke="var(--foreground)"
+        stroke-width="1" />
+      <text x="149" y="133" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
+        w₂={{ (w[1] ?? 0)?.toFixed(2) }}
       </text>
 
-      <rect x="118" y="169" width="62" height="22" rx="4" fill="var(--background)" stroke="var(--foreground)" stroke-width="1" />
-      <text
-        x="149"
-        y="180"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="11"
-      >
-        w₃=1.04
+      <rect
+        x="118"
+        y="169"
+        width="62"
+        height="22"
+        rx="4"
+        fill="var(--background)"
+        stroke="var(--foreground)"
+        stroke-width="1" />
+      <text x="149" y="180" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
+        w₃={{ (w[2] ?? 0)?.toFixed(2) }}
       </text>
 
       <!-- w15 mx=151 my=254 -->
-      <rect x="117" y="242" width="70" height="22" rx="4" fill="var(--background)" stroke="var(--foreground)" stroke-width="1" />
-      <text
-        x="152"
-        y="253"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="11">
-        w₁₅=1.04
+      <rect
+        x="117"
+        y="242"
+        width="70"
+        height="22"
+        rx="4"
+        fill="var(--background)"
+        stroke="var(--foreground)"
+        stroke-width="1" />
+      <text x="152" y="253" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
+        w₁₅={{ (w[14] ?? 0)?.toFixed(2) }}
       </text>
 
       <!-- input nodes -->
@@ -153,41 +159,27 @@ withDefaults(defineProps<NeuronBaseProps>(), {
       <circle cx="60" cy="265" r="2" fill="var(--foreground)" opacity="0.5" />
 
       <circle cx="60" cy="310" r="26" fill="transparent" stroke="var(--foreground)" stroke-width="1.2" />
-      <text
-        x="60"
-        y="310"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="15"
-      >
+      <text x="60" y="310" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         x₁₅
       </text>
 
       <!-- S node -->
-      <circle cx="280" cy="170" r="72" fill="transparent" stroke="var(--foreground)" stroke-width="1" stroke-opacity="0.2" />
+      <circle
+        cx="280"
+        cy="170"
+        r="72"
+        fill="transparent"
+        stroke="var(--foreground)"
+        stroke-width="1"
+        stroke-opacity="0.2" />
       <circle cx="280" cy="170" r="62" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-      <text
-        x="280"
-        y="170"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="17"
-      >
-        S=1
+      <text x="280" y="170" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="17">
+        S={{ s }}
       </text>
 
       <circle cx="460" cy="170" r="26" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-      <text
-        x="460"
-        y="170"
-        text-anchor="middle"
-        dominant-baseline="middle"
-        fill="var(--foreground)"
-        font-size="15"
-      >
-        y=1
+      <text x="460" y="170" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+        y={{ y }}
       </text>
     </svg>
   </div>

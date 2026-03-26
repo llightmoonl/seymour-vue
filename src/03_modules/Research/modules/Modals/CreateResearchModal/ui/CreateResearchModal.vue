@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { VButton, VFormField, VInput, VModal, VSelect } from '@common/components';
-import { ref } from 'vue';
+import { useCreateResearch } from '../models/useCreateResearch.ts';
 import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 
 const { t } = useI18n();
+
+interface IAlgorithmOptionsItem {
+  id: number;
+  name: string;
+}
 
 const ALGORITHMS_OPTIONS = [
   { id: 0, name: t('shared.algorithms.hebbian') },
   { id: 1, name: t('shared.algorithms.delta') },
 ];
 
-const selectedAlgorithm = ref<typeof ALGORITHMS_OPTIONS>(ALGORITHMS_OPTIONS[0]);
+const inputTitle = ref<string>('');
+const selectedAlgorithm = ref<IAlgorithmOptionsItem | undefined>(ALGORITHMS_OPTIONS[0]);
+
+const { createResearch, asyncStatus } = useCreateResearch(inputTitle, selectedAlgorithm);
 </script>
 
 <template>
@@ -23,7 +32,12 @@ const selectedAlgorithm = ref<typeof ALGORITHMS_OPTIONS>(ALGORITHMS_OPTIONS[0]);
     <template #content>
       <form class="research-create__form">
         <VFormField :title="t('research.createModal.inputs.name.title')" required>
-          <v-input size="md" required name="title" :placeholder="t('research.createModal.inputs.name.placeholder')" />
+          <v-input
+            v-model="inputTitle"
+            size="md"
+            required
+            name="title"
+            :placeholder="t('research.createModal.inputs.name.placeholder')" />
         </VFormField>
         <VFormField :title="t('research.createModal.inputs.type.title')" required>
           <v-select
@@ -37,7 +51,9 @@ const selectedAlgorithm = ref<typeof ALGORITHMS_OPTIONS>(ALGORITHMS_OPTIONS[0]);
     <template #footer="{ close }">
       <div class="research-create__footer">
         <v-button variant="subtle" @click="close">{{ $t('shared.cancel') }}</v-button>
-        <v-button>{{ $t('shared.create') }}</v-button>
+        <v-button @click="createResearch" :is-loading="asyncStatus === 'loading'" :disabled="asyncStatus === 'loading'">
+          {{ $t('shared.create') }}
+        </v-button>
       </div>
     </template>
   </v-modal>

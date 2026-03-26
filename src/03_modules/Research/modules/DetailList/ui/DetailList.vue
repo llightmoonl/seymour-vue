@@ -20,7 +20,7 @@ defineProps<DetailListProps>();
 <style scoped lang="scss">
 .detail-list {
   display: flex;
-  flex-direction: column;
-  row-gap: rem(20);
+  row-gap: rem(32);
+  flex-wrap: wrap;
 }
 </style>

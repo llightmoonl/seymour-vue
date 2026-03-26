@@ -9,7 +9,7 @@ export interface VTabsItems {
 }
 
 export interface VTabsProps {
-    items: VTabsItems[];
-    defaultValue: string;
-    orientation?: 'horizontal' | 'vertical';
+  items: VTabsItems[];
+  defaultValue?: string;
+  orientation?: 'horizontal' | 'vertical';
 }

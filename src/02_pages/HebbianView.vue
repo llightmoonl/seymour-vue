@@ -4,6 +4,7 @@ import { useHead } from '@unhead/vue';
 
 import { VTabs, VContainer } from '@common/components';
 import { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality, useTabs } from '@modules/Research';
+import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 
@@ -18,12 +19,12 @@ const tabsPages = [
   { id: 4, title: t('hebbian.tabs.recognition'), value: 'recognition', component: HebbianRecognition },
 ];
 
-const { activeTab, setActiveTab } = useTabs();
+const { activeTab } = storeToRefs(useTabs());
 </script>
 
 <template>
   <VContainer size="lg">
-    <VTabs :items="tabsPages" v-model="activeTab" @update:modelValue="setActiveTab" default-value="generation" />
+    <VTabs :items="tabsPages" v-model="activeTab" />
   </VContainer>
 </template>
 

@@ -4,21 +4,22 @@ import { useRoute } from 'vue-router';
 import { VButton, VTable, VCarousel } from '@common/components';
 import { DrawingGridEditable, DrawingGridView, useTabs } from '@modules/Research';
 
+import { useGenerateData } from '../models/useGenerateData';
 import { useHebbian, createSamplesColumns } from '../models/useHebbian';
 import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
-
-import { generateData } from '../api/generateData.ts';
 
 const route = useRoute();
 const pageId = route.params.id ? String(route.params.id) : '';
 
-const { x, samples, rawSamples, addSample } = useHebbian();
+const { x, samples, rawSamples, fetchSamples, addSample } = useHebbian();
 const columns = createSamplesColumns(SAMPLE_LENGTH);
 
 const { setActiveTab } = useTabs();
 
+const { generateData, asyncStatus } = useGenerateData(pageId, fetchSamples);
+
 const handleFinishData = () => {
-  generateData(pageId, rawSamples.value);
+  generateData();
   setActiveTab('training');
 };
 </script>
@@ -36,11 +37,16 @@ const handleFinishData = () => {
             {{ $t('hebbian.buttons.odd.title') }}
           </v-button>
         </div>
-        <v-button v-if="samples.length >= 10" class="finish-data" @click="handleFinishData">
+        <v-button
+          v-if="samples.length >= 10"
+          :disabled="asyncStatus === 'loading'"
+          :is-loading="asyncStatus === 'loading'"
+          class="finish-data"
+          @click="handleFinishData">
           Закончить сбор данных
         </v-button>
       </div>
-      <v-table class="table" :data="samples" :columns="columns" :row-index-highlight="1" :column-index-highlight="1" />
+      <v-table class="table" :data="samples" :columns="columns" />
     </div>
 
     <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">

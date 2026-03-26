@@ -26,8 +26,7 @@ const researchData = computed(() => {
 });
 
 const loadMoreTrigger = useTemplateRef<HTMLElement>('loadMoreTrigger');
-console.log(research);
-console.log(researchData);
+
 watch(loadMoreTrigger, (el) => {
   if (!el) return;
   const observer = new IntersectionObserver(
