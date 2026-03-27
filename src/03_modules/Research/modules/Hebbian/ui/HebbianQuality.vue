@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import { VButton, VCarousel } from '@common/components';
-import { DetailList, DrawingGridView, NeuronBase } from '@modules/Research';
+import { DetailList, DrawingGridView, NeuronBase, useTabs } from '@modules/Research';
 
-import { useGetHebbianData } from '@modules/Research/modules/Hebbian/models/useGetHebbianData.ts';
-import { COLS, ROWS } from '@modules/Research/modules/Hebbian/models/constant.ts';
+import { useGetHebbianData } from '../models/useGetHebbianData';
+import { COLS, ROWS } from '../models/constant';
+import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
+import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
 
 const route = useRoute();
-const pageId = computed(() => (route.params.id ? String(route.params.id) : ''));
+const { t } = useI18n();
+const pageId = route.params.id ? String(route.params.id) : '';
+const { setActiveTab } = useTabs();
 
-const { state } = useGetHebbianData(pageId.value);
+const { state, refetch } = useGetHebbianData(pageId);
 
 const data = computed(() => {
   const data = state.value?.data?.data;
@@ -29,35 +34,60 @@ const data = computed(() => {
 
 const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 const x = ref(initialX);
+const countCheckedElement = ref(0);
 
 const clickItem = (item) => {
   x.value = item;
 };
 
+const { recognition, state: stateRecognition } = useRecognition(pageId, x);
+
+const resultRecognition = computed(() => {
+  const data = stateRecognition.value?.data?.data;
+
+  return data?.result ?? null;
+});
+
+const isUnchanged = computed(() => JSON.stringify(x.value) === JSON.stringify(initialX));
+
+const handleRecognition = () => {
+  recognition().then(() => refetch());
+  countCheckedElement.value += 1;
+};
+
+const { completeTab } = useCompleteTab(pageId, 'quality');
+
+const handleComplete = () => {
+  completeTab();
+
+  setActiveTab('recognition');
+};
 const detailsData = computed(() => [
   {
     id: 1,
-    title: 'Порог чувствительности нейрона (Ө)',
-    marker: 'Ө',
-    value: data.value.neuron,
+    title: t('hebbian.shared.thresholdNeuron'),
+    formula: `$\\theta = ${data.value.neuron}$`,
   },
   {
     id: 2,
-    title: 'Взвешенное суммирование входных сигналов',
-    marker: 'S',
-    value: data.value.s,
+    title: t('hebbian.shared.sumInput'),
+    formula: `$S = ${data.value.s}$`,
   },
   {
     id: 3,
-    title: 'Выходной сигнал',
-    marker: 'y',
-    value: data.value.y,
+    title: t('hebbian.shared.output'),
+    formula: `$y = ${resultRecognition.value ?? 0}$`,
   },
-  // {
-  //   id: 4,
-  //   title: 'Ответ:',
-  //   value: y.value,
-  // },
+  {
+    id: 4,
+    title: `${t('hebbian.recognition.answer.text')}:`,
+    value:
+      resultRecognition.value != null
+        ? resultRecognition.value
+          ? t('hebbian.recognition.answer.odd')
+          : t('hebbian.recognition.answer.even')
+        : '',
+  },
 ]);
 </script>
 
@@ -66,10 +96,18 @@ const detailsData = computed(() => [
     <div class="header">
       <div class="drawing-canvas">
         <drawing-grid-view :grid="x"></drawing-grid-view>
-        <v-button class="drawing-canvas__button">Распознать</v-button>
+        <v-button :disabled="isUnchanged" class="drawing-canvas__button" @click="handleRecognition">
+          {{ $t('hebbian.recognition.button') }}
+        </v-button>
+        <v-button
+          v-show="countCheckedElement === data.samples.length"
+          @click="handleComplete"
+          class="drawing-canvas__button">
+          {{ $t('hebbian.recognition.complete') }}
+        </v-button>
       </div>
-      <neuron-base></neuron-base>
-      <detail-list :details="detailsData"></detail-list>
+      <neuron-base :w="data.weights" :s="data.s" :y="resultRecognition ?? 0"></neuron-base>
+      <detail-list :details="detailsData" direction="column"></detail-list>
     </div>
 
     <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="data.samples">

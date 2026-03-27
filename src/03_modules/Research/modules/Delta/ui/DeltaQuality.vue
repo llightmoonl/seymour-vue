@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { DetailList, DrawingGridEditable, NeuronBase } from '@modules/Research';
-
-import { VButton } from '@common/components';
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useGetHebbianData } from '@modules/Research/modules/Hebbian/models/useGetHebbianData.ts';
-import { COLS, ROWS } from '@modules/Research/modules/Hebbian/models/constant.ts';
+import { useI18n } from 'vue-i18n';
+
+import { VButton, VCarousel } from '@common/components';
+import { DetailList, DrawingGridView, NeuronBase, useTabs } from '@modules/Research';
+
+import { useGetDeltaData } from '../models/useGetDeltaData.ts';
+import { COLS, ROWS } from '../models/constant';
 import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
+import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
 
 const route = useRoute();
 const { t } = useI18n();
-
 const pageId = route.params.id ? String(route.params.id) : '';
+const { setActiveTab } = useTabs();
 
-const { state, refetch } = useGetHebbianData(pageId);
+const { state, refetch } = useGetDeltaData(pageId);
 
 const data = computed(() => {
   const data = state.value?.data?.data;
@@ -32,6 +34,11 @@ const data = computed(() => {
 
 const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 const x = ref(initialX);
+const countCheckedElement = ref(0);
+
+const clickItem = (item) => {
+  x.value = item;
+};
 
 const { recognition, state: stateRecognition } = useRecognition(pageId, x);
 
@@ -41,25 +48,35 @@ const resultRecognition = computed(() => {
   return data?.result ?? null;
 });
 
+const isUnchanged = computed(() => JSON.stringify(x.value) === JSON.stringify(initialX));
+
 const handleRecognition = () => {
   recognition().then(() => refetch());
-  x.value = initialX;
+  countCheckedElement.value += 1;
 };
 
+const { completeTab } = useCompleteTab(pageId, 'quality');
+
+const handleComplete = () => {
+  completeTab();
+
+  setActiveTab('recognition');
+};
 const detailsData = computed(() => [
   {
     id: 1,
-    title: t('hebbian.shared.thresholdNeuron'),
-    formula: `$\\theta = ${data.value.neuron}$`,
+    title: t('delta.shared.speed'),
+    formula: '$\\eta$ =',
+    value: data.value.eta,
   },
   {
     id: 2,
-    title: t('hebbian.shared.sumInput'),
+    title: t('delta.shared.sumInput'),
     formula: `$S = ${data.value.s}$`,
   },
   {
     id: 3,
-    title: t('hebbian.shared.output'),
+    title: t('delta.shared.output'),
     formula: `$y = ${resultRecognition.value ?? 0}$`,
   },
   {
@@ -79,14 +96,30 @@ const detailsData = computed(() => [
   <div class="root">
     <div class="header">
       <div class="drawing-canvas">
-        <drawing-grid-editable v-model:grid="x"></drawing-grid-editable>
-        <v-button @click="handleRecognition" class="drawing-canvas__button">
+        <drawing-grid-view :grid="x"></drawing-grid-view>
+        <v-button :disabled="isUnchanged" class="drawing-canvas__button" @click="handleRecognition">
           {{ $t('hebbian.recognition.button') }}
+        </v-button>
+        <v-button
+          v-show="countCheckedElement === data.samples.length"
+          @click="handleComplete"
+          class="drawing-canvas__button">
+          {{ $t('hebbian.recognition.complete') }}
         </v-button>
       </div>
       <neuron-base :w="data.weights" :s="data.s" :y="resultRecognition ?? 0"></neuron-base>
       <detail-list :details="detailsData" direction="column"></detail-list>
     </div>
+
+    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
+      <template #slide="{ item }">
+        <drawing-grid-view
+          class="carousel-samples-item"
+          :size="50"
+          :grid="item"
+          @click="() => clickItem(item)"></drawing-grid-view>
+      </template>
+    </v-carousel>
   </div>
 </template>
 
@@ -107,6 +140,14 @@ const detailsData = computed(() => [
 
   &__button {
     width: 100%;
+  }
+}
+
+.carousel-samples {
+  margin-block: rem(32);
+
+  &-item {
+    cursor: pointer;
   }
 }
 </style>

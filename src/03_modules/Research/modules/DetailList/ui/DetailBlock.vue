@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DetailListItem } from '../DetailList';
+import { VMarkdown } from '@common/components';
 
 defineProps<DetailListItem>();
 </script>
@@ -11,6 +12,7 @@ defineProps<DetailListItem>();
     </header>
     <div class="value">
       <span v-if="marker">{{ marker }} =</span>
+      <span v-if="formula"><v-markdown :content="formula" /></span>
       <span>{{ value }}</span>
     </div>
   </div>
@@ -21,7 +23,7 @@ defineProps<DetailListItem>();
   display: flex;
   flex-direction: column;
   row-gap: rem(6);
-  flex: 1 0 calc(100% / 4);
+  flex: 0 0 calc(100% / 4);
 
   & .header {
     display: flex;
@@ -36,6 +38,8 @@ defineProps<DetailListItem>();
 
   & .value {
     font-size: rem(18);
+    display: flex;
+    align-items: center;
   }
 }
 </style>

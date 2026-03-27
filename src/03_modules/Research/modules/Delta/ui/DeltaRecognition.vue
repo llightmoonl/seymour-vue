@@ -5,7 +5,7 @@ import { DetailList, DrawingGridEditable, NeuronBase } from '@modules/Research';
 import { VButton } from '@common/components';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useGetHebbianData } from '@modules/Research/modules/Hebbian/models/useGetHebbianData.ts';
+import { useGetDeltaData } from '../models/useGetDeltaData';
 import { COLS, ROWS } from '@modules/Research/modules/Hebbian/models/constant.ts';
 import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
 
@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 const pageId = route.params.id ? String(route.params.id) : '';
 
-const { state, refetch } = useGetHebbianData(pageId);
+const { state, refetch } = useGetDeltaData(pageId);
 
 const data = computed(() => {
   const data = state.value?.data?.data;

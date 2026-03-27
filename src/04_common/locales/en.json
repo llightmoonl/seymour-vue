@@ -51,6 +51,12 @@
     }
   },
   "hebbian": {
+    "shared": {
+      "thresholdNeuron": "Threshold of neuron sensitivity (Ө)",
+      "sumInput": "Weighted summation of input signals",
+      "output": "The output signal",
+      "clear": "Clear"
+    },
     "tabs": {
       "dataGeneration": "Data generation",
       "training": "Training",
@@ -67,6 +73,46 @@
     },
     "tables": {
       "examples": "Examples"
+    },
+    "generation": {
+      "finish": "Finish data collection"
+    },
+    "training": {
+      "epochs": "Eras of learning",
+      "countError": "Number of errors per epoch",
+      "completeLearning": "Complete the training"
+    },
+    "recognition": {
+      "button": "Recognize",
+      "complete": "Complete the stage",
+      "answer": {
+        "text": "Answer",
+        "even": "The number is even",
+        "odd": "The number is odd"
+      }
+    }
+  },
+  "delta": {
+    "shared": {
+      "speed": "Learning speed",
+      "sumInput": "Weighted summation of input signals",
+      "output": "The output signal",
+      "clear": "Clear",
+      "epsilon": "Error ε"
+    },
+    "tabs": {
+      "dataGeneration": "Data generation",
+      "training": "Training",
+      "qualityAssessment": "Quality assessment",
+      "recognition": "Recognition"
+    },
+    "training": {
+      "epochs": "Eras of learning",
+      "countError": "Number of errors per epoch",
+      "completeLearning": "Complete the training"
+    },
+    "generation": {
+      "finish": "Finish data collection"
     }
   }
 }

@@ -7,13 +7,13 @@ import { DrawingGridEditable, DrawingGridView, useTabs } from '@modules/Research
 import { useGenerateData } from '../models/useGenerateData';
 import { useCompleteTab } from '../../../models/useCompleteTab';
 
-import { useHebbian, createSamplesColumns } from '../models/useHebbian';
-import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
+import { useDelta, createSamplesColumns } from '../models/useDelta.ts';
+import { A, B, C, SAMPLE_LENGTH } from '../models/constant';
 
 const route = useRoute();
 const pageId = route.params.id ? String(route.params.id) : '';
 
-const { x, samples, rawSamples, fetchSamples, addSample } = useHebbian();
+const { x, samples, rawSamples, fetchSamples, addSample } = useDelta();
 const columns = createSamplesColumns(SAMPLE_LENGTH);
 
 const { setActiveTab } = useTabs();
@@ -29,25 +29,22 @@ const handleFinishData = () => {
 </script>
 
 <template>
-  <div class="hebbian-generation">
+  <div class="delta-generation">
     <div class="header">
       <div class="drawing-canvas">
         <drawing-grid-editable class="drawing-grid" v-model:grid="x" />
         <div class="drawing-canvas__controllers">
-          <v-button class="drawing-canvas__button" @click="() => addSample(EVEN)" size="md" variant="subtle">
-            {{ $t('hebbian.buttons.even.title') }}
-          </v-button>
-          <v-button class="drawing-canvas__button" @click="() => addSample(ODD)" size="md">
-            {{ $t('hebbian.buttons.odd.title') }}
-          </v-button>
+          <v-button variant="subtle" class="drawing-canvas__button" @click="() => addSample(A)" size="md">A</v-button>
+          <v-button variant="subtle" class="drawing-canvas__button" @click="() => addSample(B)" size="md">B</v-button>
+          <v-button variant="subtle" class="drawing-canvas__button" @click="() => addSample(C)" size="md">C</v-button>
         </div>
         <v-button
-          v-if="samples.length >= 10"
+          v-if="samples.length >= 3"
           :disabled="asyncStatus === 'loading'"
           :is-loading="asyncStatus === 'loading'"
           class="finish-data"
           @click="handleFinishData">
-          {{ $t('hebbian.generation.finish') }}
+          {{ $t('delta.generation.finish') }}
         </v-button>
       </div>
       <v-table class="table" :data="samples" :columns="columns" />
@@ -62,7 +59,7 @@ const handleFinishData = () => {
 </template>
 
 <style scoped lang="scss">
-.hebbian-generation {
+.delta-generation {
   margin-top: rem(32);
 
   & .header {

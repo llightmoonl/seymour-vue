@@ -51,6 +51,12 @@
     }
   },
   "hebbian": {
+    "shared": {
+      "thresholdNeuron": "Порог чувствительности нейронов (Ө)",
+      "sumInput": "Взвешенное суммирование входных сигналов",
+      "output": "Выходной сигнал",
+      "clear": "Очистить"
+    },
     "tabs": {
       "dataGeneration": "Формирование данных",
       "training": "Обучение",
@@ -67,6 +73,47 @@
     },
     "tables": {
       "examples": "Примеры"
+    },
+    "generation": {
+      "finish": "Закончить сбор данных"
+    },
+    "training": {
+      "epochs": "Эпохи обучения",
+      "countError": "Количество ошибок за эпоху",
+      "completeLearning": "Завершить обучение"
+    },
+    "recognition": {
+      "button": "Распознать",
+
+      "complete": "Завершить этап",
+      "answer": {
+        "text": "Ответ",
+        "even": "Число четное",
+        "odd": "Число нечетное"
+      }
+    }
+  },
+  "delta": {
+    "shared": {
+      "speed": "Скорость обучения",
+      "sumInput": "Взвешенное суммирование входных сигналов",
+      "output": "Выходной сигнал",
+      "clear": "Очистить",
+      "epsilon": "Ошибка ε"
+    },
+    "tabs": {
+      "dataGeneration": "Формирование данных",
+      "training": "Обучение",
+      "qualityAssessment": "Оценка качества",
+      "recognition": "Распознавание"
+    },
+    "training": {
+      "epochs": "Эпохи обучения",
+      "countError": "Количество ошибок за эпоху",
+      "completeLearning": "Завершить обучение"
+    },
+    "generation": {
+      "finish": "Закончить сбор данных"
     }
   }
 }

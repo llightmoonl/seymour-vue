@@ -3,10 +3,10 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { VButton, VTable } from '@common/components';
-import { NeuronBase, DetailList, useTabs } from '@modules/Research';
+import { DetailList, useTabs, NeuronDelta } from '@modules/Research';
 
-import { createSamplesColumns, createWeightColumns } from '../models/useHebbian';
-import { useGetHebbianData } from '../models/useGetHebbianData';
+import { createSamplesColumns, createWeightColumns } from '../models/useDelta.ts';
+import { useGetDeltaData } from '../models/useGetDeltaData.ts';
 import { useChangeWeight } from '../models/useChangeWeight';
 
 import { SAMPLE_LENGTH } from '../models/constant';
@@ -22,7 +22,7 @@ const route = useRoute();
 const pageId = route.params.id ? String(route.params.id) : '';
 const { setActiveTab } = useTabs();
 
-const { state, refetch } = useGetHebbianData(pageId);
+const { state, refetch } = useGetDeltaData(pageId);
 const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId);
 
 const data = computed(() => {
@@ -30,18 +30,19 @@ const data = computed(() => {
 
   return {
     epoch: data?.epoch ?? 0,
-    y: data?.y_pred ?? 0,
-    s: data?.s ?? 0,
-    neuron: data?.neuron ?? 0,
+    y: data?.y_pred ?? [],
+    s: data?.s ?? [],
+    eta: data?.eta ?? 0,
 
     samples: (data?.data ?? []).map(({ x, y_true }) => [...x, y_true]),
-
+    epsilon: data?.epsilon ?? [],
     weights: data?.w ?? [],
     weightsTable: [data?.w ?? []],
 
     isTrained: data?.isTrained ?? false,
     i: data?.i ?? 0,
     j: data?.j ?? 0,
+    k: data?.k ?? 0,
     error: data?.error ?? 0,
   };
 });
@@ -55,28 +56,38 @@ const { completeTab } = useCompleteTab(pageId, 'training');
 const detailsData = computed(() => [
   {
     id: 1,
-    title: t('hebbian.training.epochs'),
+    title: t('delta.training.epochs'),
     value: data.value.epoch,
   },
   {
     id: 2,
-    title: t('hebbian.shared.thresholdNeuron'),
-    formula: `$\\theta = ${data.value.neuron}$`,
+    title: t('delta.training.countError'),
+    value: data.value.error,
   },
   {
     id: 3,
-    title: t('hebbian.shared.sumInput'),
-    formula: `$S = \\sum_{j=1}^{15} w_j x_j = ${data.value.s}$`,
+    title: t('delta.shared.speed'),
+    formula: '$\\eta$ =',
+    value: data.value.eta,
   },
   {
     id: 4,
-    title: t('hebbian.shared.output'),
-    formula: `$y_{pred} = \\begin{cases} 1, & \\text{если } S \\geq \\theta \\\\ 0, & \\text{если } S < \\theta \\end{cases} = ${data.value.y}$`,
+    title: t('delta.shared.sumInput'),
+    formula: '$S_i = \\sum_{j=1}^{15} w_{ij} x_j$ = ',
+    value: data.value.s,
   },
   {
     id: 5,
-    title: t('hebbian.training.countError'),
-    value: data.value.error,
+    title: t('delta.shared.output'),
+    formula:
+      '$y_{ipred} = \\begin{cases} 1, & \\text{если } S_i \\geq 0\\\\ 0, & \\text{если } S_i < 0 \\end{cases}$ =',
+    value: data.value.y,
+  },
+  {
+    id: 6,
+    title: t('delta.shared.epsilon'),
+    formula: '$\\epsilon$ = ',
+    value: data.value.epsilon,
   },
 ]);
 
@@ -89,7 +100,7 @@ const handleCompleteData = () => {
 <template>
   <div class="root">
     <div class="header">
-      <neuron-base :w="data.weights" :s="data.s" :y="data.y"></neuron-base>
+      <neuron-delta></neuron-delta>
       <div class="tables-data">
         <div class="table">
           <VTable
