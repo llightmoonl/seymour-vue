@@ -70,6 +70,7 @@ watch(
 <style scoped lang="scss">
 .wrapper {
   margin-top: rem(32);
+  margin-bottom: rem(32);
 
   & .text {
     margin-top: rem(8);

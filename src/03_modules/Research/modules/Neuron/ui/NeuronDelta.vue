@@ -234,7 +234,7 @@ withDefaults(defineProps<NeuronDeltaProps>(), {
         stroke-opacity="0.2" />
       <circle cx="248" cy="82" r="32" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
       <text x="248" y="82" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="14">
-        S₁={{ s[0] }}
+        S₁={{ (s[0] ?? 0).toFixed(2) }}
       </text>
 
       <!-- Neuron 2 -->
@@ -248,7 +248,7 @@ withDefaults(defineProps<NeuronDeltaProps>(), {
         stroke-opacity="0.2" />
       <circle cx="248" cy="200" r="32" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
       <text x="248" y="200" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="14">
-        S₂={{ s[1] }}
+        S₂={{ (s[1] ?? 0).toFixed(2) }}
       </text>
 
       <!-- Neuron 3 -->
@@ -262,7 +262,7 @@ withDefaults(defineProps<NeuronDeltaProps>(), {
         stroke-opacity="0.2" />
       <circle cx="248" cy="320" r="32" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
       <text x="248" y="320" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="14">
-        S₃={{ s[2] }}
+        S₃={{ (s[2] ?? 0).toFixed(2) }}
       </text>
 
       <!-- arrows neuron -> output -->

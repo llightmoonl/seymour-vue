@@ -4,12 +4,13 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 import { VButton, VCarousel } from '@common/components';
-import { DetailList, DrawingGridView, NeuronBase, useTabs } from '@modules/Research';
+import { DetailList, DrawingGridView, NeuronDelta, useTabs } from '@modules/Research';
 
 import { useGetDeltaData } from '../models/useGetDeltaData.ts';
 import { COLS, ROWS } from '../models/constant';
 import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
 import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
+import { formatArray } from '@common/utils/array.ts';
 
 const route = useRoute();
 const { t } = useI18n();
@@ -22,8 +23,9 @@ const data = computed(() => {
   const data = state.value?.data?.data;
 
   return {
-    y: data?.y_pred ?? 0,
-    s: data?.s ?? 0,
+    y: data?.y_pred ?? [],
+    s: formatArray(data?.s) ?? [],
+    eta: data?.eta.toFixed(2) ?? 0,
     neuron: data?.neuron ?? 0,
     samples: (data?.data ?? []).map(({ x }) =>
       Array.from({ length: ROWS }, (_, i) => x.slice(i * COLS, i * COLS + COLS)),
@@ -45,7 +47,7 @@ const { recognition, state: stateRecognition } = useRecognition(pageId, x);
 const resultRecognition = computed(() => {
   const data = stateRecognition.value?.data?.data;
 
-  return data?.result ?? null;
+  return data?.y_pred ?? null;
 });
 
 const isUnchanged = computed(() => JSON.stringify(x.value) === JSON.stringify(initialX));
@@ -72,22 +74,26 @@ const detailsData = computed(() => [
   {
     id: 2,
     title: t('delta.shared.sumInput'),
-    formula: `$S = ${data.value.s}$`,
+    value: data.value.s,
+    marker: 'S',
   },
   {
     id: 3,
     title: t('delta.shared.output'),
-    formula: `$y = ${resultRecognition.value ?? 0}$`,
+    value: resultRecognition.value ?? [],
+    marker: 'y',
   },
   {
     id: 4,
     title: `${t('hebbian.recognition.answer.text')}:`,
     value:
-      resultRecognition.value != null
-        ? resultRecognition.value
-          ? t('hebbian.recognition.answer.odd')
-          : t('hebbian.recognition.answer.even')
-        : '',
+      resultRecognition.value?.[0] === 1
+        ? 'Буква A'
+        : resultRecognition.value?.[1] === 1
+          ? 'Буква B'
+          : resultRecognition.value?.[2] === 1
+            ? 'Буква C'
+            : '',
   },
 ]);
 </script>
@@ -107,7 +113,7 @@ const detailsData = computed(() => [
           {{ $t('hebbian.recognition.complete') }}
         </v-button>
       </div>
-      <neuron-base :w="data.weights" :s="data.s" :y="resultRecognition ?? 0"></neuron-base>
+      <neuron-delta :s="data.s" :y="data.y"></neuron-delta>
       <detail-list :details="detailsData" direction="column"></detail-list>
     </div>
 

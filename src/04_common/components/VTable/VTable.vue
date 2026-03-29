@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T">
 import type { VTableProps } from './VTable';
 import { FlexRender, useVueTable, getCoreRowModel } from '@tanstack/vue-table';
+import { nextTick, ref, watch } from 'vue';
 
 const props = defineProps<VTableProps<T>>();
 
@@ -15,6 +16,23 @@ const table = useVueTable({
 function isCellHighlighted(rowIndex: number, columnIndex: number): boolean {
   return rowIndex === props.rowIndexHighlight && columnIndex === props.columnIndexHighlight;
 }
+
+const activeCell = ref<HTMLElement | null>(null);
+
+watch(
+  () => props.columnIndexHighlight,
+  async () => {
+    await nextTick();
+
+    if (!activeCell.value) return;
+
+    activeCell.value.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'nearest',
+    });
+  },
+);
 </script>
 
 <template>
@@ -38,6 +56,13 @@ function isCellHighlighted(rowIndex: number, columnIndex: number): boolean {
           <td
             v-for="(cell, cellIndex) in row.getVisibleCells()"
             class="column"
+            :ref="
+              (el) => {
+                if (cellIndex === props.columnIndexHighlight && rowIndex === props.rowIndexHighlight) {
+                  activeCell = el as HTMLElement;
+                }
+              }
+            "
             :class="{
               column__highlight: isCellHighlighted(rowIndex, cellIndex),
             }"

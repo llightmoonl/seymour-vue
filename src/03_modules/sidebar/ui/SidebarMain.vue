@@ -10,7 +10,7 @@ const { expanded } = useSidebar();
 <template>
   <nav class="sidebar" :class="expanded ? 'expanded' : ''">
     <SidebarHeader />
-    <SidebarNavigation class="navigation"/>
+    <SidebarNavigation class="navigation" />
   </nav>
 </template>
 
@@ -19,8 +19,13 @@ const { expanded } = useSidebar();
   max-width: rem(53);
   width: 100%;
   height: 100svh;
+  position: fixed;
+  left: 0;
+  z-index: 999;
   background-color: transparent;
-  transition: max-width 0.2s ease, background-color 0.3s linear;
+  transition:
+    max-width 0.2s ease,
+    background-color 0.3s linear;
   padding-inline: rem(8);
   border-right: 1px solid var(--border-light);
 
@@ -28,7 +33,9 @@ const { expanded } = useSidebar();
     max-width: rem(260);
     padding-inline: rem(10);
     background-color: var(--sidebar-bg-primary);
-    transition: max-width 0.2s ease, background-color 0.3s linear;
+    transition:
+      max-width 0.2s ease,
+      background-color 0.3s linear;
   }
 
   & .navigation {

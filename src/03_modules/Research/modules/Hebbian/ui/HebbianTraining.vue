@@ -134,7 +134,6 @@ const handleCompleteData = () => {
 .header {
   display: flex;
   justify-content: space-between;
-  column-gap: rem(128);
 }
 
 .drawing-section {
@@ -154,6 +153,7 @@ const handleCompleteData = () => {
   flex-direction: column;
   row-gap: rem(20);
   align-items: start;
+  overflow: auto;
 
   & .table-element {
     flex-shrink: 1;

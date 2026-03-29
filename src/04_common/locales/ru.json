@@ -58,9 +58,9 @@
       "clear": "Очистить"
     },
     "tabs": {
-      "dataGeneration": "Формирование данных",
+      "dataGeneration": "Формирование обучающей выборки",
       "training": "Обучение",
-      "qualityAssessment": "Оценка качества",
+      "qualityAssessment": "Оценка качества на обучающей выборки",
       "recognition": "Распознавание"
     },
     "buttons": {

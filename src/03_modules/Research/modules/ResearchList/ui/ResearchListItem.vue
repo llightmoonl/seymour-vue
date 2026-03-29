@@ -9,7 +9,7 @@ defineProps<ResearchListItem>();
     <a class="research__list-link" :href="url">
       <div class="research__list-information">
         <div class="research__list-title">{{ title }}</div>
-        <div class="research__list-badge">{{ type }}</div>
+        <div class="research__list-badge">{{ type ? 'Правило Дельта' : 'Правило Хебба' }}</div>
       </div>
       <div class="research__list-time">
         {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}

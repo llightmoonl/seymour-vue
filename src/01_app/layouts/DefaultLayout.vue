@@ -15,6 +15,7 @@ import { SidebarMain } from '@modules/sidebar';
 <style scoped lang="scss">
 .layout {
   display: flex;
+  margin-left: 40px;
 
   &__view {
     padding-inline: rem(16);

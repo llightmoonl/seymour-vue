@@ -12,6 +12,7 @@ import { useChangeWeight } from '../models/useChangeWeight';
 import { SAMPLE_LENGTH } from '../models/constant';
 import { useI18n } from 'vue-i18n';
 import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
+import { formatArray } from '@common/utils/array.ts';
 
 const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
 const weightColumns = createWeightColumns(SAMPLE_LENGTH);
@@ -31,8 +32,8 @@ const data = computed(() => {
   return {
     epoch: data?.epoch ?? 0,
     y: data?.y_pred ?? [],
-    s: data?.s ?? [],
-    eta: data?.eta ?? 0,
+    s: formatArray(data?.s) ?? [],
+    eta: data?.eta.toFixed(2) ?? 0,
 
     samples: (data?.data ?? []).map(({ x, y_true }) => [...x, y_true]),
     epsilon: data?.epsilon ?? [],
@@ -46,6 +47,8 @@ const data = computed(() => {
     error: data?.error ?? 0,
   };
 });
+
+console.log(data.value.samples);
 
 const handleChangeWeight = () => {
   changeWeight().then(() => refetch());
@@ -100,7 +103,7 @@ const handleCompleteData = () => {
 <template>
   <div class="root">
     <div class="header">
-      <neuron-delta></neuron-delta>
+      <neuron-delta :s="data.s" :y="data.y"></neuron-delta>
       <div class="tables-data">
         <div class="table">
           <VTable
@@ -111,9 +114,9 @@ const handleCompleteData = () => {
         </div>
         <div class="table">
           <VTable
-            :data="data.weightsTable"
+            :data="data.weights"
             :columns="weightColumns"
-            :row-index-highlight="0"
+            :row-index-highlight="data.k"
             :column-index-highlight="data.j" />
         </div>
       </div>
@@ -165,6 +168,7 @@ const handleCompleteData = () => {
   flex-direction: column;
   row-gap: rem(20);
   align-items: start;
+  overflow-x: auto;
 
   & .table-element {
     flex-shrink: 1;

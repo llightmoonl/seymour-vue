@@ -7,22 +7,12 @@ export function createSamplesColumns(length: number): ColumnDef<number[]>[] {
   return [
     ...Array.from({ length }, (_, i) => ({
       id: String(i),
-      header: () => h('span', [h('span', 'x'), h('sub', {}, i)]),
+      header: () => h('span', [h('span', 'x'), h('sub', {}, i + 1)]),
       accessorFn: (row: number[]) => row[i],
     })),
     {
-      id: 'y1',
-      header: () => h('span', [h('span', 'y'), h('sub', {}, 1)]),
-      accessorFn: (row: number[]) => row[row.length - 3],
-    },
-    {
-      id: 'y2',
-      header: () => h('span', [h('span', 'y'), h('sub', {}, 2)]),
-      accessorFn: (row: number[]) => row[row.length - 2],
-    },
-    {
-      id: 'y3',
-      header: () => h('span', [h('span', 'y'), h('sub', {}, 3)]),
+      id: 'y',
+      header: () => h('span', [h('span', 'y')]),
       accessorFn: (row: number[]) => row[row.length - 1],
     },
   ];
@@ -33,7 +23,7 @@ export function createWeightColumns(length: number): ColumnDef<number[]>[] {
     ...Array.from({ length }, (_, i) => ({
       id: String(i + 1),
       header: () => h('span', [h('span', 'w'), h('sub', {}, i + 1)]),
-      accessorFn: (row: number[]) => row[i],
+      accessorFn: (row: number[]) => row[i]?.toFixed(2),
     })),
   ];
 }

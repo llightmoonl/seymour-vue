@@ -57,7 +57,7 @@ watch(loadMoreTrigger, (el) => {
       :id="item.id ?? 0"
       :title="item.title ?? ''"
       :type="item.type ?? ''"
-      :url="item.url ?? ''"
+      :url="`/research/${item.type ? 'delta' : 'hebbian'}/${item.id}` ?? ''"
       :datetime="item.updatedAt ?? ''" />
     <div v-if="hasNextPage" ref="loadMoreTrigger">
       <v-button @click="loadNextPage" class="research__list-more" variant="outline" size="md">

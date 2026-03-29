@@ -22,5 +22,9 @@ const sizeObject = computed(() => props.size ?? 'md');
   &.md {
     max-width: rem(1024);
   }
+
+  &.lg {
+    max-width: rem(1440);
+  }
 }
 </style>
