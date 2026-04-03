@@ -106,7 +106,7 @@ const detailsData = computed(() => [
           {{ $t('hebbian.recognition.complete') }}
         </v-button>
       </div>
-      <neuron-base :w="data.weights" :s="data.s" :y="resultRecognition ?? 0"></neuron-base>
+      <neuron-base :w="data.weights" :s="data.s" :y="resultRecognition ?? 0" :neuron="data.neuron"></neuron-base>
       <detail-list :details="detailsData" direction="column"></detail-list>
     </div>
 

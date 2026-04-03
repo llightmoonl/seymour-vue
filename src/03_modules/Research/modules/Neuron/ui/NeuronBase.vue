@@ -5,6 +5,7 @@ withDefaults(defineProps<NeuronBaseProps>(), {
   w: () => Array.from({ length: 4 }, () => 0),
   y: 0,
   s: 0,
+  neuron: 0,
 });
 </script>
 
@@ -180,6 +181,9 @@ withDefaults(defineProps<NeuronBaseProps>(), {
       <circle cx="460" cy="170" r="26" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
       <text x="460" y="170" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         y={{ y }}
+      </text>
+      <text x="277" y="260" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+        Ө={{ neuron }}
       </text>
     </svg>
   </div>

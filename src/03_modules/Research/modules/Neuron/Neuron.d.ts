@@ -3,6 +3,7 @@ export interface NeuronBaseProps {
   w?: number[];
   s?: number;
   y?: number;
+  neuron?: number;
 }
 
 export interface NeuronDeltaProps {

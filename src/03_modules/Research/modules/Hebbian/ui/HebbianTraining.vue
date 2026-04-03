@@ -89,7 +89,7 @@ const handleCompleteData = () => {
 <template>
   <div class="root">
     <div class="header">
-      <neuron-base :w="data.weights" :s="data.s" :y="data.y"></neuron-base>
+      <neuron-base :w="data.weights" :s="data.s" :y="data.y" :neuron="data.neuron"></neuron-base>
       <div class="tables-data">
         <div class="table">
           <VTable
