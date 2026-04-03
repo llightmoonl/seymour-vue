@@ -21,7 +21,7 @@
     "main": {
       "home": "Home",
       "docs": "Documentation",
-      "research": "Research"
+      "research": "Projects"
     }
   },
   "table": {
@@ -33,11 +33,11 @@
     "aria-label-empty": "empty"
   },
   "research": {
-    "title": "Research",
-    "search": "Search research...",
-    "create": "New research",
+    "title": "Projects",
+    "search": "Search projects...",
+    "create": "New project",
     "createModal": {
-      "title": "Create a new research project",
+      "title": "Create a new project",
       "inputs": {
         "name": {
           "title": "Project name",

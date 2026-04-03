@@ -22,15 +22,15 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         component: DocsView,
       },
       {
-        path: '/research',
+        path: '/projects',
         component: ResearchView,
       },
       {
-        path: '/research/hebbian/:id',
+        path: '/projects/hebbian/:id',
         component: HebbianView,
       },
       {
-        path: '/research/delta/:id',
+        path: '/projects/delta/:id',
         component: DeltaView,
       },
     ],

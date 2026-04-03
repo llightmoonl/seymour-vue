@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import HomeIcon from '~icons/custom/home';
 import DocsIcon from '~icons/custom/docs';
-import CompassIcon from '~icons/custom/compass';
+import ProjectsIcon from '~icons/custom/projects';
 
 import MenuItem from '@common/components/MenuItem/MenuItem.vue';
 
@@ -15,7 +15,7 @@ const { expanded } = useSidebar();
 const sidebarElements = [
   { id: 1, title: t('sidebar.main.home'), link: '/', icon: HomeIcon },
   { id: 2, title: t('sidebar.main.docs'), link: '/docs', icon: DocsIcon },
-  { id: 3, title: t('sidebar.main.research'), link: '/research', icon: CompassIcon },
+  { id: 3, title: t('sidebar.main.research'), link: '/projects', icon: ProjectsIcon },
 ];
 </script>
 
@@ -35,6 +35,6 @@ const sidebarElements = [
 .sidebar__navigation {
   display: flex;
   flex-direction: column;
-  gap: rem(4)
+  gap: rem(4);
 }
 </style>

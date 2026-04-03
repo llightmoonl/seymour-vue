@@ -11,7 +11,7 @@ export function useCreateResearch(title: MaybeRefOrGetter, selectedAlgorithm: Ma
   const { mutate, ...mutation } = useMutation({
     mutation: (params: { title: string; type: number }) => postCreateResearch(params),
     onSuccess(data) {
-      router.push(`/research/${ALGORITHMS_TYPES[data.data.type]}/${data?.data?.id}`);
+      router.push(`/projects/${ALGORITHMS_TYPES[data.data.type]}/${data?.data?.id}`);
     },
   });
 
