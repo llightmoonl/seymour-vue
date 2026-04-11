@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useHead } from '@unhead/vue';
+import { CreateResearchModal, ProjectsList } from '@modules/Research';
 import { VContainer, VSearchInput } from '@common/components';
-import { CreateResearchModal, ResearchList } from '@modules/Research';
-const { t } = useI18n();
 
-useHead({
-  title: t('research.title'),
-});
+const { t } = useI18n();
 </script>
 
 <template>
@@ -29,7 +25,7 @@ useHead({
       </div>
     </header>
     <div class="research__body">
-      <research-list />
+      <projects-list />
     </div>
   </VContainer>
 </template>

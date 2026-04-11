@@ -11,7 +11,7 @@ import { useChangeWeight } from '../models/useChangeWeight';
 
 import { SAMPLE_LENGTH } from '../models/constant';
 import { useI18n } from 'vue-i18n';
-import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
+import { useCompleteTab } from '@modules/Research';
 
 const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
 const weightColumns = createWeightColumns(SAMPLE_LENGTH);

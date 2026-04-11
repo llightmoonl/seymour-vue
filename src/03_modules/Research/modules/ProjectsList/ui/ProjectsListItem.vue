@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { ResearchListItem } from '../ResearchList';
+import type { ProjectsListItem } from '../ProjectsList';
 
-defineProps<ResearchListItem>();
+defineProps<ProjectsListItem>();
 </script>
 
 <template>
-  <li class="research__list-item">
-    <a class="research__list-link" :href="url">
-      <div class="research__list-information">
-        <div class="research__list-title">{{ title }}</div>
-        <div class="research__list-badge">{{ type ? 'Правило Дельта' : 'Правило Хебба' }}</div>
+  <li class="projects__list-item">
+    <a class="projects__list-link" :href="url">
+      <div class="projects__list-information">
+        <div class="projects__list-title">{{ title }}</div>
+        <div class="projects__list-badge">{{ type ? 'Правило Дельта' : 'Правило Хебба' }}</div>
       </div>
-      <div class="research__list-time">
+      <div class="projects__list-time">
         {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
       </div>
     </a>
@@ -19,7 +19,7 @@ defineProps<ResearchListItem>();
 </template>
 
 <style scoped lang="scss">
-.research__list {
+.projects__list {
   &-item {
     border-top: 1px solid var(--input);
 

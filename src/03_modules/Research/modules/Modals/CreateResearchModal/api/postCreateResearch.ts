@@ -3,7 +3,11 @@ import type { CreateResearchResponse, CreateResearchBody } from './postCreateRes
 
 export const postCreateResearch = async (body: CreateResearchBody): CreateResearchResponse => {
   try {
-    return await api.post(`research`, body);
+    return await api
+      .post(`research`, {
+        json: body,
+      })
+      .json();
   } catch (error) {
     console.error(error);
     throw error;

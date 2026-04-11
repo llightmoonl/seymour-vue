@@ -4,12 +4,11 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 import { VButton, VCarousel } from '@common/components';
-import { DetailList, DrawingGridView, NeuronBase, useTabs } from '@modules/Research';
+import { DetailList, DrawingGridView, NeuronBase, useTabs, useCompleteTab } from '@modules/Research';
 
 import { useGetHebbianData } from '../models/useGetHebbianData';
 import { COLS, ROWS } from '../models/constant';
 import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
-import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
 
 const route = useRoute();
 const { t } = useI18n();

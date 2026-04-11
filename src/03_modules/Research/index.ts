@@ -4,6 +4,11 @@ export { DeltaGeneration, DeltaTraining, DeltaRecognition, DeltaQuality } from '
 export { NeuronBase, NeuronDelta } from './modules/Neuron';
 export { DetailList, DetailBlock } from './modules/DetailList';
 export { CreateResearchModal } from './modules/Modals';
-export { ResearchList, ResearchListItem } from './modules/ResearchList';
+export { ProjectsList, ProjectsListItem, ProjectsListSkeleton, ProjectsListSkeletonItem } from './modules/ProjectsList';
+export { default as ProjectsPage } from './ui/ProjectsPage.vue';
 
-export { useTabs } from './models/useTabs';
+export { useTabs } from './stores/useTabs';
+
+export { useCompleteTab } from './composables/useCompleteTab';
+export { useProgressTabs } from './composables/useProgressTabs';
+export { useAllProjects } from './composables/useAllProjects';

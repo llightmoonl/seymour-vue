@@ -1,5 +1,3 @@
-import type { AxiosResponse } from 'axios';
-
 export interface CreateResearch {
   id?: string;
   title: string;
@@ -11,4 +9,4 @@ export interface CreateResearch {
 
 export type CreateResearchBody = Pick<CreateResearchResponse, 'title' | 'type'>;
 
-export type CreateResearchResponse = Promise<AxiosResponse<CreateResearch>>;
+export type CreateResearchResponse = Promise<CreateResearch>;

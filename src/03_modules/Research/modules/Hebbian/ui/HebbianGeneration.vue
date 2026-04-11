@@ -2,10 +2,9 @@
 import { useRoute } from 'vue-router';
 
 import { VButton, VTable, VCarousel } from '@common/components';
-import { DrawingGridEditable, DrawingGridView, useTabs } from '@modules/Research';
+import { DrawingGridEditable, DrawingGridView, useTabs, useCompleteTab } from '@modules/Research';
 
 import { useGenerateData } from '../models/useGenerateData';
-import { useCompleteTab } from '../../../models/useCompleteTab';
 
 import { useHebbian, createSamplesColumns } from '../models/useHebbian';
 import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';

@@ -7,7 +7,7 @@ import { useHead } from '@unhead/vue';
 import { VTabs, VContainer, VMarkdown } from '@common/components';
 import { DeltaGeneration, DeltaTraining, DeltaRecognition, DeltaQuality, useTabs } from '@modules/Research';
 import { useRoute } from 'vue-router';
-import { useProgressTabs } from '@modules/Research/models/useProgressTabs.ts';
+import { useProgressTabs } from '@modules/Research';
 
 const { t } = useI18n();
 const route = useRoute();

@@ -4,7 +4,7 @@ import HomeView from '@pages/HomeView.vue';
 import DocsView from '@pages/DocsView.vue';
 import HebbianView from '@pages/HebbianView.vue';
 import DeltaView from '@pages/DeltaView.vue';
-import ResearchView from '@pages/ResearchView.vue';
+import ProjectsView from '@pages/ProjectsView.vue';
 
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 
@@ -23,7 +23,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: '/projects',
-        component: ResearchView,
+        component: ProjectsView,
       },
       {
         path: '/projects/hebbian/:id',

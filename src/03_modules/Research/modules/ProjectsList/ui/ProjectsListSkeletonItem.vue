@@ -3,16 +3,16 @@ import { VSkeleton } from '@common/components';
 </script>
 
 <template>
-  <li class="research__list-item">
-    <div class="research__list-main">
-      <VSkeleton class="research__list-information" />
-      <VSkeleton class="research__list-time" />
+  <li class="projects__list-item">
+    <div class="projects__list-main">
+      <VSkeleton class="projects__list-information" />
+      <VSkeleton class="projects__list-time" />
     </div>
   </li>
 </template>
 
 <style scoped lang="scss">
-.research__list {
+.projects__list {
   &-item {
     border-top: 1px solid var(--input);
 

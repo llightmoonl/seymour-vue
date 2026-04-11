@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useGetDeltaData } from '../models/useGetDeltaData';
 import { COLS, ROWS } from '@modules/Research/modules/Hebbian/models/constant.ts';
-import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
+import { useRecognition } from '../models/useRecognition';
 import { formatArray } from '@common/utils/array.ts';
 
 const route = useRoute();

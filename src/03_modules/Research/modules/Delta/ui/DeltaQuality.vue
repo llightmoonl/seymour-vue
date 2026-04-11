@@ -4,12 +4,11 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 import { VButton, VCarousel } from '@common/components';
-import { DetailList, DrawingGridView, NeuronDelta, useTabs } from '@modules/Research';
+import { DetailList, DrawingGridView, NeuronDelta, useTabs, useCompleteTab } from '@modules/Research';
 
 import { useGetDeltaData } from '../models/useGetDeltaData.ts';
 import { COLS, ROWS } from '../models/constant';
-import { useRecognition } from '@modules/Research/modules/Hebbian/models/useRecognition.ts';
-import { useCompleteTab } from '@modules/Research/models/useCompleteTab.ts';
+import { useRecognition } from '../models/useRecognition';
 import { formatArray } from '@common/utils/array.ts';
 
 const route = useRoute();
