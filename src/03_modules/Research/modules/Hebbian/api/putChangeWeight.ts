@@ -1,10 +1,15 @@
 import { api } from '@common/api';
-import type { ChangeWeightBody } from './putChangeWeight.d';
+import type { ChangeWeightBody, ChangeWeightResponse } from './types.d';
 
-export const putChangeWeight = async (body: ChangeWeightBody) => {
+export const putChangeWeight = async (body: ChangeWeightBody): ChangeWeightResponse => {
   try {
-    return api.put('/hebbian/generateWeight', body);
+    return api
+      .put('hebbian/generateWeight', {
+        json: body,
+      })
+      .json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

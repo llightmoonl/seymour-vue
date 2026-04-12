@@ -1,7 +1,7 @@
 import { ref, type Ref, h } from 'vue';
 import { ROWS, COLS } from './constant';
 import type { ColumnDef } from '@tanstack/vue-table';
-import type { GenerateDataItem } from '../api/putGenerateData.d';
+import type { HebbianSamples } from '../api/types.d';
 
 export function createSamplesColumns(length: number): ColumnDef<number[]>[] {
   return [
@@ -33,7 +33,7 @@ export function useHebbian() {
   const x = ref(initialX);
   const samples: Ref<number[][]> = ref([]);
   const rawSamples: Ref<number[][][]> = ref([]);
-  const fetchSamples: Ref<GenerateDataItem[]> = ref([]);
+  const fetchSamples: Ref<HebbianSamples[]> = ref([]);
 
   const resetX = () => {
     x.value = initialX;

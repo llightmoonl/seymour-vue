@@ -1,5 +1,5 @@
 import { useQuery } from '@pinia/colada';
-import { getHebbianData } from '@modules/Research/modules/Hebbian/api/getHebbianData.ts';
+import { getHebbianData } from '../api/getHebbianData';
 
 export function useGetHebbianData(id: string) {
   const query = useQuery({

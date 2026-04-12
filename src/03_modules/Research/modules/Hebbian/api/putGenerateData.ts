@@ -1,10 +1,15 @@
 import { api } from '@common/api';
-import type { GenerateDataBody } from './putGenerateData.d';
+import type { GenerateDataBody, GenerateDataResponse } from './types.d';
 
-export const putGenerateData = async (body: GenerateDataBody) => {
+export const putGenerateData = async (body: GenerateDataBody): GenerateDataResponse => {
   try {
-    return api.put('/hebbian/generateData', body);
+    return await api
+      .put('hebbian/generateData', {
+        json: body,
+      })
+      .json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

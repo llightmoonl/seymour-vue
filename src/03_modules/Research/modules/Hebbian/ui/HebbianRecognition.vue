@@ -17,7 +17,7 @@ const pageId = route.params.id ? String(route.params.id) : '';
 const { state, refetch } = useGetHebbianData(pageId);
 
 const data = computed(() => {
-  const data = state.value?.data?.data;
+  const data = state.value?.data;
 
   return {
     y: data?.y_pred ?? 0,
@@ -36,7 +36,7 @@ const x = ref(initialX);
 const { recognition, state: stateRecognition } = useRecognition(pageId, x);
 
 const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data?.data;
+  const data = stateRecognition.value?.data;
 
   return data?.result ?? null;
 });
