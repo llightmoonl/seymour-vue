@@ -19,7 +19,7 @@
     "lintfix": "npm run lint && npm run prettier"
   },
   "dependencies": {
-    "@pinia/colada": "^1.0.0",
+    "@pinia/colada": "^1.1.0",
     "@tanstack/vue-table": "^8.21.3",
     "@tiptap/starter-kit": "^3.17.1",
     "@tiptap/vue-3": "^3.17.1",
