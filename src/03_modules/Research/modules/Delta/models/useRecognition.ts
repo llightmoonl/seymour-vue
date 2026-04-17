@@ -1,7 +1,8 @@
 import type { MaybeRefOrGetter } from 'vue';
 import { useMutation } from '@pinia/colada';
-import type { RecognitionBody } from '../api/postRecognition.d';
+
 import { postRecognition } from '../api/postRecognition';
+import type { RecognitionBody } from '../api/types.d';
 
 export function useRecognition(id: string, x: MaybeRefOrGetter) {
   const { mutateAsync, ...mutation } = useMutation({

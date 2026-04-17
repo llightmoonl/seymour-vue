@@ -1,6 +1,6 @@
 import { useMutation } from '@pinia/colada';
 import { putChangeWeight } from '../api/putChangeWeight';
-import type { ChangeWeightBody } from '../api/putChangeWeight.d';
+import type { ChangeWeightBody } from '../api/types.d';
 
 export function useChangeWeight(id: string) {
   const { mutateAsync, ...mutation } = useMutation({

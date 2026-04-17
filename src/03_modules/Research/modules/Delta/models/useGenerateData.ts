@@ -1,15 +1,15 @@
+import type { MaybeRefOrGetter } from 'vue';
 import { useMutation } from '@pinia/colada';
 import { putGenerateData } from '../api/putGenerateData.ts';
-import type { GenerateDataBody } from '../api/putGenerateData.d';
-import type { MaybeRefOrGetter } from 'vue';
+import type { GenerateDataBody } from '../api/types.d';
 
 export function useGenerateData(id: string, data: MaybeRefOrGetter) {
-  const { mutate, ...mutation } = useMutation({
+  const { mutateAsync, ...mutation } = useMutation({
     mutation: (params: GenerateDataBody) => putGenerateData(params),
   });
 
   const generateData = () => {
-    mutate({ id, data: data.value });
+    return mutateAsync({ id, data: data.value });
   };
 
   return {

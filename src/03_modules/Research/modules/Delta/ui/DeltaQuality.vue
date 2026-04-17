@@ -6,9 +6,10 @@ import { useI18n } from 'vue-i18n';
 import { VButton, VCarousel } from '@common/components';
 import { DetailList, DrawingGridView, NeuronDelta, useTabs, useCompleteTab } from '@modules/Research';
 
-import { useGetDeltaData } from '../models/useGetDeltaData.ts';
-import { COLS, ROWS } from '../models/constant';
+import { useGetDeltaData } from '../models/useGetDeltaData';
 import { useRecognition } from '../models/useRecognition';
+import { COLS, ROWS } from '../models/constant';
+
 import { formatArray } from '@common/utils/array.ts';
 
 const route = useRoute();
@@ -19,13 +20,12 @@ const { setActiveTab } = useTabs();
 const { state, refetch } = useGetDeltaData(pageId);
 
 const data = computed(() => {
-  const data = state.value?.data?.data;
+  const data = state.value?.data;
 
   return {
     y: data?.y_pred ?? [],
     s: formatArray(data?.s) ?? [],
     eta: data?.eta.toFixed(2) ?? 0,
-    neuron: data?.neuron ?? 0,
     samples: (data?.data ?? []).map(({ x }) =>
       Array.from({ length: ROWS }, (_, i) => x.slice(i * COLS, i * COLS + COLS)),
     ),
@@ -44,7 +44,7 @@ const clickItem = (item) => {
 const { recognition, state: stateRecognition } = useRecognition(pageId, x);
 
 const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data?.data;
+  const data = stateRecognition.value?.data;
 
   return data?.y_pred ?? null;
 });

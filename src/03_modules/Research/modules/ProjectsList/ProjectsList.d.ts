@@ -1,7 +1,7 @@
 export interface ProjectsListItem {
   id: string;
   title: string;
-  type: number;
+  type: string;
   url: string;
   datetime: string;
 }

@@ -27,7 +27,7 @@ const { state, refetch } = useGetDeltaData(pageId);
 const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId);
 
 const data = computed(() => {
-  const data = state.value?.data?.data;
+  const data = state.value?.data;
 
   return {
     epoch: data?.epoch ?? 0,

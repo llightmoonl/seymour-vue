@@ -18,13 +18,12 @@ const pageId = route.params.id ? String(route.params.id) : '';
 const { state, refetch } = useGetDeltaData(pageId);
 
 const data = computed(() => {
-  const data = state.value?.data?.data;
+  const data = state.value?.data;
 
   return {
     y: data?.y_pred ?? [],
     s: formatArray(data?.s) ?? [],
     eta: data?.eta.toFixed(2) ?? 0,
-    neuron: data?.neuron ?? 0,
     samples: (data?.data ?? []).map(({ x }) =>
       Array.from({ length: ROWS }, (_, i) => x.slice(i * COLS, i * COLS + COLS)),
     ),
@@ -38,7 +37,7 @@ const x = ref(initialX);
 const { recognition, state: stateRecognition } = useRecognition(pageId, x);
 
 const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data?.data;
+  const data = stateRecognition.value?.data;
 
   return data?.y_pred ?? null;
 });

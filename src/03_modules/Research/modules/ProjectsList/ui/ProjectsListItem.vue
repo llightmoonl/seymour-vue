@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import type { ProjectsListItem } from '../ProjectsList';
 
-defineProps<ProjectsListItem>();
+const props = defineProps<ProjectsListItem>();
 </script>
 
 <template>
   <li class="projects__list-item">
-    <a class="projects__list-link" :href="url">
+    <a class="projects__list-link" :href="props.url">
       <div class="projects__list-information">
-        <div class="projects__list-title">{{ title }}</div>
-        <div class="projects__list-badge">{{ type ? 'Правило Дельта' : 'Правило Хебба' }}</div>
+        <div class="projects__list-title">{{ props.title }}</div>
+        <div class="projects__list-badge">{{ props.type }}</div>
       </div>
       <div class="projects__list-time">
-        {{ $t('shared.updated') }} {{ $t('shared.hours', 2) }} {{ $t('shared.ago') }}
+        {{ $t('shared.updated') }} {{ $t('shared.hours', 5) }} {{ $t('shared.ago') }}
       </div>
     </a>
   </li>

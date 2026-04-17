@@ -1,7 +1,7 @@
 import { ref, type Ref, h } from 'vue';
 import { ROWS, COLS } from './constant';
 import type { ColumnDef } from '@tanstack/vue-table';
-import type { GenerateDataItem } from '../api/putGenerateData.d';
+import type { GenerateDataItem } from '../api/types.d';
 
 export function createSamplesColumns(length: number): ColumnDef<number[]>[] {
   return [

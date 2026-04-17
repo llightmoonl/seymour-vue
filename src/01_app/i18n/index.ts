@@ -18,7 +18,7 @@ const currentLanguage = import.meta.env.VITE_CURRENT_LANGUAGE;
 
 export const i18n = createI18n({
   locale: currentLanguage,
-  pluralRules,
+  pluralRules: pluralRules,
   fallbackLocale: 'en',
   globalInjection: true,
   messages: languages,

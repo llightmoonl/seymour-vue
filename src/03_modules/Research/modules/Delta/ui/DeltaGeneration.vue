@@ -18,12 +18,15 @@ const columns = createSamplesColumns(SAMPLE_LENGTH);
 const { setActiveTab } = useTabs();
 
 const { completeTab } = useCompleteTab(pageId, 'generation');
-const { generateData, asyncStatus } = useGenerateData(pageId, fetchSamples);
+const { generateData, asyncStatus, status } = useGenerateData(pageId, fetchSamples);
 
-const handleFinishData = () => {
-  generateData();
-  completeTab();
-  setActiveTab('training');
+const handleFinishData = async () => {
+  await generateData();
+
+  if (status.value === 'success') {
+    completeTab();
+    setActiveTab('training');
+  }
 };
 </script>
 
