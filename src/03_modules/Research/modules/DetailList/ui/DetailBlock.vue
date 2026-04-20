@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DetailListItem } from '../DetailList';
-import { VMarkdown } from '@common/components';
+import { VMarkdown, VTable } from '@common/components';
 
 defineProps<DetailListItem>();
 </script>
@@ -10,11 +10,17 @@ defineProps<DetailListItem>();
     <header class="header">
       <p v-if="title" class="title">{{ title }}</p>
     </header>
+
     <div class="value">
       <span v-if="marker">{{ marker }} =</span>
-      <span v-if="formula"><v-markdown :content="formula" /></span>
+
+      <span v-if="formula">
+        <v-markdown :content="formula" />
+      </span>
       <span>{{ value }}</span>
     </div>
+
+    <VTable class="table" v-if="tableData && tableColumns" :data="tableData" :columns="tableColumns" />
   </div>
 </template>
 
@@ -40,6 +46,15 @@ defineProps<DetailListItem>();
     font-size: rem(18);
     display: flex;
     align-items: center;
+  }
+
+  & .table {
+    margin-top: rem(4);
+    width: fit-content;
+
+    &::deep(.column) {
+      width: rem(100);
+    }
   }
 }
 </style>

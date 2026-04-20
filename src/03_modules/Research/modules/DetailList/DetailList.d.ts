@@ -4,6 +4,8 @@ export interface DetailListItem {
   marker?: string;
   formula?: string;
   value?: number | number[];
+  tableData?: number[][];
+  tableColumns?: ColumnDef<number[]>[];
 }
 
 export interface DetailListProps {

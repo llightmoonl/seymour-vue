@@ -16,7 +16,9 @@ const directionObject = computed(() => (props.direction ? `detail-list__${props.
       :formula="detail.formula"
       :marker="detail.marker"
       :title="detail.title"
-      :value="detail.value" />
+      :value="detail.value"
+      :table-data="detail.tableData"
+      :table-columns="detail.tableColumns" />
   </div>
 </template>
 

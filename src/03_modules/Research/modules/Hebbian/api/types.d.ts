@@ -11,6 +11,7 @@ export interface HebbianData {
   i: number;
   j: number;
   isTrained: boolean;
+  correction: string;
   neuron: number;
   s: number;
   w: number[];

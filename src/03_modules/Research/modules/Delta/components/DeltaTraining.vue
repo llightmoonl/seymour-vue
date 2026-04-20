@@ -7,7 +7,7 @@ import { VButton, VTable } from '@common/components';
 import { DeltaNeuron } from '../';
 import { DetailList, useTabs, useCompleteTab } from '../../../';
 
-import { createSamplesColumns, createWeightColumns } from '../composables/useDelta';
+import { createNeuronsColumns, createSamplesColumns, createWeightColumns } from '../composables/useDelta';
 import { useGetDeltaData } from '../composables/useGetDeltaData';
 import { useChangeWeight } from '../composables/useChangeWeight';
 
@@ -55,6 +55,8 @@ const handleChangeWeight = () => {
 
 const { completeTab } = useCompleteTab(pageId, 'training');
 
+const neuronsColumns = createNeuronsColumns(3);
+
 const detailsData = computed(() => [
   {
     id: 1,
@@ -75,21 +77,22 @@ const detailsData = computed(() => [
   {
     id: 4,
     title: t('delta.shared.sumInput'),
-    formula: '$S_i = \\sum_{j=1}^{15} w_{ij} x_j$ = ',
-    value: data.value.s,
+    formula: '$S_i = \\sum_{j=1}^{15} w_{ij} x_j$',
+    tableData: [data.value.s],
+    tableColumns: neuronsColumns,
   },
   {
     id: 5,
     title: t('delta.shared.output'),
-    formula:
-      '$y_{ipred} = \\begin{cases} 1, & \\text{если } S_i \\geq 0\\\\ 0, & \\text{если } S_i < 0 \\end{cases}$ =',
-    value: data.value.y,
+    formula: '$y_{ipred} = \\begin{cases} 1, & \\text{если } S_i \\geq 0\\\\ 0, & \\text{если } S_i < 0 \\end{cases}$',
+    tableData: [data.value.y],
+    tableColumns: neuronsColumns,
   },
   {
     id: 6,
     title: t('delta.shared.epsilon'),
-    formula: '$\\epsilon$ = ',
-    value: data.value.epsilon,
+    tableData: [data.value.epsilon],
+    tableColumns: neuronsColumns,
   },
 ]);
 

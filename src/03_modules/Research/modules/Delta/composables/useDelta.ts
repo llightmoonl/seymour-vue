@@ -18,6 +18,16 @@ export function createSamplesColumns(length: number): ColumnDef<number[]>[] {
   ];
 }
 
+export function createNeuronsColumns(length: number): ColumnDef<number[]>[] {
+  return [
+    ...Array.from({ length }, (_, i) => ({
+      id: String(i),
+      header: () => h('span', [h('span', 'i'), h('sub', {}, i + 1)]),
+      accessorFn: (row: number[]) => row[i],
+    })),
+  ];
+}
+
 export function createWeightColumns(length: number): ColumnDef<number[]>[] {
   return [
     ...Array.from({ length }, (_, i) => ({

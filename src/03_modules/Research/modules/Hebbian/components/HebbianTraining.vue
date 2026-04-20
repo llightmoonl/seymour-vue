@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-import { VButton, VTable } from '@common/components';
+import { VButton, VMarkdown, VTable } from '@common/components';
 import { HebbianNeuron } from '../';
 import { useCompleteTab, DetailList, useTabs } from '../../../';
 
@@ -32,7 +32,7 @@ const data = computed(() => {
     y: data?.y_pred ?? 0,
     s: data?.s ?? 0,
     neuron: data?.neuron ?? 0,
-
+    correction: data?.correction ?? 'none',
     samples: (data?.data ?? []).map(({ x, y_true }) => [...x, y_true]),
 
     weights: data?.w ?? [],
@@ -88,7 +88,14 @@ const handleCompleteData = () => {
 <template>
   <div class="root">
     <div class="header">
-      <hebbian-neuron :w="data.weights" :s="data.s" :y="data.y" :neuron="data.neuron" />
+      <div>
+        <hebbian-neuron :w="data.weights" :s="data.s" :y="data.y" :neuron="data.neuron" />
+        <div v-if="data.correction !== 'none'" class="hebbian__rule">
+          <VMarkdown v-if="data.correction === 'plus'" content="$w_i = w_i + x_i$" />
+          <VMarkdown v-if="data.correction === 'minus'" content="$w_i = w_i - x_i$" />
+        </div>
+      </div>
+
       <div class="tables-data">
         <div class="table">
           <v-table
@@ -182,5 +189,16 @@ const handleCompleteData = () => {
 
 .information-list {
   margin-top: rem(64);
+}
+
+.hebbian {
+  &__rule {
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--ring);
+    width: fit-content;
+    padding: rem(6) rem(12);
+    margin: 0 auto;
+  }
 }
 </style>

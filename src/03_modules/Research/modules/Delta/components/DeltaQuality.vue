@@ -12,6 +12,7 @@ import { useRecognition } from '../composables/useRecognition';
 import { COLS, ROWS } from '../models/constant';
 
 import { formatArray } from '@common/utils/array';
+import { createNeuronsColumns } from '@modules/Research/modules/Delta/composables/useDelta.ts';
 
 const route = useRoute();
 const { t } = useI18n();
@@ -64,6 +65,9 @@ const handleComplete = () => {
 
   setActiveTab('recognition');
 };
+
+const neuronsColumns = createNeuronsColumns(3);
+
 const detailsData = computed(() => [
   {
     id: 1,
@@ -73,15 +77,15 @@ const detailsData = computed(() => [
   },
   {
     id: 2,
-    title: t('delta.shared.sumInput'),
-    value: data.value.s,
-    marker: 'S',
+    title: `${t('delta.shared.sumInput')} (S)`,
+    tableData: [data.value.s],
+    tableColumns: neuronsColumns,
   },
   {
     id: 3,
-    title: t('delta.shared.output'),
-    value: resultRecognition.value ?? [],
-    marker: 'y',
+    title: `${t('delta.shared.sumInput')} (y)`,
+    tableData: [resultRecognition.value ?? []],
+    tableColumns: neuronsColumns,
   },
   {
     id: 4,
