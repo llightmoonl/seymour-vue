@@ -12,7 +12,7 @@ const { steps } = storeToRefs(backpropagationStore);
 
 <template>
   <div class="backpropagation-forward">
-    <!--    <div v-if="steps === BACKPROP_STEPS['EMPTY']" class="backpropagation-forward__empty"></div>-->
+    <div v-if="steps === BACKPROP_STEPS['EMPTY']" class="backpropagation-forward__empty">{{ t('table.empty') }}</div>
     <VMarkdown
       class="backpropagation-forward__item"
       v-if="steps >= BACKPROP_STEPS['FORWARD_F11']"
@@ -35,9 +35,11 @@ const { steps } = storeToRefs(backpropagationStore);
 <style scoped lang="scss">
 .backpropagation-forward {
   margin-top: rem(12);
+  padding: 0 rem(6);
   display: flex;
   flex-direction: column;
   row-gap: rem(8);
+  height: rem(148);
 
   &__item {
     &.--error {
@@ -45,6 +47,13 @@ const { steps } = storeToRefs(backpropagationStore);
       flex-direction: column;
       row-gap: rem(4);
     }
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 }
 </style>

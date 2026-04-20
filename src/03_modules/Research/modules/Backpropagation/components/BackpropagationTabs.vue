@@ -15,3 +15,15 @@ const activeTab = defineModel<number | string | undefined>();
 <template>
   <v-tabs class="backpropagation__tabs" :items="ALL_TABS" v-model="activeTab" />
 </template>
+
+<style scoped lang="scss">
+.backpropagation__tabs {
+  border: 1px solid var(--ring);
+  border-radius: rem(12);
+  padding: rem(8);
+
+  & :deep(.list) {
+    margin-top: 0;
+  }
+}
+</style>

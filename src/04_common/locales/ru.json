@@ -1,7 +1,8 @@
 {
   "ui": {
     "button": {
-      "default": "Отправить"
+      "default": "Отправить",
+      "reset": "Сброс"
     }
   },
   "shared": {

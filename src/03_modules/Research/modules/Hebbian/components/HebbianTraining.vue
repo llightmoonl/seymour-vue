@@ -70,7 +70,7 @@ const detailsData = computed(() => [
   {
     id: 4,
     title: t('hebbian.shared.output'),
-    formula: `$y_{pred} = \\begin{cases} 1, & \\text{если } S \\geq \\theta \\\\ 0, & \\text{если } S < \\theta \\end{cases} = ${data.value.y}$`,
+    formula: `$y_{pred} = \\begin{cases} 1, & \\text{если } S \\geq \\theta \\\\ 0, & \\text{если } S < \\theta \\end{cases} \\rightarrow ${data.value.y}$`,
   },
   {
     id: 5,

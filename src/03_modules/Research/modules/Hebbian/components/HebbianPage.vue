@@ -35,7 +35,7 @@ watch(
   state,
   (val) => {
     if (val.status !== 'success') return;
-    const data = val ?? [];
+    const data = val.data ?? [];
 
     completedTabs.value = data.filter((t) => t.completed).map((t) => t.key);
 
@@ -53,7 +53,7 @@ watch(
     <div class="wrapper">
       <h1>Правило Хебба: классификация цифр</h1>
       <p class="text">
-        Пояснение к задаче: Обучить сеть по правилу Хебба: настроить синаптические веса
+        Пояснение к задаче: Обучить персептрон по правилу Хебба: настроить синаптические веса
         <v-markdown class="markdown" content="$w_j$" />
         так, чтобы на входе с чётным числом нейрон выдавал 0, на нечётном — 1.
       </p>

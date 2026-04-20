@@ -58,10 +58,11 @@ watch(steps, async () => {
 <style scoped lang="scss">
 .backpropagation-backward {
   margin-top: rem(12);
+  padding: 0 rem(6);
   display: flex;
   flex-direction: column;
   row-gap: rem(8);
-  overflow-y: scroll;
+  overflow-y: auto;
   height: rem(148);
 
   &__item {

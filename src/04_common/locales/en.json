@@ -1,7 +1,8 @@
 {
   "ui": {
     "button": {
-      "default": "Send"
+      "default": "Send",
+      "reset": "Reset"
     }
   },
   "shared": {

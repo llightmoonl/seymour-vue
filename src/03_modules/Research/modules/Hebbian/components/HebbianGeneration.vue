@@ -44,6 +44,7 @@ const handleFinishData = async () => {
           </v-button>
         </div>
         <v-button
+          v-if="samples.length >= 10"
           :disabled="asyncStatus === 'loading'"
           :is-loading="asyncStatus === 'loading'"
           class="finish-data"

@@ -7,6 +7,7 @@ import { VButton, VContainer } from '@common/components';
 import { DetailList } from '@modules/Research';
 import { BackpropagationNeuron, BackpropagationTabs } from '../';
 import { useBackpropagationStore } from '../stores/backpropagation';
+
 import { BACKWARD_TAB_STEP, LAST_STEP } from '../models/constants';
 
 const { t } = useI18n();
@@ -53,23 +54,28 @@ watch(steps, (newSteps) => {
         </div>
         <div class="backpropagation__bottom">
           <div class="backpropagation__controllers">
-            <v-button
-              :disabled="steps <= 0"
-              size="icon-md"
-              variant="link"
-              @click="backpropagationStore.decrementSteps()">
-              <i-custom-step-back></i-custom-step-back>
+            <v-button :disabled="steps <= 0" @click="backpropagationStore.resetSteps()">
+              {{ $t('ui.button.reset') }}
             </v-button>
-            <v-button size="icon-md">
-              <i-custom-play></i-custom-play>
-            </v-button>
-            <v-button
-              :disabled="steps >= LAST_STEP"
-              size="icon-md"
-              variant="link"
-              @click="backpropagationStore.incrementSteps()">
-              <i-custom-step-forward></i-custom-step-forward>
-            </v-button>
+            <div class="backpropagation__player">
+              <v-button
+                :disabled="steps <= 0"
+                size="icon-md"
+                variant="link"
+                @click="backpropagationStore.decrementSteps()">
+                <i-custom-step-back></i-custom-step-back>
+              </v-button>
+              <v-button size="icon-md">
+                <i-custom-play></i-custom-play>
+              </v-button>
+              <v-button
+                :disabled="steps >= LAST_STEP"
+                size="icon-md"
+                variant="link"
+                @click="backpropagationStore.incrementSteps()">
+                <i-custom-step-forward></i-custom-step-forward>
+              </v-button>
+            </div>
           </div>
         </div>
       </div>
@@ -89,11 +95,23 @@ watch(steps, (newSteps) => {
   }
 
   &__bottom {
-    margin-top: rem(48);
+    margin-top: rem(24);
+  }
+
+  &__tabs {
+    margin-top: rem(16);
   }
 
   &__controllers {
     display: flex;
+    align-items: center;
+    justify-content: end;
+    column-gap: rem(8);
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
     justify-content: end;
   }
 
