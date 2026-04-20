@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { DrawingGridBaseEmits, DrawingGridBaseProps } from '../DrawingGrid';
-import { TAB_FOCUS, TAB_NO_FOCUS } from '@common/constants/a11y';
+import { TAB_FOCUS, TAB_NO_FOCUS } from '@common/constants/a11y.ts';
 import { computed } from 'vue';
 
 const props = defineProps<DrawingGridBaseProps>();
 defineEmits<DrawingGridBaseEmits>();
 
-const sizeStyle = computed(() => props.size ? { width: `${props.size}px`, height: `${props.size}px` } : {});
+const sizeStyle = computed(() => (props.size ? { width: `${props.size}px`, height: `${props.size}px` } : {}));
 </script>
 
 <template>
@@ -31,7 +31,6 @@ const sizeStyle = computed(() => props.size ? { width: `${props.size}px`, height
   </table>
 </template>
 
-
 <style scoped lang="scss">
 .drawing-grid {
   border-collapse: collapse;
@@ -52,4 +51,3 @@ const sizeStyle = computed(() => props.size ? { width: `${props.size}px`, height
   }
 }
 </style>
-

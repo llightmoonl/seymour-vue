@@ -1,4 +1,6 @@
-export { default as HebbianGeneration } from './ui/HebbianGeneration.vue';
-export { default as HebbianTraining } from './ui/HebbianTraining.vue';
-export { default as HebbianRecognition } from './ui/HebbianRecognition.vue';
-export { default as HebbianQuality } from './ui/HebbianQuality.vue';
+export { default as HebbianGeneration } from './components/HebbianGeneration.vue';
+export { default as HebbianTraining } from './components/HebbianTraining.vue';
+export { default as HebbianRecognition } from './components/HebbianRecognition.vue';
+export { default as HebbianQuality } from './components/HebbianQuality.vue';
+export { default as HebbianNeuron } from './components/HebbianNeuron.vue';
+export { default as HebbianPage } from './components/HebbianPage.vue';

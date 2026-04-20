@@ -5,6 +5,7 @@ import DocsView from '@pages/DocsView.vue';
 import HebbianView from '@pages/HebbianView.vue';
 import DeltaView from '@pages/DeltaView.vue';
 import ProjectsView from '@pages/ProjectsView.vue';
+import BackpropagationView from '@pages/BackpropagationView.vue';
 
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 
@@ -32,6 +33,10 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       {
         path: '/projects/delta/:id',
         component: DeltaView,
+      },
+      {
+        path: '/projects/backpropagation/:id',
+        component: BackpropagationView,
       },
     ],
   },

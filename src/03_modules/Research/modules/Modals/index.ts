@@ -1,1 +1,0 @@
-export { CreateResearchModal } from './CreateResearchModal';

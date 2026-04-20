@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { DetailBlock } from '@modules/Research';
-import type { DetailListProps } from '../DetailList';
 import { computed } from 'vue';
+import { DetailBlock } from '../';
+import type { DetailListProps } from '../DetailList';
 
 const props = defineProps<DetailListProps>();
 const directionObject = computed(() => (props.direction ? `detail-list__${props.direction}` : 'detail-list__row'));

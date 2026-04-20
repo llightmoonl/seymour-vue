@@ -1,9 +1,9 @@
 export interface DetailListItem {
-  id: number;
+  id?: number;
   title?: string;
   marker?: string;
   formula?: string;
-  value: number | number[];
+  value?: number | number[];
 }
 
 export interface DetailListProps {

@@ -14,7 +14,8 @@
     "create": "Create",
     "algorithms": {
       "hebbian": "The Hebbian Rule",
-      "delta": "The Delta Rule"
+      "delta": "The Delta Rule",
+      "backpropagation": "Backpropagation algorithm"
     }
   },
   "sidebar": {
@@ -113,6 +114,19 @@
     },
     "generation": {
       "finish": "Finish data collection"
+    }
+  },
+  "backpropagation": {
+    "info": {
+      "response": "expected response",
+      "activation": "activation function",
+      "rate": "learning rate",
+      "gradient": "Calculating the local gradient",
+      "error": "Error calculating"
+    },
+    "pass": {
+      "forward": "Forward pass",
+      "backward": "Backward pass"
     }
   }
 }

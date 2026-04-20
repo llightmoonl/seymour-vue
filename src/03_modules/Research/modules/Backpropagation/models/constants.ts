@@ -1,0 +1,16 @@
+export const BACKPROP_STEPS = {
+  EMPTY: 0,
+  FORWARD_F11: 1,
+  FORWARD_F12: 2,
+  OUTPUT: 3,
+  ERROR: 4,
+  GRADIENT: 5,
+  DELTA_1: 6,
+  DELTA_2: 7,
+  WEIGHT_UPDATE_W11: 8,
+  WEIGHT_UPDATE_W12: 9,
+  WEIGHT_UPDATE_W13: 10,
+  WEIGHT_UPDATE_W14: 11,
+} as const;
+export const BACKWARD_TAB_STEP = BACKPROP_STEPS.GRADIENT;
+export const LAST_STEP = Math.max(...Object.values(BACKPROP_STEPS));
