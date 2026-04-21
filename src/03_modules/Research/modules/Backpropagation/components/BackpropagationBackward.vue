@@ -29,9 +29,17 @@ watch(steps, async () => {
       <VMarkdown class="backpropagation-backward__gradient --value" content="$\delta = \epsilon*y(1 - y)$" />
     </div>
     <VMarkdown
+      v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W21']"
+      class="backpropagation-backward__item"
+      content="$w_{21} = w_{21} - \eta \cdot \delta \cdot f_{11}$" />
+    <VMarkdown
+      v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W22']"
+      class="backpropagation-backward__item"
+      content="$w_{22} = w_{22} - \eta \cdot \delta \cdot f_{12}$" />
+    <VMarkdown
       v-if="steps >= BACKPROP_STEPS['DELTA_1']"
       class="backpropagation-backward__item"
-      content="$\delta_{11} = \delta*w_{21}(f_{11}(1-f_{11}))$" />
+      content="$\delta_{11} = \delta \cdot w_{21}(f_{11}(1-f_{11}))$" />
     <VMarkdown
       v-if="steps >= BACKPROP_STEPS['DELTA_2']"
       class="backpropagation-backward__item"

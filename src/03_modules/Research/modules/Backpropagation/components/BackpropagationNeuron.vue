@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { BACKPROP_STEPS, BACKWARD_TAB_STEP } from '../models/constants';
+import { BACKPROP_STEPS } from '../models/constants';
 
 const props = withDefaults(
   defineProps<{
@@ -19,29 +19,24 @@ const active = computed(() => ({
   w13: [S.FORWARD_F11, S.WEIGHT_UPDATE_W13].includes(props.steps),
   w14: [S.FORWARD_F12, S.WEIGHT_UPDATE_W14].includes(props.steps),
 
-  w21: [S.OUTPUT, S.ERROR, S.GRADIENT, S.DELTA_1].includes(props.steps),
-  w22: [S.OUTPUT, S.ERROR, S.GRADIENT, S.DELTA_2].includes(props.steps),
+  w21: [S.OUTPUT, S.WEIGHT_UPDATE_W21, S.DELTA_1].includes(props.steps),
+  w22: [S.OUTPUT, S.WEIGHT_UPDATE_W22, S.DELTA_2].includes(props.steps),
 
-  output: [S.OUTPUT, S.ERROR, S.GRADIENT, S.DELTA_1, S.DELTA_2].includes(props.steps),
+  output: [S.OUTPUT, S.WEIGHT_UPDATE_W21, S.WEIGHT_UPDATE_W22].includes(props.steps),
+  gradient: [S.GRADIENT, S.DELTA_1, S.DELTA_2].includes(props.steps),
 
-  x1: [S.FORWARD_F11, S.FORWARD_F12, S.WEIGHT_UPDATE_W11, S.WEIGHT_UPDATE_W12].includes(props.steps),
+  x1: [S.FORWARD_F11, S.FORWARD_F12].includes(props.steps),
 
-  x2: [S.FORWARD_F11, S.FORWARD_F12, S.WEIGHT_UPDATE_W13, S.WEIGHT_UPDATE_W14].includes(props.steps),
+  x2: [S.FORWARD_F11, S.FORWARD_F12].includes(props.steps),
 
-  f11: [S.FORWARD_F11, S.OUTPUT, S.ERROR, S.GRADIENT, S.WEIGHT_UPDATE_W11, S.WEIGHT_UPDATE_W13, S.DELTA_1].includes(
-    props.steps,
-  ),
+  f11: [S.FORWARD_F11, S.OUTPUT, S.WEIGHT_UPDATE_W11, S.WEIGHT_UPDATE_W13, S.DELTA_1].includes(props.steps),
 
-  f12: [S.FORWARD_F12, S.OUTPUT, S.ERROR, S.GRADIENT, S.WEIGHT_UPDATE_W12, S.WEIGHT_UPDATE_W14, S.DELTA_2].includes(
-    props.steps,
-  ),
+  f12: [S.FORWARD_F12, S.OUTPUT, S.WEIGHT_UPDATE_W12, S.WEIGHT_UPDATE_W14, S.DELTA_2].includes(props.steps),
 }));
 
 const stroke = (state: boolean) => (state ? 'var(--destructive)' : 'var(--foreground)');
 
 const opacity = (state: boolean) => (state ? '1' : '0.4');
-
-const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
 </script>
 
 <template>
@@ -65,8 +60,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w11)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w11)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="150" y="90" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w11)" />
       <text x="165" y="101" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₁₁
@@ -81,8 +75,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w12)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w12)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="185" y="180" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w12)" />
       <text x="200" y="191" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₁₂
@@ -97,8 +90,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w13)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w13)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="185" y="120" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w13)" />
       <text x="200" y="131" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₁₃
@@ -113,8 +105,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w14)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w14)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="150" y="215" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w14)" />
       <text x="165" y="226" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₁₄
@@ -129,8 +120,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w21)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w21)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="335" y="125" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w21)" />
       <text x="350" y="137" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₂₁
@@ -145,8 +135,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         :stroke="stroke(active.w22)"
         stroke-width="1"
         :stroke-opacity="opacity(active.w22)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        marker-end="url(#arrow)" />
       <rect x="335" y="196" width="30" height="22" rx="4" fill="var(--background)" :stroke="stroke(active.w22)" />
       <text x="350" y="207" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="11">
         w₂₂
@@ -190,7 +179,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         stroke="var(--destructive)"
         stroke-width="2.5" />
       <circle cx="268" cy="100" r="26" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-      <text x="268" y="100" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+      <text x="268" y="60" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         {{ steps > BACKPROP_STEPS.DELTA_1 ? 'δ₁₁' : 'f₁₁' }}
       </text>
 
@@ -204,7 +193,7 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         stroke="var(--destructive)"
         stroke-width="2.5" />
       <circle cx="268" cy="220" r="26" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-      <text x="268" y="220" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+      <text x="268" y="180" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         {{ steps > BACKPROP_STEPS.DELTA_2 ? 'δ₁₂' : 'f₁₂' }}
       </text>
 
@@ -214,23 +203,24 @@ const isBackward = computed(() => props.steps >= BACKWARD_TAB_STEP);
         cy="175"
         r="42"
         fill="transparent"
-        :stroke="stroke(active.output)"
+        :stroke="stroke(active.output || active.gradient)"
         stroke-width="1"
-        :stroke-opacity="opacity(active.output)" />
+        :stroke-opacity="opacity(active.output || active.gradient)" />
       <circle cx="442" cy="175" r="34" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-
+      <text x="442" y="175" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+        {{ steps > BACKPROP_STEPS.GRADIENT ? 'δ' : '' }}
+      </text>
       <line
         x1="476"
         y1="175"
         x2="536"
         y2="175"
-        :stroke="stroke(active.output)"
+        stroke="var(--foreground)"
         stroke-width="1"
-        :stroke-opacity="opacity(active.output)"
-        :marker-start="isBackward ? 'url(#arrow-left)' : ''"
-        :marker-end="isBackward ? '' : 'url(#arrow)'" />
+        stroke-opacity="0.4"
+        marker-end="url(#arrow)" />
 
-      <text x="548" y="175" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+      <text x="505" y="160" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         y
       </text>
     </svg>
