@@ -7,7 +7,13 @@ import { VButton, VTable } from '@common/components';
 import { DeltaNeuron } from '../';
 import { DetailList, useTabs, useCompleteTab } from '../../../';
 
-import { createNeuronsColumns, createSamplesColumns, createWeightColumns } from '../composables/useDelta';
+import {
+  createEpsilonColumns,
+  createOutputsColumns,
+  createSamplesColumns,
+  createSumColumns,
+  createWeightColumns,
+} from '../composables/useDelta';
 import { useGetDeltaData } from '../composables/useGetDeltaData';
 import { useChangeWeight } from '../composables/useChangeWeight';
 
@@ -55,7 +61,9 @@ const handleChangeWeight = () => {
 
 const { completeTab } = useCompleteTab(pageId, 'training');
 
-const neuronsColumns = createNeuronsColumns(3);
+const outputsColumns = createOutputsColumns(3);
+const sumColumns = createSumColumns(3);
+const epsilonColumns = createEpsilonColumns(3);
 
 const detailsData = computed(() => [
   {
@@ -79,20 +87,20 @@ const detailsData = computed(() => [
     title: t('delta.shared.sumInput'),
     formula: '$S_i = \\sum_{j=1}^{15} w_{ij} x_j$',
     tableData: [data.value.s],
-    tableColumns: neuronsColumns,
+    tableColumns: sumColumns,
   },
   {
     id: 5,
     title: t('delta.shared.output'),
     formula: '$y_{ipred} = \\begin{cases} 1, & \\text{если } S_i \\geq 0\\\\ 0, & \\text{если } S_i < 0 \\end{cases}$',
     tableData: [data.value.y],
-    tableColumns: neuronsColumns,
+    tableColumns: outputsColumns,
   },
   {
     id: 6,
     title: t('delta.shared.epsilon'),
     tableData: [data.value.epsilon],
-    tableColumns: neuronsColumns,
+    tableColumns: epsilonColumns,
   },
 ]);
 

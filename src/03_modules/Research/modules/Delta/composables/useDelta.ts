@@ -58,6 +58,16 @@ export function createWeightColumns(length: number): ColumnDef<number[]>[] {
   ];
 }
 
+export function createEpsilonColumns(length: number): ColumnDef<number[]>[] {
+  return [
+    ...Array.from({ length }, (_, i) => ({
+      id: String(i + 1),
+      header: () => h('span', [h('span', 'ε'), h('sub', {}, i + 1)]),
+      accessorFn: (row: number[]) => row[i]?.toFixed(2),
+    })),
+  ];
+}
+
 export function useDelta() {
   const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   const x = ref(initialX);
