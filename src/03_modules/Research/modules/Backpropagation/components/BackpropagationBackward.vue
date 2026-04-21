@@ -24,14 +24,16 @@ watch(steps, async () => {
 
 <template>
   <div ref="containerRef" class="backpropagation-backward">
-    <div v-if="steps >= BACKPROP_STEPS['GRADIENT']" class="backpropagation-backward__item --gradient">
-      <div class="backpropagation-backward__gradient --title">{{ t('backpropagation.info.gradient') }}</div>
-      <VMarkdown class="backpropagation-backward__gradient --value" content="$\delta = \epsilon*y(1 - y)$" />
+    <div v-if="steps >= BACKPROP_STEPS['GRADIENT']" class="backpropagation-backward__item --group">
+      <div class="backpropagation-backward__group --title">{{ t('backpropagation.info.gradient') }}</div>
+      <VMarkdown class="backpropagation-backward__group --value" content="$\delta = \epsilon*y(1 - y)$" />
     </div>
-    <VMarkdown
-      v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W21']"
-      class="backpropagation-backward__item"
-      content="$w_{21} = w_{21} - \eta \cdot \delta \cdot f_{11}$" />
+    <div v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W21']" class="backpropagation-backward__item --group">
+      <div class="backpropagation-backward__group --title">Корректировка весовых коэффициентов:</div>
+      <VMarkdown
+        class="backpropagation-backward__group --value"
+        content="$w_{21} = w_{21} - \eta \cdot \delta \cdot f_{11}$" />
+    </div>
     <VMarkdown
       v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W22']"
       class="backpropagation-backward__item"
@@ -44,10 +46,13 @@ watch(steps, async () => {
       v-if="steps >= BACKPROP_STEPS['DELTA_2']"
       class="backpropagation-backward__item"
       content="$\delta_{12} = \delta*w_{22}(f_{12}(1-f_{12}))$" />
-    <VMarkdown
-      v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W11']"
-      class="backpropagation-backward__item"
-      content="$w_{11} = w_{11} - \eta \cdot \delta_{11} \cdot x_1$" />
+    <div v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W11']" class="backpropagation-backward__item --group">
+      <div class="backpropagation-backward__group --title">Корректировка весовых коэффициентов</div>
+      <VMarkdown
+        v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W11']"
+        class="backpropagation-backward__group --value"
+        content="$w_{11} = w_{11} - \eta \cdot \delta_{11} \cdot x_1$" />
+    </div>
     <VMarkdown
       v-if="steps >= BACKPROP_STEPS['WEIGHT_UPDATE_W12']"
       class="backpropagation-backward__item"
@@ -74,7 +79,7 @@ watch(steps, async () => {
   height: rem(148);
 
   &__item {
-    &.--gradient {
+    &.--group {
       display: flex;
       flex-direction: column;
       row-gap: rem(6);

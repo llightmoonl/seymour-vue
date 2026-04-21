@@ -28,6 +28,26 @@ export function createNeuronsColumns(length: number): ColumnDef<number[]>[] {
   ];
 }
 
+export function createOutputsColumns(length: number) {
+  return [
+    ...Array.from({ length }, (_, i) => ({
+      id: String(i),
+      header: () => h('span', [h('span', 'y'), h('sub', {}, i + 1)]),
+      accessorFn: (row: number[]) => row[i],
+    })),
+  ];
+}
+
+export function createSumColumns(length: number) {
+  return [
+    ...Array.from({ length }, (_, i) => ({
+      id: String(i),
+      header: () => h('span', [h('span', 'S'), h('sub', {}, i + 1)]),
+      accessorFn: (row: number[]) => row[i],
+    })),
+  ];
+}
+
 export function createWeightColumns(length: number): ColumnDef<number[]>[] {
   return [
     ...Array.from({ length }, (_, i) => ({

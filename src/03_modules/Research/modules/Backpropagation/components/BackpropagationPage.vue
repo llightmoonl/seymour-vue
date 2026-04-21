@@ -28,14 +28,18 @@ const detailsData = computed(() => [
 ]);
 
 const currentTab = ref('forward');
+const currentPass = ref('forward');
+
 const backpropagationStore = useBackpropagationStore();
 const { steps } = storeToRefs(backpropagationStore);
 
 watch(steps, (newSteps) => {
   if (newSteps >= BACKWARD_TAB_STEP) {
     currentTab.value = 'backward';
+    currentPass.value = 'backward';
   } else {
     currentTab.value = 'forward';
+    currentPass.value = 'forward';
   }
 });
 </script>
@@ -46,7 +50,12 @@ watch(steps, (newSteps) => {
       <h1 class="backpropagation__title">{{ $t('shared.algorithms.backpropagation') }}</h1>
       <div class="backpropagation__body">
         <div class="backpropagation__top">
-          <backpropagation-neuron :steps="steps" class="backpropagation__neuron" />
+          <div class="backpropagation__panel">
+            <div class="backpropagation__pass">
+              {{ currentPass === 'forward' ? 'Прямой проход' : 'Обратный проход' }}
+            </div>
+            <backpropagation-neuron :steps="steps" class="backpropagation__neuron" />
+          </div>
           <div class="backpropagation__info">
             <detail-list class="backpropagation__detail-list" :details="detailsData" direction="column" />
             <backpropagation-tabs class="backpropagation__tabs" v-model="currentTab" />
@@ -94,12 +103,22 @@ watch(steps, (newSteps) => {
     gap: rem(32);
   }
 
+  &__panel {
+    margin-top: rem(16);
+  }
+
+  &__pass {
+    font-size: rem(20);
+  }
+
   &__bottom {
     margin-top: rem(24);
   }
 
   &__tabs {
     margin-top: rem(16);
+    max-width: 330px;
+    width: 100%;
   }
 
   &__controllers {

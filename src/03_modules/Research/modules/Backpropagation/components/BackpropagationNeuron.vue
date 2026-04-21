@@ -41,7 +41,7 @@ const opacity = (state: boolean) => (state ? '1' : '0.4');
 
 <template>
   <div class="perceptron">
-    <svg width="560" height="320" viewBox="0 0 560 320">
+    <svg width="800" height="400" viewBox="0 0 560 320">
       <defs>
         <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
           <path d="M0,0 L0,6 L6,3 z" fill="var(--foreground)" opacity="0.5" />
@@ -207,7 +207,7 @@ const opacity = (state: boolean) => (state ? '1' : '0.4');
         stroke-width="1"
         :stroke-opacity="opacity(active.output || active.gradient)" />
       <circle cx="442" cy="175" r="34" fill="transparent" stroke="var(--foreground)" stroke-width="1.5" />
-      <text x="442" y="175" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
+      <text x="442" y="120" text-anchor="middle" dominant-baseline="middle" fill="var(--foreground)" font-size="15">
         {{ steps > BACKPROP_STEPS.GRADIENT ? 'δ' : '' }}
       </text>
       <line
