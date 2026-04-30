@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProjectsItemSkeleton } from '../';
+import ProjectsItemSkeleton from './ProjectsItemSkeleton.vue';
 </script>
 
 <template>

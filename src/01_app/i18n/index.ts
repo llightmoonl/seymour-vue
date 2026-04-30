@@ -17,6 +17,7 @@ const pluralRules = {
 const currentLanguage = import.meta.env.VITE_CURRENT_LANGUAGE;
 
 export const i18n = createI18n({
+  legacy: false,
   locale: currentLanguage,
   pluralRules: pluralRules,
   fallbackLocale: 'en',
