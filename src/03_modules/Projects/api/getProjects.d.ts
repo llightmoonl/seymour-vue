@@ -1,6 +1,6 @@
 import type { Pagination } from '@common/api/types';
 
-export interface ProjectsListData {
+export interface ProjectsData {
   id: string;
   title: string;
   type: number;
@@ -9,5 +9,5 @@ export interface ProjectsListData {
   updatedAt: string;
 }
 
-export type ProjectsList = Pagination<ProjectsListData>;
-export type ProjectsListResponse = Promise<ProjectsList>;
+export type Projects = Pagination<ProjectsData>;
+export type ProjectsResponse = Promise<Projects>;

@@ -7,9 +7,7 @@
   },
   "shared": {
     "created": "Created by",
-    "updated": "Updated by",
-    "hours": "{count} hour | {count} hours",
-    "ago": "ago",
+    "updated": "Updated by {time}",
     "show-more": "Show more",
     "cancel": "Cancel",
     "create": "Create",

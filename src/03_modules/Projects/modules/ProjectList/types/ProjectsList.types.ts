@@ -1,16 +1,5 @@
-export interface ProjectsListItem {
-  id: string;
-  title: string;
-  type: string;
-  url: string;
-  updatedAt: string;
-}
+import type { ProjectsListItem } from '../../../types/projects.types.ts';
 
 export interface ProjectsListProps {
   items: ProjectsListItem[];
-}
-
-export interface ProjectType {
-  key: string;
-  name: string;
 }

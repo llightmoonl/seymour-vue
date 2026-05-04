@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-import type { ProjectsListItem } from '../types/ProjectsList.types';
+import type { ProjectsListItem } from '../../../types/projects.types';
 import { timeAgo } from '@common/utils/timeAgo';
 
 defineProps<ProjectsListItem>();
@@ -13,7 +13,7 @@ const { locale } = useI18n();
     <a class="projects-item__link" :href="url">
       <div class="projects-item__information">
         <div class="projects-item__title">{{ title }}</div>
-        <div class="projects-item__type">{{ type }}</div>
+        <div class="projects-item__type">{{ $t(typeName) }}</div>
       </div>
       <div class="projects-item__time">
         {{ $t('shared.updated', { time: timeAgo(updatedAt, locale) }) }}

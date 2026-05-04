@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 
 import { useThemeStore } from '@modules/themes';
+import { PiniaColadaDevtools } from '@pinia/colada-devtools';
 
 const { initTheme } = useThemeStore();
 
@@ -13,4 +14,5 @@ onMounted(() => {
 
 <template>
   <RouterView />
+  <PiniaColadaDevtools />
 </template>

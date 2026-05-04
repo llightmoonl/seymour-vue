@@ -13,8 +13,8 @@ const DIVISIONS: DivisionsItem[] = [
   { amount: Number.POSITIVE_INFINITY, unit: 'year' },
 ];
 
-export const timeAgo = (date: string, locales: string = 'en') => {
-  const formatter = new Intl.RelativeTimeFormat(locales, {
+export const timeAgo = (date: string, locale: string = 'en') => {
+  const formatter = new Intl.RelativeTimeFormat(locale, {
     numeric: 'auto',
   });
 
