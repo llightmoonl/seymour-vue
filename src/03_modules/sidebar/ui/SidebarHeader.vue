@@ -29,7 +29,6 @@ const { expanded, toggleExpanded } = useSidebar();
     &-icon {
       width: rem(20);
       height: rem(20);
-      color: var(--text-tertiary);
     }
   }
 }

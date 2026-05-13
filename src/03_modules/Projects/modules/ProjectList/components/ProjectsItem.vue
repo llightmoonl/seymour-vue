@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import type { ProjectsListItem } from '../../../types/projects.types';
 import { timeAgo } from '@common/utils/timeAgo';
+// import VDropdown from '@common/components/VDropdown/VDropdown.vue';
 
 defineProps<ProjectsListItem>();
 const { locale } = useI18n();
@@ -11,27 +12,31 @@ const { locale } = useI18n();
 <template>
   <li class="projects-item">
     <a class="projects-item__link" :href="url">
-      <div class="projects-item__information">
+      <div class="projects-item__left">
         <div class="projects-item__title">{{ title }}</div>
-        <div class="projects-item__type">{{ $t(typeName) }}</div>
+        <div class="projects-item__meta">
+          {{ $t(typeName) }} · {{ $t('shared.updated', { time: timeAgo(updatedAt, locale) }) }}
+        </div>
       </div>
-      <div class="projects-item__time">
-        {{ $t('shared.updated', { time: timeAgo(updatedAt, locale) }) }}
-      </div>
+      <!--      <div class="project-item__right">-->
+      <!--        <v-dropdown></v-dropdown>-->
+      <!--      </div>-->
     </a>
   </li>
 </template>
 
 <style scoped lang="scss">
 .projects-item {
-  border-top: 1px solid var(--input);
+  &:not(:first-child) {
+    border-top: 1px solid var(--border);
+  }
 
   &:last-of-type {
-    border-bottom: 1px solid var(--input);
+    border-bottom: 1px solid var(--border);
   }
 
   @include hover() {
-    background-color: var(--surface-hover);
+    background-color: var(--accent);
     border-radius: rem(8);
     border-color: transparent;
 
@@ -49,24 +54,25 @@ const { locale } = useI18n();
   &__link {
     padding: rem(16) rem(8);
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
     flex-direction: column;
     row-gap: rem(4);
   }
 
   &__title {
+    font-size: rem(14);
     font-weight: 700;
   }
 
-  &__time {
-    font-size: rem(12);
-    font-weight: 300;
-  }
-
-  &__type {
-    font-size: rem(12);
-    border: 1px solid var(--input);
-    border-radius: rem(8);
-    padding: rem(0.5) rem(8);
+  &__meta {
+    font-size: rem(11);
+    color: var(--muted-foreground);
+    font-weight: 500;
   }
 }
 </style>

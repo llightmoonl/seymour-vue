@@ -23,11 +23,11 @@ defineProps<MenuItemProps>();
   font-weight: 300;
 
   @include hover {
-    background-color: var(--surface-hover);
+    background-color: var(--sidebar-accent);
   }
 
   &.router-link-exact-active {
-    background-color: var(--surface-active);
+    background-color: var(--sidebar-accent);
   }
 
   & .content {

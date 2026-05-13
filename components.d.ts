@@ -24,6 +24,7 @@ declare module 'vue' {
     ICustomArrowLeft: typeof import('~icons/custom/arrow-left')['default']
     ICustomArrowRight: typeof import('~icons/custom/arrow-right')['default']
     ICustomCheck: typeof import('~icons/custom/check')['default']
+    ICustomEllipsis: typeof import('~icons/custom/ellipsis')['default']
     ICustomLogo: typeof import('~icons/custom/logo')['default']
     ICustomMinus: typeof import('~icons/custom/minus')['default']
     ICustomPanelLeft: typeof import('~icons/custom/panel-left')['default']

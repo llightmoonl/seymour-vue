@@ -49,29 +49,36 @@ watch(
 </script>
 
 <template>
-  <VContainer size="lg">
-    <div class="wrapper">
-      <h1>Правило Хебба: классификация цифр по четности/нечетности</h1>
-      <p class="text">
-        Пояснение к задаче: Обучить персептрон по правилу Хебба: настроить синаптические веса
-        <v-markdown class="markdown" content="$w_j$" />
-        так, чтобы на входе с чётным числом нейрон выдавал 0, на нечётном — 1.
-      </p>
-      <VTabs :items="tabsPages" v-model="activeTab" />
-    </div>
-  </VContainer>
+  <div class="hebbian">
+    <v-container class="hebbian__container" size="lg">
+      <div class="hebbian__content">
+        <h1 class="hebbian__title">Правило Хебба: классификация цифр по четности/нечетности</h1>
+        <p class="hebbian__subtitle">
+          <v-markdown
+            class="markdown"
+            :content="`Пояснение к задаче: Обучить персептрон по правилу Хебба: настроить синаптические веса $w_j$ так, чтобы на входе счётным числом нейрон выдавал 0, на нечётном — 1.`" />
+        </p>
+        <v-tabs class="hebbian__tabs" :items="tabsPages" v-model="activeTab" />
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.wrapper {
+.hebbian {
   margin-top: rem(32);
   margin-bottom: rem(32);
 
-  & .text {
+  &__subtitle {
     margin-top: rem(8);
+
+    &:deep(.markdown p) {
+      margin-top: 0;
+    }
   }
-  & .markdown {
-    display: inline;
+
+  &__tabs {
+    margin-top: rem(24);
   }
 }
 </style>

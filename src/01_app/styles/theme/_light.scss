@@ -2,18 +2,60 @@
   :root {
     --background: var(--white-900);
     --foreground: var(--black-700);
-    --destructive: oklch(55.3% 0.197 29.5);
 
-    --color-black: var(--black-900);
-    --color-white: var(--white-900);
+    --popover: var(--white-900);
+    --popover-foreground: var(--black-700);
+
+    --primary: var(--black-900);
+    --primary-foreground: var(--white-900);
+
+    --secondary: var(--black-alpha-50);
+    --secondary-foreground: var(--black-900);
+
+    --muted: var(--gray-600);
+    --muted-foreground: var(--gray-500);
+    --accent: var(--black-alpha-50);
+    --destructive: var(--red-500);
+
+    --border: var(--black-alpha-200);
+    --input: var(--black-alpha-100);
+    --ring: color-mix(in oklch, var(--primary) 15%, transparent);
+
+    --sidebar: var(--gray-100);
+    --sidebar-foreground: var(--black-700);
+    --sidebar-accent: var(--black-alpha-100);
+    --sidebar-border: var(--black-alpha-50);
+
+    --overlay: color-mix(in srgb, var(--black-900) 50%, transparent);
   }
 }
 
 :root.light {
   --background: var(--white-900);
   --foreground: var(--black-700);
-  --destructive: oklch(55.3% 0.197 29.5);
 
-  --color-black: var(--black-900);
-  --color-white: var(--white-900);
+  --popover: var(--white-900);
+  --popover-foreground: var(--black-700);
+
+  --primary: var(--black-900);
+  --primary-foreground: var(--white-900);
+
+  --secondary: var(--black-alpha-50);
+  --secondary-foreground: var(--black-900);
+
+  --muted: var(--gray-600);
+  --muted-foreground: var(--gray-500);
+  --accent: var(--black-alpha-50);
+  --destructive: var(--red-500);
+
+  --border: var(--black-alpha-200);
+  --input: var(--black-alpha-100);
+  --ring: color-mix(in oklch, var(--primary) 15%, transparent);
+
+  --sidebar: var(--gray-100);
+  --sidebar-foreground: var(--black-700);
+  --sidebar-accent: var(--black-alpha-100);
+  --sidebar-border: var(--black-alpha-50);
+
+  --overlay: color-mix(in srgb, var(--black-900) 50%, transparent);
 }

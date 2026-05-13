@@ -3,37 +3,27 @@ import { computed } from 'vue';
 import { DetailBlock } from '../';
 import type { DetailListProps } from '../DetailList';
 
-const props = defineProps<DetailListProps>();
-const directionObject = computed(() => (props.direction ? `detail-list__${props.direction}` : 'detail-list__row'));
+const props = withDefaults(defineProps<DetailListProps>(), {
+  direction: 'row',
+});
+
+const modifiers = computed(() => [props.direction && `--${props.direction}`]);
 </script>
 
 <template>
-  <div class="detail-list" :class="directionObject">
-    <DetailBlock
-      v-for="detail in details"
-      :key="detail.id"
-      :id="detail.id"
-      :formula="detail.formula"
-      :marker="detail.marker"
-      :title="detail.title"
-      :value="detail.value"
-      :table-data="detail.tableData"
-      :table-columns="detail.tableColumns" />
+  <div class="detail-list" :class="modifiers">
+    <DetailBlock v-for="detail in details" :key="detail.id" v-bind="detail" />
   </div>
 </template>
 
 <style scoped lang="scss">
 .detail-list {
-  display: flex;
-  row-gap: rem(32);
-  flex-wrap: wrap;
+  display: grid;
+  gap: rem(32) rem(16);
+  grid-template-columns: repeat(4, 1fr);
 
-  &__column {
-    flex-direction: column;
-
-    & .detail-block {
-      flex: 0;
-    }
+  &.--column {
+    grid-template-columns: 1fr;
   }
 }
 </style>

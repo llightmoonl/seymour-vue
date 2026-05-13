@@ -2,15 +2,24 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ProjectCreateModal, ProjectsList } from '@modules/Projects';
-import { VButton, VContainer, VSearchInput } from '@common/components';
+import { VButton, VContainer, VSearchInput, VTabs } from '@common/components';
 
 import { useProjects } from '../composables/useProjects';
 import ProjectsListSkeleton from '../modules/ProjectList/components/ProjectsListSkeleton.vue';
+import { ButtonVariants } from '@common/components/VButton/VButton.types.ts';
 
 const { t } = useI18n();
 const search = ref('');
+const activeTab = ref<string>('all');
 
-const { projects, isLoading, isPending, loadNextPage, hasNextPage } = useProjects(search);
+const { projects, isLoading, isPending, loadNextPage, hasNextPage } = useProjects(search, activeTab);
+
+const ALL_TABS = [
+  { id: 1, title: 'Все', value: 'all' },
+  { id: 2, title: 'Правило Хебба', value: 'hebbian' },
+  { id: 3, title: 'Дельта-правило', value: 'delta' },
+  { id: 4, title: 'Обратное распространение', value: 'backpropagation' },
+];
 </script>
 
 <template>
@@ -18,24 +27,30 @@ const { projects, isLoading, isPending, loadNextPage, hasNextPage } = useProject
     <VContainer size="md">
       <header class="projects__header">
         <div class="projects__header-top">
-          <h2 class="projects__title">{{ $t('research.title') }}</h2>
+          <h1 class="projects__title">{{ $t('research.title') }}</h1>
           <project-create-modal />
         </div>
         <div class="projects__header-bottom">
-          <form>
+          <form class="projects__search">
             <v-search-input
-              variant="subtle"
-              size="lg"
+              variant="soft"
+              size="xl"
               name="search"
               v-model="search"
               :placeholder="t('research.search')" />
           </form>
+          <VTabs class="projects__tabs" variant="chips" :items="ALL_TABS" v-model="activeTab" />
         </div>
       </header>
       <div class="projects__body">
         <projects-list-skeleton v-if="isLoading || isPending" />
         <projects-list v-else :items="projects" />
-        <v-button v-if="hasNextPage" class="projects__more" variant="outline" size="md" @click="loadNextPage">
+        <v-button
+          v-if="hasNextPage"
+          class="projects__more"
+          :variant="ButtonVariants.SOFT"
+          size="md"
+          @click="loadNextPage">
           {{ $t('shared.show-more') }}
         </v-button>
       </div>
@@ -46,10 +61,14 @@ const { projects, isLoading, isPending, loadNextPage, hasNextPage } = useProject
 <style scoped lang="scss">
 .projects {
   &__header {
-    margin-top: rem(64);
+    padding-top: rem(64);
+    padding-bottom: rem(8);
     display: flex;
     flex-direction: column;
     row-gap: rem(16);
+    position: sticky;
+    top: 0;
+    background-color: var(--background);
 
     &-top {
       display: flex;
@@ -59,10 +78,11 @@ const { projects, isLoading, isPending, loadNextPage, hasNextPage } = useProject
   }
 
   &__body {
-    margin-top: rem(32);
-    overflow-y: auto;
-    height: calc(100vh - 224px);
-    padding-bottom: rem(64);
+    padding-bottom: rem(32);
+  }
+
+  &__tabs {
+    margin-top: rem(16);
   }
 
   &__more {

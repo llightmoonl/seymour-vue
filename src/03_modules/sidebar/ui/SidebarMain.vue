@@ -27,12 +27,13 @@ const { expanded } = useSidebar();
     max-width 0.2s ease,
     background-color 0.3s linear;
   padding-inline: rem(8);
-  border-right: 1px solid var(--border-light);
+  border-right: 1px solid var(--sidebar-border);
+  color: var(--sidebar-foreground);
 
   &.expanded {
     max-width: rem(260);
     padding-inline: rem(10);
-    background-color: var(--sidebar-bg-primary);
+    background-color: var(--sidebar);
     transition:
       max-width 0.2s ease,
       background-color 0.3s linear;

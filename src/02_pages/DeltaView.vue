@@ -54,30 +54,37 @@ watch(
 </script>
 
 <template>
-  <VContainer size="lg">
-    <div class="wrapper">
-      <h1>Дельта-правило: распознавание печатных букв</h1>
-      <p class="text">
-        Пояснение к задаче: Обучить сеть по дельта-правилу: настроить синаптические веса
-        <v-markdown class="markdown" content="$w_j$" />
-        так, чтобы нейрон корректно распознавал печатные буквы, минимизируя ошибку между желаемым и фактическим выходным
-        сигналом.
-      </p>
-      <VTabs :items="tabsPages" v-model="activeTab" />
-    </div>
-  </VContainer>
+  <div class="delta">
+    <v-container size="lg" class="delta__container">
+      <div class="delta__content">
+        <h1 class="delta__title">Дельта-правило: распознавание печатных букв</h1>
+        <p class="delta__subtitle">
+          <v-markdown
+            class="markdown"
+            :content="`Пояснение к задаче: Обучить сеть по дельта-правилу: настроить синаптические веса $w_j$, так, чтобы нейрон корректно распознавал печатные буквы, минимизируя ошибку между желаемым и фактическим выходным
+        сигналом.`" />
+        </p>
+        <v-tabs class="delta__tabs" :items="tabsPages" v-model="activeTab" />
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.wrapper {
+.delta {
   margin-top: rem(32);
   margin-bottom: rem(32);
 
-  & .text {
+  &__subtitle {
     margin-top: rem(8);
+
+    &:deep(.markdown p) {
+      margin-top: 0;
+    }
   }
-  & .markdown {
-    display: inline;
+
+  &__tabs {
+    margin-top: rem(24);
   }
 }
 </style>

@@ -83,6 +83,14 @@ watch(steps, async () => {
       display: flex;
       flex-direction: column;
       row-gap: rem(6);
+
+      &:deep(p) {
+        margin-top: 0;
+      }
+    }
+
+    &:deep(p) {
+      margin-top: 0;
     }
   }
 }

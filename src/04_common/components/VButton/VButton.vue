@@ -5,28 +5,28 @@ import { computed } from 'vue';
 import { VSpinner } from '@common/components';
 
 // types
-import type { ButtonProps } from './VButton';
+import { type ButtonProps, ButtonSizes, ButtonTypes, ButtonVariants, ButtonColors } from './VButton.types';
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'button',
-  variant: 'solid',
-  color: 'primary',
-  size: 'md',
+  type: ButtonTypes.BUTTON,
+  variant: ButtonVariants.SOLID,
+  color: ButtonColors.PRIMARY,
+  size: ButtonSizes.MD,
+  iconOnly: false,
   isLoading: false,
   disabled: false,
 });
 
-const variantsObject = computed(() => (props.variant ? `button__${props.variant}` : 'button__outline'));
-const colorsObject = computed(() => (props.color ? `button__${props.color}` : 'button__primary'));
-const sizesObject = computed(() => (props.size ? `button__${props.size}` : 'button__md'));
+const modifiers = computed(() => [
+  props.variant && `--${props.variant}`,
+  props.color && `--${props.color}`,
+  props.size && `--${props.size}`,
+  props.iconOnly && `--icon`,
+]);
 </script>
 
 <template>
-  <button
-    class="button"
-    :disabled="disabled"
-    :type="type"
-    :class="[variantsObject, colorsObject, sizesObject]">
+  <button class="button" :disabled="disabled || isLoading" :type="type" :class="modifiers">
     <VSpinner v-if="isLoading" />
     <slot v-else>{{ $t('ui.button.default') }}</slot>
   </button>
@@ -34,21 +34,27 @@ const sizesObject = computed(() => (props.size ? `button__${props.size}` : 'butt
 
 <style scoped lang="scss">
 .button {
-  --btn-bg: var(--primary);
-  --btn-color: var(--primary-foreground);
-  --btn-padding: #{rem(9)} #{rem(12)};
-  --btn-border-color: transparent;
-  --btn-font-size: #{rem(16)};
+  --bg: var(--primary);
+  --color: var(--primary-foreground);
+  --padding: #{rem(6)} #{rem(10)};
+  --border-color: transparent;
+  --font-size: #{rem(13)};
+  --line-height: #{rem(20)};
 
-  background-color: var(--btn-bg);
-  color: var(--btn-color);
-  padding: var(--btn-padding);
-  font-size: var(--btn-font-size);
-  box-shadow: inset 0 0 0 1px var(--btn-border-color);
+  background-color: var(--bg);
+  color: var(--color);
+  padding: var(--padding);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  box-shadow: inset 0 0 0 1px var(--border-color);
   border: none;
   border-radius: #{rem(8)};
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    filter 0.2s ease;
 
   @include hover {
     filter: brightness(80%);
@@ -60,23 +66,23 @@ const sizesObject = computed(() => (props.size ? `button__${props.size}` : 'butt
   }
 
   :deep(svg) {
-    font-size: var(--btn-font-size);
+    font-size: var(--font-size);
   }
 
-  &__soft {
-    --btn-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-    --btn-color: var(--primary);
+  &.--soft {
+    --bg: color-mix(in srgb, var(--primary) 5%, transparent);
+    --color: var(--primary);
 
     @include hover {
       filter: initial;
-      --btn-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      --bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__outline {
-    --btn-bg: transparent;
-    --btn-color: var(--primary);
-    --btn-border-color: var(--ring);
+  &.--outline {
+    --bg: transparent;
+    --color: var(--primary);
+    --border-color: var(--border);
 
     @include hover {
       filter: initial;
@@ -84,87 +90,77 @@ const sizesObject = computed(() => (props.size ? `button__${props.size}` : 'butt
     }
   }
 
-  &__subtle {
-    --btn-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-    --btn-color: var(--primary);
-    --btn-border-color: var(--ring);
+  &.--subtle {
+    --bg: color-mix(in srgb, var(--primary) 5%, transparent);
+    --color: var(--primary);
+    --border-color: var(--border);
 
     @include hover {
       filter: initial;
-      --btn-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      --bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__ghost {
-    --btn-bg: transparent;
-    --btn-color: var(--primary);
+  &.--ghost {
+    --bg: transparent;
+    --color: var(--primary);
 
     @include hover {
       filter: initial;
-      --btn-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+      --bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__link {
-    --btn-bg: transparent;
-    --btn-color: var(--muted);
+  &.--link {
+    --bg: transparent;
+    --color: var(--muted-foreground);
 
     @include hover {
-      --btn-color: var(--foreground);
+      --color: var(--foreground);
     }
   }
 
-  &__secondary {
-    --btn-bg: var(--secondary);
+  &.--secondary {
+    --bg: var(--secondary);
   }
 
-  &__neutral {
-    --btn-bg: var(--neutral);
+  &.--destructive {
+    --bg: var(--destructive);
+    --color: var(--foreground);
   }
 
-  &__destructive {
-    --btn-bg: var(--destructive);
-    --btn-color: var(--foreground);
+  &.--xs {
+    --padding: #{rem(2)} #{rem(8)};
   }
 
-  &__xs {
-    --btn-padding: #{rem(4)} #{rem(8)};
-    --btn-font-size: #{rem(13)};
+  &.--sm {
+    --padding: #{rem(4)} #{rem(12)};
   }
 
-  &__sm {
-    --btn-padding: #{rem(6)} #{rem(10)};
-    --btn-font-size: #{rem(13)};
+  &.--lg {
+    --padding: #{rem(8)} #{rem(14)};
   }
 
-  &__md {
-    --btn-padding: #{rem(7.2)} #{rem(12)};
-    --btn-font-size: #{rem(14)};
+  &.--xl {
+    --padding: #{rem(10)} #{rem(16)};
   }
 
-  &__lg {
-    --btn-padding: #{rem(7.6)} #{rem(14)};
-    --btn-font-size: #{rem(16)};
-  }
+  &.--icon {
+    --font-size: #{rem(16)};
 
-  &__icon-xs {
-    --btn-padding: #{rem(4)};
-    --btn-font-size: #{rem(16)};
-  }
-
-  &__icon-sm {
-    --btn-padding: #{rem(6)};
-    --btn-font-size: #{rem(16)};
-  }
-
-  &__icon-md {
-    --btn-padding: #{rem(7.2)};
-    --btn-font-size: #{rem(17.6)};
-  }
-
-  &__icon-lg {
-    --btn-padding: #{rem(10)};
-    --btn-font-size: #{rem(16)};
+    &.--xs {
+      --padding: #{rem(4)};
+    }
+    &.--sm {
+      --padding: #{rem(6)};
+    }
+    &.--md {
+      --padding: #{rem(7.2)};
+      --font-size: #{rem(17.6)};
+    }
+    &.--lg {
+      --padding: #{rem(10)};
+    }
   }
 
   &[disabled] {

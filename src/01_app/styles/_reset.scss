@@ -1,3 +1,5 @@
+@use '@common/styles/helpers' as *;
+
 *,
 *::before,
 *::after {
@@ -11,7 +13,7 @@
 
 body {
   margin: 0 auto;
-  font-family: 'Geologica', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: 400;
   min-width: 360px;
   background-color: var(--background);
@@ -23,7 +25,9 @@ body {
 }
 
 :where(h1, h2, h3, h4, h5, h6) {
-  font-family: 'PlayfairDisplay', sans-serif;
+  font-family: 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 ul {

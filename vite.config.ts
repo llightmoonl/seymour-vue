@@ -12,6 +12,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
+  assetsInclude: ['**/*.md'],
   plugins: [
     vue(),
     vueDevTools(),

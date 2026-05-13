@@ -18,7 +18,7 @@ const activeTab = defineModel<number | string | undefined>();
 
 <style scoped lang="scss">
 .backpropagation__tabs {
-  border: 1px solid var(--ring);
+  border: 1px solid var(--border);
   border-radius: rem(12);
   padding: rem(8);
 

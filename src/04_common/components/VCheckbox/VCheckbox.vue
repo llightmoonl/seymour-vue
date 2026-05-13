@@ -8,14 +8,18 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
   size: 'md',
 });
 
-defineEmits<CheckboxEmits>()
+defineEmits<CheckboxEmits>();
 
 const colorsObject = computed(() => (props.color ? `checkbox__${props.color}` : 'checkbox__primary'));
 const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'checkbox__md'));
 </script>
 
 <template>
-  <CheckboxRoot class="checkbox" :class="[colorsObject, sizesObject]" :model-value="props.modelValue" @update:model-value="$emit('update:modelValue', $event)">
+  <CheckboxRoot
+    class="checkbox"
+    :class="[colorsObject, sizesObject]"
+    :model-value="props.modelValue"
+    @update:model-value="$emit('update:modelValue', $event)">
     <CheckboxIndicator class="checkbox__indicator">
       <i-custom-minus v-if="props.modelValue === 'indeterminate'" class="checkbox-icon" />
       <i-custom-check v-else class="checkbox-icon" />
@@ -30,7 +34,7 @@ const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'ch
   --icon-size: #{rem(14)};
 
   background-color: color-mix(in srgb, var(--input) 30%, transparent);
-  border: 1px solid var(--ring);
+  border: 1px solid var(--border);
   border-radius: rem(4);
   width: var(--size);
   height: var(--size);

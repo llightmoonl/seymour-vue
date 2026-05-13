@@ -141,7 +141,8 @@ const handleCompleteData = () => {
           v-if="!data.isTrained"
           @click="handleChangeWeight"
           :disabled="changeWeightAsyncStatus === 'loading'"
-          size="icon-md">
+          size="md"
+          icon-only>
           <i-custom-play></i-custom-play>
         </VButton>
       </div>

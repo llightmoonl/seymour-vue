@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useProjectCreate } from '../models/useProjectCreate';
 import { VButton, VFormField, VInput, VModal, VSelect } from '@common/components';
+import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types.ts';
 
 const { t } = useI18n();
 
@@ -25,14 +26,14 @@ const { createProject, asyncStatus } = useProjectCreate(inputTitle, selectedAlgo
 </script>
 
 <template>
-  <v-modal class="research-create" :title="t('research.createModal.title')">
-    <v-button class="research-create__trigger" variant="solid" size="md">
-      <i-custom-plus class="research-create__icon-plus"></i-custom-plus>
+  <v-modal class="project-create" :title="t('research.createModal.title')">
+    <v-button class="project-create__trigger" :variant="ButtonVariants.SOLID" :size="ButtonSizes.MD">
+      <i-custom-plus class="project-create__icon-plus"></i-custom-plus>
       {{ $t('research.create') }}
     </v-button>
 
     <template #content>
-      <form class="research-create__form">
+      <form class="project-create__form">
         <VFormField :title="t('research.createModal.inputs.name.title')" required>
           <v-input
             v-model="inputTitle"
@@ -51,7 +52,7 @@ const { createProject, asyncStatus } = useProjectCreate(inputTitle, selectedAlgo
     </template>
 
     <template #footer="{ close }">
-      <div class="research-create__footer">
+      <div class="project-create__footer">
         <v-button variant="subtle" @click="close">{{ $t('shared.cancel') }}</v-button>
         <v-button @click="createProject" :is-loading="asyncStatus === 'loading'" :disabled="asyncStatus === 'loading'">
           {{ $t('shared.create') }}
@@ -62,7 +63,7 @@ const { createProject, asyncStatus } = useProjectCreate(inputTitle, selectedAlgo
 </template>
 
 <style scoped lang="scss">
-.research-create {
+.project-create {
   &__trigger {
     display: flex;
     align-items: center;
@@ -70,8 +71,8 @@ const { createProject, asyncStatus } = useProjectCreate(inputTitle, selectedAlgo
   }
 
   &__icon-plus {
-    width: rem(20);
-    height: rem(20);
+    width: rem(16);
+    height: rem(16);
   }
 
   &__form {

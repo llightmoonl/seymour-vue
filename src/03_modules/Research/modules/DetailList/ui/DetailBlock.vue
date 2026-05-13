@@ -7,11 +7,9 @@ defineProps<DetailListItem>();
 
 <template>
   <div class="detail-block">
-    <header class="header">
-      <p v-if="title" class="title">{{ title }}</p>
-    </header>
+    <p v-if="title" class="detail-block__title">{{ title }}</p>
 
-    <div class="value">
+    <div class="detail-block__value">
       <span v-if="marker">{{ marker }} =</span>
 
       <span v-if="formula">
@@ -20,7 +18,7 @@ defineProps<DetailListItem>();
       <span>{{ value }}</span>
     </div>
 
-    <VTable class="table" v-if="tableData && tableColumns" :data="tableData" :columns="tableColumns" />
+    <v-table class="detail-block__table" v-if="tableData && tableColumns" :data="tableData" :columns="tableColumns" />
   </div>
 </template>
 
@@ -29,30 +27,27 @@ defineProps<DetailListItem>();
   display: flex;
   flex-direction: column;
   row-gap: rem(6);
-  flex: 0 0 calc(100% / 4);
 
-  & .header {
-    display: flex;
-    column-gap: rem(8);
-    justify-content: space-between;
-  }
-
-  & .title {
+  &__title {
     font-size: rem(20);
     font-weight: 700;
   }
 
-  & .value {
+  &__value {
     font-size: rem(18);
     display: flex;
     align-items: center;
+
+    &:deep(.markdown p) {
+      margin: 0;
+    }
   }
 
-  & .table {
+  &__table {
     margin-top: rem(4);
     width: fit-content;
 
-    &::deep(.column) {
+    &:deep(.column) {
       width: rem(100);
     }
   }

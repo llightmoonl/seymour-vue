@@ -24,7 +24,7 @@ const sizesObject = computed(() => (props.size ? `form-field__${props.size}` : '
   row-gap: rem(4);
 
   &__required {
-    color: var(--destructive, oklch(55.3% 0.197 29.5));
+    color: var(--destructive);
   }
 
   &-label {

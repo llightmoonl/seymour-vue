@@ -28,5 +28,3 @@ const debouncedInput = debounce(updateInput, 1000);
     :inputmode="inputmode"
     :id="name" />
 </template>
-
-<style scoped lang="scss"></style>

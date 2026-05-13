@@ -78,16 +78,16 @@ watch(
 <style scoped lang="scss">
 .table-container {
   border-radius: rem(4);
-  border: 1px solid var(--ring);
+  border: 1px solid var(--border);
   overflow: clip;
 }
 
 .table {
   .row {
-    border-bottom: 1px solid var(--ring);
+    border-bottom: 1px solid var(--border);
 
     @include hover {
-      background: color-mix(in srgb, var(--muted) 15%, transparent);
+      background: var(--accent);
     }
 
     &:last-child {
@@ -95,7 +95,7 @@ watch(
     }
 
     & th {
-      border-bottom: 1px solid var(--ring);
+      border-bottom: 1px solid var(--border);
     }
   }
 

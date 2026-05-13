@@ -26,7 +26,7 @@ defineProps<TooltipBaseProps>();
 }
 
 :deep(.content) {
-  background-color: var(--surface-hover);
+  background-color: var(--accent);
   padding: rem(3) rem(8);
   border-radius: rem(4);
 }

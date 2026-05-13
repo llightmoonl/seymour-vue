@@ -13,10 +13,10 @@ import { VSkeleton } from '@common/components';
 
 <style scoped lang="scss">
 .projects-item {
-  border-top: 1px solid var(--input);
+  border-top: 1px solid var(--border);
 
   &:last-of-type {
-    border-bottom: 1px solid var(--input);
+    border-bottom: 1px solid var(--border);
   }
 
   &__main {

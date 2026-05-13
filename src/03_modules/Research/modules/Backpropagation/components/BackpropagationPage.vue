@@ -69,19 +69,21 @@ watch(steps, (newSteps) => {
             <div class="backpropagation__player">
               <v-button
                 :disabled="steps <= 0"
-                size="icon-md"
+                size="md"
                 variant="link"
-                @click="backpropagationStore.decrementSteps()">
+                @click="backpropagationStore.decrementSteps()"
+                icon-only>
                 <i-custom-step-back></i-custom-step-back>
               </v-button>
-              <v-button size="icon-md">
+              <v-button size="md" icon-only>
                 <i-custom-play></i-custom-play>
               </v-button>
               <v-button
                 :disabled="steps >= LAST_STEP"
-                size="icon-md"
+                size="md"
                 variant="link"
-                @click="backpropagationStore.incrementSteps()">
+                @click="backpropagationStore.incrementSteps()"
+                icon-only>
                 <i-custom-step-forward></i-custom-step-forward>
               </v-button>
             </div>

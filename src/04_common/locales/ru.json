@@ -14,7 +14,7 @@
     "algorithms": {
       "hebbian": "Правило Хебба",
       "delta": "Дельта-правило",
-      "backpropagation": "Алгоритм обратного распространения ошибки"
+      "backpropagation": "Обратное распространение"
     }
   },
   "sidebar": {
@@ -37,7 +37,7 @@
     "search": "Поиск ваших проектов...",
     "create": "Новый проект",
     "createModal": {
-      "title": "Создать новый проект",
+      "title": "Новый проект",
       "inputs": {
         "name": {
           "title": "Название проекта",
@@ -102,9 +102,9 @@
       "epsilon": "Ошибка ε"
     },
     "tabs": {
-      "dataGeneration": "Формирование данных",
+      "dataGeneration": "Формирование обучающей выборки",
       "training": "Обучение",
-      "qualityAssessment": "Оценка качества",
+      "qualityAssessment": "Оценка качества на обучающей выборки",
       "recognition": "Распознавание"
     },
     "training": {

@@ -39,6 +39,7 @@ const { steps } = storeToRefs(backpropagationStore);
   display: flex;
   flex-direction: column;
   row-gap: rem(8);
+  overflow-y: auto;
   height: rem(148);
 
   &__item {
@@ -46,6 +47,10 @@ const { steps } = storeToRefs(backpropagationStore);
       display: flex;
       flex-direction: column;
       row-gap: rem(4);
+    }
+
+    &:deep(p) {
+      margin-top: 0;
     }
   }
 

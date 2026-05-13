@@ -20,6 +20,10 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       },
       {
         path: '/docs',
+        redirect: '/docs/hebbian',
+      },
+      {
+        path: '/docs/:slug',
         component: DocsView,
       },
       {

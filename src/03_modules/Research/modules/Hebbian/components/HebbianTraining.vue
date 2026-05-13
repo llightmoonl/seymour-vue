@@ -123,7 +123,8 @@ const handleCompleteData = () => {
           v-if="!data.isTrained"
           @click="handleChangeWeight"
           :disabled="changeWeightAsyncStatus === 'loading'"
-          size="icon-md">
+          size="md"
+          icon-only>
           <i-custom-play></i-custom-play>
         </v-button>
       </div>
@@ -199,6 +200,10 @@ const handleCompleteData = () => {
     width: fit-content;
     padding: rem(6) rem(12);
     margin: 0 auto;
+
+    &:deep(.markdown p) {
+      margin: 0;
+    }
   }
 }
 </style>

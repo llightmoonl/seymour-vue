@@ -46,16 +46,16 @@ defineProps<ModalProps>();
 <style scoped lang="scss">
 .modal {
   &__overlay {
-    background-color: color-mix(in srgb, var(--color-black) 60%, transparent);
+    background-color: var(--overlay);
     position: fixed;
     inset: 0;
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &__content {
-    border: 1px solid var(--ring);
-    background-color: var(--background);
-    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--popover);
+    border-radius: rem(6);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -63,7 +63,7 @@ defineProps<ModalProps>();
     width: 90vw;
     max-width: 450px;
     max-height: 85vh;
-    padding: 25px;
+    padding: rem(25);
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
     &:focus {
@@ -79,9 +79,9 @@ defineProps<ModalProps>();
   }
 
   &__description {
-    margin: 10px 0 20px;
+    margin: rem(10) 0 rem(20);
     color: var(--foreground);
-    font-size: 15px;
+    font-size: rem(15);
     line-height: 1.5;
   }
 

@@ -57,10 +57,10 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
 <style scoped lang="scss">
 .select {
   $item: &;
-  --select-bg: var(--primary);
-  --select-color: var(--primary-foreground);
+  --select-bg: var(--background);
+  --select-color: var(--foreground);
+  --select-border-color: var(--input);
   --select-padding: #{rem(9)} #{rem(12)};
-  --select-border-color: var(--ring);
   --select-font-size: #{rem(16)};
   --select-size-icon: #{rem(24)};
 
@@ -99,7 +99,7 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   }
 
   &__item {
-    color: var(--foreground);
+    color: var(--popover-foreground);
     padding: var(--select-padding);
     font-size: var(--select-font-size);
     line-height: rem(24);
@@ -109,8 +109,8 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     @include hover {
       outline: none;
       cursor: pointer;
-      background-color: var(--foreground);
-      color: var(--background);
+      background-color: var(--popover-foreground);
+      color: var(--popover);
     }
 
     &:focus,
@@ -134,7 +134,7 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   }
 
   &__error {
-    color: var(--tg-theme-destructive-text-color, #ec3942);
+    color: var(--destructive);
     font-weight: 600;
     font-size: rem(13);
     margin-inline: rem(12);
@@ -144,32 +144,32 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   &__outline {
     & #{$item}__trigger {
       --select-bg: transparent;
-      --select-color: var(--primary);
-      --select-border-color: var(--ring);
+      --select-color: var(--popover-foreground);
+      --select-border-color: var(--input);
     }
   }
 
   &__soft {
     & #{$item}__trigger {
-      --select-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-      --select-color: var(--primary);
+      --select-bg: color-mix(in srgb, var(--popover-foreground) 5%, transparent);
+      --select-color: var(--popover-foreground);
 
       @include hover {
         filter: initial;
-        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+        --select-bg: color-mix(in srgb, var(--popover-foreground) 10%, transparent);
       }
     }
   }
 
   &__subtle {
     & #{$item}__trigger {
-      --select-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-      --select-color: var(--primary);
-      --select-border-color: var(--ring);
+      --select-bg: color-mix(in srgb, var(--popover-foreground) 5%, transparent);
+      --select-color: var(--popover-foreground);
+      --select-border-color: var(--border);
 
       @include hover {
         filter: initial;
-        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+        --select-bg: color-mix(in srgb, var(--popover-foreground) 10%, transparent);
       }
     }
   }
@@ -177,11 +177,11 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
   &__ghost {
     & #{$item}__trigger {
       --select-bg: transparent;
-      --select-color: var(--primary);
+      --select-color: var(--popover-foreground);
 
       @include hover {
         filter: initial;
-        --select-bg: color-mix(in srgb, var(--primary) 10%, transparent);
+        --select-bg: color-mix(in srgb, var(--popover-foreground) 10%, transparent);
       }
     }
   }
@@ -220,7 +220,7 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
 [data-reka-popper-content-wrapper] {
   width: var(--reka-popper-anchor-width);
   border-radius: 12px;
-  border: 1px solid var(--ring);
+  border: 1px solid var(--border);
   background-color: var(--background);
   overflow: clip;
   padding: rem(4);

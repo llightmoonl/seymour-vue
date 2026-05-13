@@ -58,7 +58,7 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
   }
 
   &__error {
-    color: var(--destructive, oklch(55.3% 0.197 29.5));
+    color: var(--destructive);
     font-weight: 600;
     font-size: rem(13);
     margin-inline: rem(12);
@@ -98,10 +98,10 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
   &:has(#{$item}__error) {
     #{$item} {
       &__title {
-        color: var(--destructive, oklch(55.3% 0.197 29.5));
+        color: var(--destructive);
       }
       &__field {
-        border-color: var(--destructive, oklch(55.3% 0.197 29.5));
+        border-color: var(--destructive);
       }
     }
   }
@@ -110,7 +110,7 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
     & #{$item}__field {
       --input-bg: transparent;
       --input-color: var(--primary);
-      --input-border-color: var(--ring);
+      --input-border-color: var(--input);
     }
   }
 
@@ -130,7 +130,7 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
     & #{$item}__field {
       --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
       --input-color: var(--primary);
-      --input-border-color: var(--ring);
+      --input-border-color: var(--input);
 
       @include hover {
         filter: initial;
