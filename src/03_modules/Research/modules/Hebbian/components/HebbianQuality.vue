@@ -3,7 +3,9 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-import { VButton, VCarousel } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+import VCarousel from '@common/components/VCarousel/VCarousel.vue';
+
 import { HebbianNeuron } from '../';
 import { DetailList, DrawingGridView, useTabs, useCompleteTab } from '../../../';
 

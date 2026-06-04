@@ -6,8 +6,10 @@ import HebbianView from '@pages/HebbianView.vue';
 import DeltaView from '@pages/DeltaView.vue';
 import ProjectsView from '@pages/ProjectsView.vue';
 import BackpropagationView from '@pages/BackpropagationView.vue';
+import AuthView from '@pages/AuthView.vue';
 
 import DefaultLayout from '../layouts/DefaultLayout.vue';
+import AuthLayout from '../layouts/AuthLayout.vue';
 
 export const routes: Readonly<RouteRecordRaw[]> = [
   {
@@ -15,7 +17,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     component: DefaultLayout,
     children: [
       {
-        path: '/',
+        path: '',
         component: HomeView,
       },
       {
@@ -41,6 +43,16 @@ export const routes: Readonly<RouteRecordRaw[]> = [
       {
         path: '/projects/backpropagation/:id',
         component: BackpropagationView,
+      },
+    ],
+  },
+  {
+    path: '/auth',
+    component: AuthLayout,
+    children: [
+      {
+        path: '',
+        component: AuthView,
       },
     ],
   },

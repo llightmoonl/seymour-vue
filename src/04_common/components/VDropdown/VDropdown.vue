@@ -7,64 +7,65 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from 'reka-ui';
-import { ref } from 'vue';
+import type { DropdownProps } from '@common/components/VDropdown/VDropdown.types';
+import { computed } from 'vue';
 
-const toggleState = ref(false);
+const props = defineProps<DropdownProps>();
+const open = defineModel<boolean>('open');
 
-function handleSelect() {
-  alert('hello!');
-}
-
-const dropdownData = [
-  { id: 1, icon: '', label: 'Переименовать', type: 'item', action: handleSelect },
-  { id: 2, type: 'separator' },
-  { id: 3, label: 'Удалить', type: 'item', action: handleSelect, danger: true },
-];
+const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-width`]);
 </script>
 
 <template>
-  <DropdownMenuRoot class="dropdown" v-model:open="toggleState">
-    <DropdownMenuTrigger class="dropdown__trigger" aria-label="Customise options">
-      <slot name="trigger"><i-custom-ellipsis class="dropdown__trigger-icon" /></slot>
-    </DropdownMenuTrigger>
-    <DropdownMenuPortal>
-      <DropdownMenuContent class="dropdown__menu-content" :side-offset="5">
-        <template v-for="item in dropdownData" :key="item.id">
-          <DropdownMenuItem
+  <dropdown-menu-root class="dropdown" v-model:open="open">
+    <dropdown-menu-trigger class="dropdown__trigger" aria-label="Customise options">
+      <slot name="trigger" :open="open"><i-custom-ellipsis class="dropdown__trigger-icon" /></slot>
+    </dropdown-menu-trigger>
+    <dropdown-menu-portal class="dropdown__portal">
+      <dropdown-menu-content class="dropdown__menu-content" :class="modifiersContent" :side-offset="5">
+        <template v-for="item in items" :key="item.id">
+          <dropdown-menu-item
             v-if="item.type === 'item'"
             :value="item.label"
             class="dropdown__menu-item"
             :class="{ '--danger': item.danger }">
+            <component v-if="item.icon" class="dropdown__menu-icon" :is="item.icon" />
             {{ item.label }}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator v-if="item.type === 'separator'" class="dropdown__menu-separator" />
+          </dropdown-menu-item>
+          <dropdown-menu-separator v-if="item.type === 'separator'" class="dropdown__menu-separator" />
         </template>
-      </DropdownMenuContent>
-    </DropdownMenuPortal>
-  </DropdownMenuRoot>
+      </dropdown-menu-content>
+    </dropdown-menu-portal>
+  </dropdown-menu-root>
 </template>
 
 <style scoped lang="scss">
 [data-reka-popper-content-wrapper] {
-  background-color: var(--background);
+  z-index: 1000 !important;
   border: 1px solid var(--border);
+
   border-radius: rem(6);
   padding: rem(8);
 }
 
 .dropdown {
+  &__trigger {
+    @include reset-btn;
+  }
   &__menu {
     &-content {
       min-width: rem(220);
-      background-color: white;
-      border-radius: 6px;
-      padding: 5px;
+      background-color: var(--background);
       box-shadow:
         0 10px 38px -10px rgba(22, 23, 24, 0.35),
         0 10px 20px -15px rgba(22, 23, 24, 0.2);
       animation-duration: 400ms;
       animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
+
+      &.--match-width {
+        width: var(--reka-dropdown-menu-trigger-width);
+      }
 
       &[data-side='top'] {
         animation-name: slideDownAndFade;

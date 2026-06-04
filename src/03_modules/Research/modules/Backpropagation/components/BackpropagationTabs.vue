@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { VTabs } from '@common/components';
+import VTabs from '@common/components/VTabs/VTabs.vue';
 import { BackpropagationBackward, BackpropagationForward } from '../';
 
 const { t } = useI18n();

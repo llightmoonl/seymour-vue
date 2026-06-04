@@ -1,15 +1,17 @@
 <script setup lang="ts" generic="T">
 import { type EmblaOptionsType } from 'embla-carousel';
 
-import { VButton } from '@common/components';
-import { useCarousel } from '../models/useCarousel';
+import VButton from '@common/components/VButton/VButton.vue';
+import { useCarousel } from './models/useCarousel.ts';
 
 const props = defineProps<{
   options: EmblaOptionsType;
   items: T[];
 }>();
 
-const { carouselRef, goToNext, goToPrev, countVisibleSlides, canScrollNext, canScrollPrev} = useCarousel(props.options);
+const { carouselRef, goToNext, goToPrev, countVisibleSlides, canScrollNext, canScrollPrev } = useCarousel(
+  props.options,
+);
 </script>
 
 <template>
@@ -22,8 +24,12 @@ const { carouselRef, goToNext, goToPrev, countVisibleSlides, canScrollNext, canS
       </div>
     </div>
     <div class="carousel__navigation">
-      <VButton v-if="canScrollPrev" class="carousel__prev" size="icon-xs" @click="goToPrev"><i-custom-arrow-left /></VButton>
-      <VButton v-if="canScrollNext" class="carousel__next" size="icon-xs" @click="goToNext"><i-custom-arrow-right /></VButton>
+      <VButton v-if="canScrollPrev" class="carousel__prev" size="icon-xs" @click="goToPrev">
+        <i-custom-arrow-left />
+      </VButton>
+      <VButton v-if="canScrollNext" class="carousel__next" size="icon-xs" @click="goToNext">
+        <i-custom-arrow-right />
+      </VButton>
     </div>
   </div>
 </template>

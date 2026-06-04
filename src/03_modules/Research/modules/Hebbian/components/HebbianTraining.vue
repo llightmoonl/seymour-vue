@@ -3,7 +3,10 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-import { VButton, VMarkdown, VTable } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
+import VTable from '@common/components/VTable/VTable.vue';
+
 import { HebbianNeuron } from '../';
 import { useCompleteTab, DetailList, useTabs } from '../../../';
 

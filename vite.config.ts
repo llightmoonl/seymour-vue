@@ -11,6 +11,8 @@ import IconsResolver from 'unplugin-icons/resolver';
 
 import { visualizer } from 'rollup-plugin-visualizer';
 
+const customIconsPath = './src/01_app/assets/icons';
+
 export default defineConfig({
   assetsInclude: ['**/*.md'],
   plugins: [
@@ -19,7 +21,7 @@ export default defineConfig({
     Icons({
       compiler: 'vue3',
       customCollections: {
-        custom: FileSystemIconLoader('./src/01_app/assets/icons'),
+        custom: FileSystemIconLoader(customIconsPath),
       },
       iconCustomizer(collection, icon, props) {
         if (!props.height) {
@@ -32,12 +34,12 @@ export default defineConfig({
       },
     }),
     Components({
+      dirs: [],
       resolvers: [
         IconsResolver({
           customCollections: ['custom'],
         }),
       ],
-      globs: ['src/01_app/assets/icons/*.svg'],
     }),
     visualizer({
       open: true,

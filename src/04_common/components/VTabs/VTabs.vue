@@ -3,10 +3,11 @@ import { computed } from 'vue';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger, type AcceptableValue } from 'reka-ui';
 
 // types
-import { TabsVariants, type VTabsProps } from './VTabs.types';
+import { TabsVariants, type TabsProps, TabsOrientations } from './VTabs.types';
 
-const props = withDefaults(defineProps<VTabsProps>(), {
+const props = withDefaults(defineProps<TabsProps>(), {
   variant: TabsVariants.PILLS,
+  orientation: TabsOrientations.HORIZONTAL,
 });
 
 const model = defineModel<AcceptableValue>();
@@ -42,7 +43,7 @@ const modifiers = computed(() => [props.variant && `--${props.variant}`]);
   align-items: start;
 
   &__content {
-    width: 100%;
+    inline-size: 100%;
   }
 
   &__list {

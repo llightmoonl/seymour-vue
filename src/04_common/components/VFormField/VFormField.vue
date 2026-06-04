@@ -30,6 +30,7 @@ const sizesObject = computed(() => (props.size ? `form-field__${props.size}` : '
   &-label {
     cursor: none;
     pointer-events: none;
+    color: var(--muted-foreground);
   }
 
   &__xs {

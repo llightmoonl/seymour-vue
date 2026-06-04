@@ -22,6 +22,13 @@
       "home": "Home",
       "docs": "Documentation",
       "research": "Projects"
+    },
+    "profile": {
+      "settings": "Settings",
+      "theme": "Theme",
+      "language": "Language",
+      "admin": "Admin panel",
+      "logout": "Logout"
     }
   },
   "table": {
@@ -126,6 +133,39 @@
     "pass": {
       "forward": "Forward pass",
       "backward": "Backward pass"
+    }
+  },
+  "activity": {
+    "title": "Activity",
+    "log": "Full log"
+  },
+  "auth": {
+    "sign-in": {
+      "tab-name": "Sign in",
+      "title": "Welcome back",
+      "pretitle": "Войдите, чтобы продолжить с того места, где остановились",
+      "remember-me": "Remember me",
+      "forgot-password": "Forgot password?",
+      "button": "Sign in",
+      "no-account": "No account?",
+      "link": "Sign up"
+    },
+    "sign-up": {
+      "tab-name": "Регистрация",
+      "title": "Создайте аккаунт",
+      "pretitle": "Минута на регистрацию - и можно создать первый проект.",
+      "name-surname": {
+        "title": "Имя и фамилия",
+        "placeholder": "Алексей Иванов"
+      },
+      "remember-me": "Запомните меня",
+      "agreement": "Я соглашаюсь с",
+      "terms": "Условиями",
+      "and": "и",
+      "policy": "Политикой конфиленциальности",
+      "button": "Создать аккаунт",
+      "exist-account": "Уже есть аккаунт?",
+      "link": "Войдите"
     }
   }
 }

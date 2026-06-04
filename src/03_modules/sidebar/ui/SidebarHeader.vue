@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { VLogo, VButton } from '@common/components';
+import VLogo from '@common/components/VLogo/VLogo.vue';
+import VButton from '@common/components/VButton/VButton.vue';
+
 import { useSidebar } from '../models/useSidebar.ts';
 
 const { expanded, toggleExpanded } = useSidebar();

@@ -4,7 +4,10 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 
-import { VTabs, VContainer, VMarkdown } from '@common/components';
+import VTabs from '@common/components/VTabs/VTabs.vue';
+import VContainer from '@common/components/VContainer/VContainer.vue';
+import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
+
 import { HebbianGeneration, HebbianTraining, HebbianRecognition, HebbianQuality } from '../';
 import { useTabs, useProgressTabs } from '../../../';
 

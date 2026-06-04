@@ -56,3 +56,11 @@
   font-size: $size;
   line-height: $line-height;
 }
+
+@mixin reset-btn() {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: initial;
+}

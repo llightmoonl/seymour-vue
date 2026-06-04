@@ -3,16 +3,17 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { VButton } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+
 import { DeltaNeuron } from '../';
 import { DetailList, DrawingGridEditable } from '../../../';
 
 import { useGetDeltaData } from '../composables/useGetDeltaData';
 import { useRecognition } from '../composables/useRecognition';
-import { COLS, ROWS } from '../models/constant.ts';
+import { COLS, ROWS } from '../models/constant';
 
-import { formatArray } from '@common/utils/array.ts';
-import { createOutputsColumns, createSumColumns } from '@modules/Research/modules/Delta/composables/useDelta.ts';
+import { formatArray } from '@common/utils/array';
+import { createOutputsColumns, createSumColumns } from '@modules/Research/modules/Delta/composables/useDelta';
 
 const route = useRoute();
 const { t } = useI18n();

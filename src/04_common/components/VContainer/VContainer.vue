@@ -19,6 +19,14 @@ const sizeObject = computed(() => props.size ?? 'md');
   margin-inline: auto;
   padding-inline: rem(16);
 
+  &.xs {
+    max-width: rem(420);
+  }
+
+  &.sm {
+    max-width: rem(768);
+  }
+
   &.md {
     max-width: rem(1024);
   }

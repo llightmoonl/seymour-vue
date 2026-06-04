@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import VTable from '@common/components/VTable/VTable.vue';
+import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
+
 import type { DetailListItem } from '../DetailList';
-import { VMarkdown, VTable } from '@common/components';
 
 defineProps<DetailListItem>();
 </script>

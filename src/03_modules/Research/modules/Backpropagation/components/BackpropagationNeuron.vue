@@ -4,7 +4,7 @@ import { BACKPROP_STEPS } from '../models/constants';
 
 const props = withDefaults(
   defineProps<{
-    steps?: number;
+    steps: number;
   }>(),
   {
     steps: 0,

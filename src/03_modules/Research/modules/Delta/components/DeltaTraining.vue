@@ -3,7 +3,9 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { VButton, VTable } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+import VTable from '@common/components/VTable/VTable.vue';
+
 import { DeltaNeuron } from '../';
 import { DetailList, useTabs, useCompleteTab } from '../../../';
 

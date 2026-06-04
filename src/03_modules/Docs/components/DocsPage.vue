@@ -3,10 +3,12 @@ import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useIntersectionObserver } from '@vueuse/core';
 
-import { VContainer, VMarkdown, VSpinner } from '@common/components';
+import VSpinner from '@common/components/VSpinner/VSpinner.vue';
+import VContainer from '@common/components/VContainer/VContainer.vue';
+import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
 
-import { useGetUniqueDocs } from '@modules/Docs/composables/useGetUniqueDocs.ts';
-import { useGetAllDocs } from '@modules/Docs/composables/useGetAllDocs.ts';
+import { useGetUniqueDocs } from '@modules/Docs/composables/useGetUniqueDocs';
+import { useGetAllDocs } from '@modules/Docs/composables/useGetAllDocs';
 
 const contentEl = useTemplateRef('content');
 const headings = ref<Element[]>([]);

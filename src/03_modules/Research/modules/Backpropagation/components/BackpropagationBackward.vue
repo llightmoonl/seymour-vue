@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 
-import { VMarkdown } from '@common/components';
+import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
 import { useBackpropagationStore } from '../stores/backpropagation';
 import { BACKPROP_STEPS } from '../models/constants';
-import { nextTick, ref, watch } from 'vue';
 
 const { t } = useI18n();
 const backpropagationStore = useBackpropagationStore();

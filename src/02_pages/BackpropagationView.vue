@@ -3,7 +3,7 @@ import { BackpropagationPage } from '@modules/Research';
 </script>
 
 <template>
-  <BackpropagationPage />
+  <backpropagation-page />
 </template>
 
 <style scoped lang="scss"></style>

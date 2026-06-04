@@ -14,7 +14,7 @@ export const TabsOrientations = {
 type TabsVariants = (typeof TabsVariants)[keyof typeof TabsVariants];
 type TabsOrientation = (typeof TabsOrientations)[keyof typeof TabsOrientations];
 
-export interface VTabsItems {
+export interface TabsItems {
   id: number;
   title: string;
   value: AcceptableValue;
@@ -22,9 +22,9 @@ export interface VTabsItems {
   disabled?: boolean;
 }
 
-export interface VTabsProps {
-  items: VTabsItems[];
+export interface TabsProps {
+  items: TabsItems[];
   defaultValue?: AcceptableValue;
-  variant?: TabsVariants;
-  orientation?: TabsOrientation;
+  variant: TabsVariants;
+  orientation: TabsOrientation;
 }

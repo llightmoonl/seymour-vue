@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 
-import { VButton, VTable, VCarousel } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+import VTable from '@common/components/VTable/VTable.vue';
+import VCarousel from '@common/components/VCarousel/VCarousel.vue';
+
 import { DrawingGridEditable, DrawingGridView, useTabs, useCompleteTab } from '../../../';
 
 import { useGenerateData } from '../composables/useGenerateData';

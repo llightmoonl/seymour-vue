@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { VButton } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
 import { DetailList, DrawingGridEditable } from '@modules/Research';
 import { HebbianNeuron } from '../';
 

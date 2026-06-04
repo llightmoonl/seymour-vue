@@ -1,19 +1,29 @@
 <script setup lang="ts">
-import type { InputEmits, InputProps } from './VInput';
 import { computed } from 'vue';
 
-const props = defineProps<InputProps>();
+// types
+import { type InputProps, type InputEmits, InputVariants, InputColors, InputSizes, InputTypes } from './VInput.types';
+
+const props = withDefaults(defineProps<InputProps>(), {
+  variant: InputVariants.OUTLINE,
+  color: InputColors.PRIMARY,
+  size: InputSizes.MD,
+  type: InputTypes.TEXT,
+});
 const emit = defineEmits<InputEmits>();
 
 const model = defineModel<string | number>();
 const updateInput = (value: string) => emit('update:modelValue', value);
 
-const variantsObject = computed(() => (props.variant ? `input__${props.variant}` : 'input__outline'));
-const colorsObject = computed(() => (props.color ? `input__${props.color}` : 'input__primary'));
-const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input__md'));
+const modifiers = computed(() => [
+  props.variant && `--${props.variant}`,
+  props.color && `--${props.color}`,
+  props.size && `--${props.size}`,
+]);
 </script>
+
 <template>
-  <div class="input" :class="[variantsObject, colorsObject, sizesObject]">
+  <div class="input" :class="modifiers">
     <Component v-if="icon" class="input__icon" :is="icon" />
     <input
       v-model="model"
@@ -106,72 +116,64 @@ const sizesObject = computed(() => (props.size ? `input__${props.size}` : 'input
     }
   }
 
-  &__outline {
-    & #{$item}__field {
-      --input-bg: transparent;
-      --input-color: var(--primary);
-      --input-border-color: var(--input);
+  &.--outline #{$item}__field {
+    --input-bg: transparent;
+    --input-color: var(--primary);
+    --input-border-color: var(--input);
+  }
+
+  &.--soft #{$item}__field {
+    --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+    --input-color: var(--primary);
+
+    @include hover {
+      filter: initial;
+      --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__soft {
-    & #{$item}__field {
-      --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-      --input-color: var(--primary);
+  &.--subtle #{$item}__field {
+    --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
+    --input-color: var(--primary);
+    --input-border-color: var(--input);
 
-      @include hover {
-        filter: initial;
-        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
-      }
+    @include hover {
+      filter: initial;
+      --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__subtle {
-    & #{$item}__field {
-      --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
-      --input-color: var(--primary);
-      --input-border-color: var(--input);
+  &.--ghost #{$item}__field {
+    --input-bg: transparent;
+    --input-color: var(--primary);
 
-      @include hover {
-        filter: initial;
-        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
-      }
+    @include hover {
+      filter: initial;
+      --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
     }
   }
 
-  &__ghost {
-    & #{$item}__field {
-      --input-bg: transparent;
-      --input-color: var(--primary);
-
-      @include hover {
-        filter: initial;
-        --input-bg: color-mix(in srgb, var(--primary) 10%, transparent);
-      }
-    }
-  }
-
-  &__xs {
+  &.--xs {
     --input-padding: #{rem(3.6)} #{rem(8)};
     --input-font-size: #{rem(12)};
   }
 
-  &__sm {
+  &.--sm {
     --input-padding: #{rem(5.6)} #{rem(10)};
     --input-font-size: #{rem(12)};
   }
 
-  &__md {
+  &.--md {
     --input-padding: #{rem(6)} #{rem(10)};
     --input-font-size: #{rem(14)};
   }
 
-  &__lg {
+  &.--lg {
     --input-padding: #{rem(7.2)} #{rem(10)};
     --input-font-size: #{rem(16)};
   }
 
-  &__xl {
+  &.--xl {
     --input-padding: #{rem(9.2)} #{rem(10)};
     --input-font-size: #{rem(16)};
   }

@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 // components
-import { VSpinner } from '@common/components';
+import VSpinner from '@common/components/VSpinner/VSpinner.vue';
 
 // types
 import { type ButtonProps, ButtonSizes, ButtonTypes, ButtonVariants, ButtonColors } from './VButton.types';

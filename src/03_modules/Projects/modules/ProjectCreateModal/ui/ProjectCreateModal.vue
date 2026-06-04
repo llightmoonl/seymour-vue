@@ -3,7 +3,13 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useProjectCreate } from '../models/useProjectCreate';
-import { VButton, VFormField, VInput, VModal, VSelect } from '@common/components';
+
+import VButton from '@common/components/VButton/VButton.vue';
+import VFormField from '@common/components/VFormField/VFormField.vue';
+import VInput from '@common/components/VInput/VInput.vue';
+import VSelect from '@common/components/VSelect/VSelect.vue';
+import VModal from '@common/components/VModal/VModal.vue';
+
 import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types.ts';
 
 const { t } = useI18n();

@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from 'reka-ui';
 import type { ModalProps } from './VModal';
-import { VButton } from '@common/components';
+import VButton from '../VButton/VButton.vue';
 
 import CloseIcon from '~icons/custom/close';
 

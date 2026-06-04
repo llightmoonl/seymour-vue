@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { VInput } from '@common/components';
+import VInput from '@common/components/VInput/VInput.vue';
 import { debounce } from '@common/utils/debounce';
 
 import SearchIcon from '~icons/custom/Search';
 
-import type { InputEmits, SearchInputProps } from './VInput';
+import type { InputEmits, SearchInputProps } from './VInput.types.ts';
 
 defineProps<SearchInputProps>();
 
 const model = defineModel<string>();
 const emit = defineEmits<InputEmits>();
 
-const updateInput = (value: string) => emit('update:modelValue', value);
-const debouncedInput = debounce(updateInput, 1000);
+const debouncedInput = debounce((value: string) => {
+  model.value = value;
+  emit('update:modelValue', value);
+}, 1000);
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import SidebarHeader from './SidebarHeader.vue';
 import SidebarNavigation from './SidebarNavigation.vue';
 
-import { useSidebar } from '../models/useSidebar.ts';
+import { useSidebar } from '../models/useSidebar';
 
 const { expanded } = useSidebar();
 </script>
@@ -27,8 +27,6 @@ const { expanded } = useSidebar();
     max-width 0.2s ease,
     background-color 0.3s linear;
   padding-inline: rem(8);
-  border-right: 1px solid var(--sidebar-border);
-  color: var(--sidebar-foreground);
 
   &.expanded {
     max-width: rem(260);

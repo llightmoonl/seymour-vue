@@ -3,7 +3,9 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 
-import { VButton, VContainer } from '@common/components';
+import VButton from '@common/components/VButton/VButton.vue';
+import VContainer from '@common/components/VContainer/VContainer.vue';
+
 import { DetailList } from '@modules/Research';
 import { BackpropagationNeuron, BackpropagationTabs } from '../';
 import { useBackpropagationStore } from '../stores/backpropagation';
