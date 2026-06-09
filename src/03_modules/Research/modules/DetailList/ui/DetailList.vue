@@ -24,6 +24,7 @@ const modifiers = computed(() => [props.direction && `--${props.direction}`]);
 
   &.--column {
     grid-template-columns: 1fr;
+    grid-auto-rows: 0fr;
   }
 }
 </style>

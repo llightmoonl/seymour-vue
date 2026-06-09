@@ -6,19 +6,44 @@ import { useI18n } from 'vue-i18n';
 import VButton from '@common/components/VButton/VButton.vue';
 import VCarousel from '@common/components/VCarousel/VCarousel.vue';
 
-import { HebbianNeuron } from '../';
-import { DetailList, DrawingGridView, useTabs, useCompleteTab } from '../../../';
+import HebbianNeuron from './HebbianNeuron.vue';
+import { DetailList, DrawingGridView } from '../../_';
 
-import { useGetHebbianData } from '../composables/useGetHebbianData';
+import { useHebbianData } from '../composables/useHebbianData';
 import { useRecognition } from '../composables/useRecognition';
+import { useHebbian } from '../composables/useHebbian';
+import { useNextStage } from '../composables/useNextStage';
+
 import { COLS, ROWS } from '../models/constant';
 
-const route = useRoute();
 const { t } = useI18n();
-const pageId = route.params.id ? String(route.params.id) : '';
-const { setActiveTab } = useTabs();
 
-const { state, refetch } = useGetHebbianData(pageId);
+const route = useRoute();
+const pageId = String(route.params.id ?? '');
+
+const { x, isUnchanged } = useHebbian();
+const { state } = useHebbianData(pageId);
+const { nextStage } = useNextStage(pageId);
+const { recognition, state: stateRecognition } = useRecognition(pageId, x);
+
+const checkedItems = ref(new Set<number>());
+const currentIndex = ref(0);
+
+const resultRecognition = computed(() => {
+  const data = stateRecognition.value?.data;
+
+  return data?.result ?? null;
+});
+
+const clickItem = (item: number[][], index: number) => {
+  x.value = item;
+  currentIndex.value = index;
+};
+
+const runRecognition = () => {
+  recognition();
+  checkedItems.value.add(currentIndex.value);
+};
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -33,38 +58,7 @@ const data = computed(() => {
     weights: data?.w ?? [],
   };
 });
-
-const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-const x = ref(initialX);
-const countCheckedElement = ref(0);
-
-const clickItem = (item) => {
-  x.value = item;
-};
-
-const { recognition, state: stateRecognition } = useRecognition(pageId, x);
-
-const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data;
-
-  return data?.result ?? null;
-});
-
-const isUnchanged = computed(() => JSON.stringify(x.value) === JSON.stringify(initialX));
-
-const handleRecognition = () => {
-  recognition().then(() => refetch());
-  countCheckedElement.value += 1;
-};
-
-const { completeTab } = useCompleteTab(pageId, 'quality');
-
-const handleComplete = () => {
-  completeTab();
-
-  setActiveTab('recognition');
-};
-const detailsData = computed(() => [
+const calculationsData = computed(() => [
   {
     id: 1,
     title: t('hebbian.shared.thresholdNeuron'),
@@ -94,61 +88,65 @@ const detailsData = computed(() => [
 </script>
 
 <template>
-  <div class="root">
-    <div class="header">
-      <div class="drawing-canvas">
+  <div class="hebbian-quality">
+    <div class="hebbian-quality__content">
+      <div class="hebbian-quality__input-panel">
         <drawing-grid-view :grid="x"></drawing-grid-view>
-        <v-button :disabled="isUnchanged" class="drawing-canvas__button" @click="handleRecognition">
+        <v-button :disabled="isUnchanged" class="hebbian-quality__input-panel-button" @click="runRecognition">
           {{ $t('hebbian.recognition.button') }}
         </v-button>
         <v-button
-          v-show="countCheckedElement === data.samples.length"
-          @click="handleComplete"
-          class="drawing-canvas__button">
+          v-if="checkedItems.size === data.samples.length"
+          @click="nextStage"
+          class="hebbian-quality__input-panel-button">
           {{ $t('hebbian.recognition.complete') }}
         </v-button>
       </div>
-      <hebbian-neuron :w="data.weights" :s="data.s" :y="resultRecognition ?? 0" :neuron="data.neuron"></hebbian-neuron>
-      <detail-list :details="detailsData" direction="column"></detail-list>
+      <hebbian-neuron
+        class="hebbian-quality__neuron"
+        :w="data.weights"
+        :s="data.s"
+        :y="resultRecognition ?? 0"
+        :neuron="data.neuron" />
+      <detail-list class="hebbian-quality__calculations" :details="calculationsData" direction="column" />
     </div>
 
-    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
-      <template #slide="{ item }">
+    <v-carousel class="hebbian-quality__samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
+      <template #slide="{ item, index }">
         <drawing-grid-view
-          class="carousel-samples-item"
+          class="hebbian-quality__samples-item"
           :size="50"
           :grid="item"
-          @click="() => clickItem(item)"></drawing-grid-view>
+          @click="clickItem(item, index)" />
       </template>
     </v-carousel>
   </div>
 </template>
 
 <style scoped lang="scss">
-.root {
+.hebbian-quality {
   margin-top: rem(32);
-}
 
-.header {
-  display: flex;
-  column-gap: rem(48);
-}
-
-.drawing-canvas {
-  display: flex;
-  flex-direction: column;
-  gap: rem(16);
-
-  &__button {
-    width: 100%;
+  &__content {
+    display: flex;
+    column-gap: rem(48);
   }
-}
 
-.carousel-samples {
-  margin-block: rem(32);
+  &__input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
 
-  &-item {
-    cursor: pointer;
+    &-button {
+      width: 100%;
+    }
+  }
+
+  &__samples {
+    margin-block: rem(32);
+    &-item {
+      cursor: pointer;
+    }
   }
 }
 </style>

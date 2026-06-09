@@ -7,7 +7,7 @@ import VButton from '@common/components/VButton/VButton.vue';
 import VCarousel from '@common/components/VCarousel/VCarousel.vue';
 
 import { DeltaNeuron } from '../';
-import { DetailList, DrawingGridView, useTabs, useCompleteTab } from '../../..';
+import { DetailList, DrawingGridView } from '../../_';
 
 import { useGetDeltaData } from '../composables/useGetDeltaData';
 import { useRecognition } from '../composables/useRecognition';
@@ -19,7 +19,6 @@ import { createOutputsColumns, createSumColumns } from '@modules/Research/module
 const route = useRoute();
 const { t } = useI18n();
 const pageId = route.params.id ? String(route.params.id) : '';
-const { setActiveTab } = useTabs();
 
 const { state, refetch } = useGetDeltaData(pageId);
 
@@ -60,13 +59,7 @@ const handleRecognition = () => {
   countCheckedElement.value += 1;
 };
 
-const { completeTab } = useCompleteTab(pageId, 'quality');
-
-const handleComplete = () => {
-  completeTab();
-
-  setActiveTab('recognition');
-};
+const handleComplete = () => {};
 
 const outputsColumns = createOutputsColumns(3);
 const sumColumns = createSumColumns(3);

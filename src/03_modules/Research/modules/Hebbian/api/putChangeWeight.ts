@@ -1,7 +1,7 @@
 import { api } from '@common/api';
-import type { ChangeWeightBody, ChangeWeightResponse } from './types.d';
+import type { ChangeWeightBody, ChangeWeightData } from './types.ts';
 
-export const putChangeWeight = async (body: ChangeWeightBody): ChangeWeightResponse => {
+export const putChangeWeight = async (body: ChangeWeightBody): Promise<ChangeWeightData> => {
   try {
     return api
       .put('hebbian/generateWeight', {

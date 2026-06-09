@@ -3,6 +3,8 @@ export interface HebbianSamples {
   y_true: number;
 }
 
+export type Stage = 'generation' | 'training' | 'quality' | 'recognition';
+
 export interface HebbianData {
   id: number;
   data: HebbianSamples[];
@@ -16,9 +18,8 @@ export interface HebbianData {
   s: number;
   w: number[];
   y_pred: number;
+  activeStage: Stage;
 }
-
-export type HebbianDataResponse = Promise<HebbianData>;
 
 export interface RecognitionBody {
   id: string;
@@ -29,15 +30,11 @@ export interface RecognitionData {
   result: number;
 }
 
-export type RecognitionResponse = Promise<RecognitionData>;
-
 export interface ChangeWeightBody {
   id: string;
 }
 
 export type ChangeWeightData = { y_true: number } & Omit<HebbianData, 'data'>;
-
-export type ChangeWeightResponse = Promise<ChangeWeightData>;
 
 export interface GenerateDataBody {
   id: string;
@@ -54,4 +51,10 @@ export interface GenerateData {
   updatedAt: Date;
 }
 
-export type GenerateDataResponse = Promise<GenerateData>;
+export interface NextStageBody {
+  id: string;
+}
+
+export interface NextStageData {
+  success: boolean;
+}

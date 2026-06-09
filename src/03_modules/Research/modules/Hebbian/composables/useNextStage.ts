@@ -1,23 +1,24 @@
 import { useMutation, useQueryCache } from '@pinia/colada';
-import { putChangeWeight } from '../api/putChangeWeight.ts';
-import type { ChangeWeightBody } from '../api/types.ts';
 
-export function useChangeWeight(id: string) {
+import type { NextStageBody } from '../api/types.ts';
+import { putNextStage } from '../api/putNextStage';
+
+export function useNextStage(id: string) {
   const queryCache = useQueryCache();
 
   const { mutateAsync, ...mutation } = useMutation({
-    mutation: (params: ChangeWeightBody) => putChangeWeight(params),
+    mutation: (params: NextStageBody) => putNextStage(params),
     onSettled: () => {
       return queryCache.invalidateQueries({ key: ['hebbian'] });
     },
   });
 
-  const changeWeight = () => {
+  const nextStage = () => {
     return mutateAsync({ id });
   };
 
   return {
     ...mutation,
-    changeWeight,
+    nextStage,
   };
 }

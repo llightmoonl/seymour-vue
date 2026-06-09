@@ -1,9 +1,9 @@
 import { api } from '@common/api';
-import { type HebbianDataResponse } from './types.d';
+import type { HebbianData } from './types.ts';
 
-export const getHebbianData = async (id: string): HebbianDataResponse => {
+export const getHebbianData = async (id: string): Promise<HebbianData> => {
   try {
-    return api.get(`hebbian?id=${id}`).json();
+    return await api.get(`hebbian?id=${id}`).json<HebbianData>();
   } catch (error) {
     console.error(error);
     throw error;

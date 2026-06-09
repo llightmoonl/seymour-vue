@@ -5,27 +5,26 @@ import { useI18n } from 'vue-i18n';
 
 import VButton from '@common/components/VButton/VButton.vue';
 import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
-import VTable from '@common/components/VTable/VTable.vue';
 
-import { HebbianNeuron } from '../';
-import { useCompleteTab, DetailList, useTabs } from '../../../';
+import HebbianNeuron from './HebbianNeuron.vue';
+import HebbianSamplesTable from './HebbianSamplesTable.vue';
+import HebbianWeightsTable from './HebbianWeightsTable.vue';
 
-import { createSamplesColumns, createWeightColumns } from '../composables/useHebbian';
-import { useGetHebbianData } from '../composables/useGetHebbianData';
+import { DetailList } from '../../_';
+
+import { useHebbianData } from '../composables/useHebbianData';
 import { useChangeWeight } from '../composables/useChangeWeight';
+import { useNextStage } from '../composables/useNextStage';
 
-import { SAMPLE_LENGTH } from '../models/constant';
-
-const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
-const weightColumns = createWeightColumns(SAMPLE_LENGTH);
+import { ButtonSizes } from '@common/components/VButton/VButton.types';
 
 const { t } = useI18n();
 const route = useRoute();
-const pageId = route.params.id ? String(route.params.id) : '';
-const { setActiveTab } = useTabs();
+const pageId = String(route.params.id ?? '');
 
-const { state, refetch } = useGetHebbianData(pageId);
-const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId);
+const { state } = useHebbianData(pageId);
+const { changeWeight, asyncStatus } = useChangeWeight(pageId);
+const { nextStage } = useNextStage(pageId);
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -48,13 +47,7 @@ const data = computed(() => {
   };
 });
 
-const handleChangeWeight = () => {
-  changeWeight().then(() => refetch());
-};
-
-const { completeTab } = useCompleteTab(pageId, 'training');
-
-const detailsData = computed(() => [
+const calculationsData = computed(() => [
   {
     id: 1,
     title: t('hebbian.training.epochs'),
@@ -81,121 +74,60 @@ const detailsData = computed(() => [
     value: data.value.error,
   },
 ]);
-
-const handleCompleteData = () => {
-  completeTab();
-  setActiveTab('quality');
-};
 </script>
 
 <template>
-  <div class="root">
-    <div class="header">
-      <div>
+  <div class="hebbian-training">
+    <div class="hebbian-training__content">
+      <div class="hebbian-training__neuron">
         <hebbian-neuron :w="data.weights" :s="data.s" :y="data.y" :neuron="data.neuron" />
-        <div v-if="data.correction !== 'none'" class="hebbian__rule">
+        <div v-if="data.correction !== 'none'" class="hebbian-training__rule">
           <VMarkdown v-if="data.correction === 'plus'" content="$w_i = w_i + x_i$" />
           <VMarkdown v-if="data.correction === 'minus'" content="$w_i = w_i - x_i$" />
         </div>
       </div>
 
-      <div class="tables-data">
-        <div class="table">
-          <v-table
-            :data="data.samples"
-            :columns="samplesColumns"
-            :row-index-highlight="data.i"
-            :column-index-highlight="data.j" />
-        </div>
-        <div class="table">
-          <v-table
-            :data="data.weightsTable"
-            :columns="weightColumns"
-            :row-index-highlight="0"
-            :column-index-highlight="data.j" />
-        </div>
+      <div class="hebbian-training__tables">
+        <hebbian-samples-table :data="data.samples" :row-index-highlight="data.i" :column-index-highlight="data.j" />
+        <hebbian-weights-table :data="data.weightsTable" :row-index-highlight="0" :column-index-highlight="data.j" />
       </div>
     </div>
 
-    <div class="controller-section">
-      <div class="group group__right">
-        <v-button @click="handleCompleteData" v-if="data.isTrained">
-          {{ $t('hebbian.training.completeLearning') }}
-        </v-button>
-        <v-button
-          v-if="!data.isTrained"
-          @click="handleChangeWeight"
-          :disabled="changeWeightAsyncStatus === 'loading'"
-          size="md"
-          icon-only>
-          <i-custom-play></i-custom-play>
-        </v-button>
-      </div>
+    <div class="hebbian-training__controllers">
+      <v-button @click="nextStage" v-if="data.isTrained">
+        {{ $t('hebbian.training.completeLearning') }}
+      </v-button>
+      <v-button
+        v-if="!data.isTrained"
+        @click="changeWeight"
+        :disabled="asyncStatus === 'loading'"
+        :size="ButtonSizes.MD"
+        icon-only>
+        <i-custom-play />
+      </v-button>
     </div>
-    <detail-list class="information-list" :details="detailsData" />
+
+    <detail-list class="hebbian-training__calculations" :details="calculationsData" />
   </div>
 </template>
 
 <style scoped lang="scss">
-.root {
+.hebbian-training {
   margin-top: rem(32);
-}
 
-.header {
-  display: flex;
-  justify-content: space-between;
-}
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.drawing-section {
-  display: flex;
-  column-gap: rem(32);
-  flex-shrink: 0;
-
-  & .detail-information {
+  &__tables {
     display: flex;
     flex-direction: column;
     row-gap: rem(20);
+    align-items: start;
+    overflow: auto;
   }
-}
 
-.tables-data {
-  display: flex;
-  flex-direction: column;
-  row-gap: rem(20);
-  align-items: start;
-  overflow: auto;
-
-  & .table-element {
-    flex-shrink: 1;
-    max-height: rem(215);
-    min-width: max-content;
-    overflow-x: auto;
-    overflow-y: auto;
-    scrollbar-gutter: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(203, 203, 203) rgb(48, 48, 48);
-    scroll-behavior: smooth;
-  }
-}
-
-.controller-section {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-top: rem(16);
-
-  & .group {
-    display: flex;
-    align-items: stretch;
-    gap: rem(8);
-  }
-}
-
-.information-list {
-  margin-top: rem(64);
-}
-
-.hebbian {
   &__rule {
     display: flex;
     justify-content: center;
@@ -207,6 +139,18 @@ const handleCompleteData = () => {
     &:deep(.markdown p) {
       margin: 0;
     }
+  }
+
+  &__controllers {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-top: rem(16);
+    gap: rem(8);
+  }
+
+  &__calculations {
+    margin-top: rem(64);
   }
 }
 </style>

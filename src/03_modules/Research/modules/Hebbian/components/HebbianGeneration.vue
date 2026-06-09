@@ -2,47 +2,45 @@
 import { useRoute } from 'vue-router';
 
 import VButton from '@common/components/VButton/VButton.vue';
-import VTable from '@common/components/VTable/VTable.vue';
 import VCarousel from '@common/components/VCarousel/VCarousel.vue';
 
-import { DrawingGridEditable, DrawingGridView, useTabs, useCompleteTab } from '../../../';
+import HebbianSamplesTable from './HebbianSamplesTable.vue';
+import { DrawingGridEditable, DrawingGridView } from '../../_';
 
 import { useGenerateData } from '../composables/useGenerateData';
 
-import { useHebbian, createSamplesColumns } from '../composables/useHebbian';
-import { EVEN, ODD, SAMPLE_LENGTH } from '../models/constant';
+import { useHebbian } from '../composables/useHebbian';
+import { EVEN, ODD } from '../models/constant';
+
+import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types';
 
 const route = useRoute();
-const pageId = route.params.id ? String(route.params.id) : '';
+const pageId = String(route.params.id ?? '');
 
-const { x, samples, rawSamples, fetchSamples, addSample } = useHebbian();
-const columns = createSamplesColumns(SAMPLE_LENGTH);
+const { x, samples, rawSamples, fetchSamples, addSample, isUnchanged } = useHebbian();
 
-const { setActiveTab } = useTabs();
-
-const { completeTab } = useCompleteTab(pageId, 'generation');
-const { generateData, asyncStatus, status } = useGenerateData(pageId, fetchSamples);
-
-const handleFinishData = async () => {
-  await generateData();
-
-  if (status.value === 'success') {
-    completeTab();
-    setActiveTab('training');
-  }
-};
+const { generateData, asyncStatus } = useGenerateData(pageId, fetchSamples);
 </script>
 
 <template>
   <div class="hebbian-generation">
-    <div class="header">
-      <div class="drawing-canvas">
-        <drawing-grid-editable class="drawing-grid" v-model:grid="x" />
-        <div class="drawing-canvas__controllers">
-          <v-button class="drawing-canvas__button" @click="() => addSample(EVEN)" size="md" variant="subtle">
+    <div class="hebbian-generation__content">
+      <div class="hebbian-generation__input-panel">
+        <drawing-grid-editable class="hebbian-generation__input-panel-grid" v-model:grid="x" />
+        <div class="hebbian-generation__input-panel-controllers">
+          <v-button
+            class="hebbian-generation__input-panel-button"
+            @click="() => addSample(EVEN)"
+            :disabled="isUnchanged"
+            :size="ButtonSizes.MD"
+            :variant="ButtonVariants.SUBTLE">
             {{ $t('hebbian.buttons.even.title') }}
           </v-button>
-          <v-button class="drawing-canvas__button" @click="() => addSample(ODD)" size="md">
+          <v-button
+            class="hebbian-generation__input-panel-button"
+            @click="() => addSample(ODD)"
+            :disabled="isUnchanged"
+            :size="ButtonSizes.MD">
             {{ $t('hebbian.buttons.odd.title') }}
           </v-button>
         </div>
@@ -50,15 +48,15 @@ const handleFinishData = async () => {
           v-if="samples.length >= 10"
           :disabled="asyncStatus === 'loading'"
           :is-loading="asyncStatus === 'loading'"
-          class="finish-data"
-          @click="handleFinishData">
+          class="hebbian-generation__complete"
+          @click="generateData">
           {{ $t('hebbian.generation.finish') }}
         </v-button>
       </div>
-      <v-table class="table" :data="samples" :columns="columns" />
+      <hebbian-samples-table :data="samples" />
     </div>
 
-    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
+    <v-carousel class="hebbian-generation__samples" :options="{ slidesToScroll: 8 }" :items="rawSamples">
       <template #slide="{ item }">
         <drawing-grid-view :size="50" :grid="item"></drawing-grid-view>
       </template>
@@ -70,42 +68,29 @@ const handleFinishData = async () => {
 .hebbian-generation {
   margin-top: rem(32);
 
-  & .header {
+  &__content {
     display: flex;
     align-items: start;
     column-gap: rem(48);
   }
-}
 
-.drawing-canvas {
-  display: flex;
-  flex-direction: column;
-  gap: rem(16);
-
-  &__controllers {
+  &__input-panel {
     display: flex;
-    gap: rem(8);
+    flex-direction: column;
+    gap: rem(16);
+
+    &-controllers {
+      display: flex;
+      gap: rem(8);
+    }
+
+    &-button {
+      flex-grow: 1;
+    }
   }
 
-  &__button {
-    flex-grow: 1;
+  &__samples {
+    margin-block: rem(32);
   }
-}
-
-.controllers {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: rem(16);
-
-  & .group {
-    display: flex;
-    align-items: center;
-    gap: rem(8);
-  }
-}
-
-.carousel-samples {
-  margin-block: rem(32);
 }
 </style>

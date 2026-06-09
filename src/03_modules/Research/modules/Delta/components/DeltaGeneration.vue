@@ -5,7 +5,7 @@ import VButton from '@common/components/VButton/VButton.vue';
 import VTable from '@common/components/VTable/VTable.vue';
 import VCarousel from '@common/components/VCarousel/VCarousel.vue';
 
-import { DrawingGridEditable, DrawingGridView, useTabs, useCompleteTab } from '../../../';
+import { DrawingGridEditable, DrawingGridView } from '../../_';
 
 import { useGenerateData } from '../composables/useGenerateData';
 import { useDelta, createSamplesColumns } from '../composables/useDelta';
@@ -17,18 +17,10 @@ const pageId = route.params.id ? String(route.params.id) : '';
 const { x, samples, rawSamples, fetchSamples, addSample } = useDelta();
 const columns = createSamplesColumns(SAMPLE_LENGTH);
 
-const { setActiveTab } = useTabs();
-
-const { completeTab } = useCompleteTab(pageId, 'generation');
-const { generateData, asyncStatus, status } = useGenerateData(pageId, fetchSamples);
+const { generateData, asyncStatus } = useGenerateData(pageId, fetchSamples);
 
 const handleFinishData = async () => {
   await generateData();
-
-  if (status.value === 'success') {
-    completeTab();
-    setActiveTab('training');
-  }
 };
 </script>
 

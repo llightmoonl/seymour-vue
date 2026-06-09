@@ -59,6 +59,8 @@
   },
   "hebbian": {
     "shared": {
+      "title": "Hebb's Rule: Digit Classification by Even/Odd Parity",
+      "subtitle": "Task description: Train a perceptron using Hebb's rule: adjust synaptic weights $w_j$ so that the neuron outputs 0 for an even input number and 1 for an odd input number.",
       "thresholdNeuron": "Threshold of neuron sensitivity (Ө)",
       "sumInput": "Weighted summation of input signals",
       "output": "The output signal",

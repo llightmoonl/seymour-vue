@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import type { VTableProps } from './VTable';
+import type { VTableProps } from './VTable.types';
 import { FlexRender, useVueTable, getCoreRowModel } from '@tanstack/vue-table';
 import { nextTick, ref, watch } from 'vue';
 
@@ -50,7 +50,7 @@ watch(
 
       <tbody>
         <tr v-if="table.getRowModel().rows.length === 0">
-          <td :colspan="props.columns.length" class="column">{{ $t('table.empty') }}</td>
+          <td :colspan="columns.length" class="column">{{ $t('table.empty') }}</td>
         </tr>
         <tr class="row" v-for="(row, rowIndex) in table.getRowModel().rows" :key="row.id">
           <td

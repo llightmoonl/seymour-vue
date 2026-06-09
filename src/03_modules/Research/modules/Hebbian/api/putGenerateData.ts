@@ -1,7 +1,7 @@
 import { api } from '@common/api';
-import type { GenerateDataBody, GenerateDataResponse } from './types.d';
+import type { GenerateData, GenerateDataBody } from './types.ts';
 
-export const putGenerateData = async (body: GenerateDataBody): GenerateDataResponse => {
+export const putGenerateData = async (body: GenerateDataBody): Promise<GenerateData> => {
   try {
     return await api
       .put('hebbian/generateData', {

@@ -7,7 +7,7 @@ import VButton from '@common/components/VButton/VButton.vue';
 import VTable from '@common/components/VTable/VTable.vue';
 
 import { DeltaNeuron } from '../';
-import { DetailList, useTabs, useCompleteTab } from '../../../';
+import { DetailList } from '../../_';
 
 import {
   createEpsilonColumns,
@@ -30,7 +30,6 @@ const { t } = useI18n();
 
 const route = useRoute();
 const pageId = route.params.id ? String(route.params.id) : '';
-const { setActiveTab } = useTabs();
 
 const { state, refetch } = useGetDeltaData(pageId);
 const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId);
@@ -60,8 +59,6 @@ const data = computed(() => {
 const handleChangeWeight = () => {
   changeWeight().then(() => refetch());
 };
-
-const { completeTab } = useCompleteTab(pageId, 'training');
 
 const outputsColumns = createOutputsColumns(3);
 const sumColumns = createSumColumns(3);
@@ -106,10 +103,7 @@ const detailsData = computed(() => [
   },
 ]);
 
-const handleCompleteData = () => {
-  completeTab();
-  setActiveTab('quality');
-};
+const handleCompleteData = () => {};
 </script>
 
 <template>

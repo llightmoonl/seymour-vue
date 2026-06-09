@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router';
 import VButton from '@common/components/VButton/VButton.vue';
 
 import { DeltaNeuron } from '../';
-import { DetailList, DrawingGridEditable } from '../../../';
+import { DetailList, DrawingGridEditable } from '../../_';
 
 import { useGetDeltaData } from '../composables/useGetDeltaData';
 import { useRecognition } from '../composables/useRecognition';

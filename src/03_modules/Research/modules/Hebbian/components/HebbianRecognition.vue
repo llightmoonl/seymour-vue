@@ -1,23 +1,37 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import VButton from '@common/components/VButton/VButton.vue';
-import { DetailList, DrawingGridEditable } from '@modules/Research';
-import { HebbianNeuron } from '../';
+import HebbianNeuron from './HebbianNeuron.vue';
+import { DrawingGridEditable, DetailList } from '../../_';
 
 import { COLS, ROWS } from '../models/constant';
 
-import { useGetHebbianData } from '../composables/useGetHebbianData';
+import { useHebbianData } from '../composables/useHebbianData';
 import { useRecognition } from '../composables/useRecognition';
+import { useHebbian } from '@modules/Research/modules/Hebbian/composables/useHebbian';
 
-const route = useRoute();
 const { t } = useI18n();
 
-const pageId = route.params.id ? String(route.params.id) : '';
+const route = useRoute();
+const pageId = String(route.params.id ?? '');
 
-const { state, refetch } = useGetHebbianData(pageId);
+const { x, resetX } = useHebbian();
+const { state } = useHebbianData(pageId);
+const { recognition, state: stateRecognition } = useRecognition(pageId, x);
+
+const resultRecognition = computed(() => {
+  const data = stateRecognition.value?.data;
+
+  return data?.result ?? null;
+});
+
+const runRecognition = () => {
+  recognition();
+  resetX();
+};
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -32,23 +46,6 @@ const data = computed(() => {
     weights: data?.w ?? [],
   };
 });
-
-const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-const x = ref(initialX);
-
-const { recognition, state: stateRecognition } = useRecognition(pageId, x);
-
-const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data;
-
-  return data?.result ?? null;
-});
-
-const handleRecognition = () => {
-  recognition().then(() => refetch());
-  x.value = initialX;
-};
-
 const detailsData = computed(() => [
   {
     id: 1,
@@ -79,37 +76,42 @@ const detailsData = computed(() => [
 </script>
 
 <template>
-  <div class="root">
-    <div class="header">
-      <div class="drawing-canvas">
+  <div class="hebbian-recognition">
+    <div class="hebbian-recognition__content">
+      <div class="hebbian-recognition__input-panel">
         <drawing-grid-editable v-model:grid="x"></drawing-grid-editable>
-        <v-button @click="handleRecognition" class="drawing-canvas__button">
+        <v-button @click="runRecognition" class="hebbian-recognition__input-panel-button">
           {{ $t('hebbian.recognition.button') }}
         </v-button>
       </div>
-      <hebbian-neuron :w="data.weights" :s="data.s" :y="resultRecognition ?? 0" :neuron="data.neuron" />
-      <detail-list :details="detailsData" direction="column"></detail-list>
+      <hebbian-neuron
+        class="hebbian-recognition__neuron"
+        :w="data.weights"
+        :s="data.s"
+        :y="resultRecognition ?? 0"
+        :neuron="data.neuron" />
+      <detail-list class="hebbian-recognition__calculations" :details="detailsData" direction="column"></detail-list>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.root {
+.hebbian-recognition {
   margin-top: rem(32);
-}
 
-.header {
-  display: flex;
-  column-gap: rem(48);
-}
+  &__content {
+    display: flex;
+    column-gap: rem(48);
+  }
 
-.drawing-canvas {
-  display: flex;
-  flex-direction: column;
-  gap: rem(16);
+  &__input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
 
-  &__button {
-    width: 100%;
+    &-button {
+      width: 100%;
+    }
   }
 }
 </style>

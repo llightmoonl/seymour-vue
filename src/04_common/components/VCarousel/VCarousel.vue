@@ -19,7 +19,7 @@ const { carouselRef, goToNext, goToPrev, countVisibleSlides, canScrollNext, canS
     <div class="carousel__viewport" ref="carouselRef">
       <div class="carousel__container">
         <div :key="index" v-for="(item, index) in items" class="carousel__slide" :style="countVisibleSlides">
-          <slot name="slide" :item="item"></slot>
+          <slot name="slide" :item="item" :index="index"></slot>
         </div>
       </div>
     </div>
