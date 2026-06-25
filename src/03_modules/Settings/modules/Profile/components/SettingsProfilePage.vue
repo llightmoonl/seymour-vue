@@ -90,7 +90,7 @@ const resetNameForm = () => {
   nameError.value = '';
 };
 
-const { mutate: saveName, status: saveNameStatus } = useMutation({
+const { mutate: saveName, isLoading: saveNameIsLoading } = useMutation({
   mutation: () => patchProfile({ name: nameValue.value }),
   onSuccess: (profile) => {
     authStore.user = profile;
@@ -214,7 +214,7 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
                     {{ $t('shared.cancel') }}
                   </v-button>
                 </dialog-close>
-                <v-button :size="ButtonSizes.MD" :is-loading="saveNameStatus === 'pending'" @click="onNameSubmit">
+                <v-button :size="ButtonSizes.MD" :is-loading="saveNameIsLoading" @click="onNameSubmit">
                   {{ $t('shared.save') }}
                 </v-button>
               </div>

@@ -14,7 +14,6 @@ const { data, status } = useQuery({
   <div class="activity-feed">
     <div class="activity-feed__header">
       <div class="activity-feed__title">{{ $t('activity.title') }}</div>
-      <RouterLink class="activity-feed__all" to="/activity">{{ $t('activity.log') }} →</RouterLink>
     </div>
     <div class="activity-feed__list">
       <template v-if="status === 'pending'">
@@ -54,11 +53,6 @@ const { data, status } = useQuery({
     display: flex;
     flex-direction: column;
     gap: rem(12);
-  }
-
-  &__all {
-    font-size: rem(13);
-    color: var(--muted-foreground);
   }
 
   &__empty {

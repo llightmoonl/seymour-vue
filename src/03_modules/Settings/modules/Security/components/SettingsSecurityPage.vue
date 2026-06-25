@@ -41,7 +41,7 @@ const { mutate: endSession } = useMutation({
   onSuccess: () => refetch(),
 });
 
-const { mutate: endAllSessions, status: endAllStatus } = useMutation({
+const { mutate: endAllSessions } = useMutation({
   mutation: deleteAllSessions,
   onSuccess: () => refetch(),
 });
@@ -72,16 +72,10 @@ const onDeleteConfirm = () => {
 
 <template>
   <div class="settings-security">
-    <h2 class="settings-security__title">{{ $t('settings.security.title') }}</h2>
-
     <div class="settings-security__block">
       <div class="settings-security__block-header">
-        <h3 class="settings-security__block-title">{{ $t('settings.sessions.title') }}</h3>
-        <v-button
-          :variant="ButtonVariants.OUTLINE"
-          :size="ButtonSizes.SM"
-          :is-loading="endAllStatus === 'pending'"
-          @click="endAllSessions()">
+        <h2 class="settings-security__block-title">{{ $t('settings.sessions.title') }}</h2>
+        <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.MD" @click="endAllSessions()">
           {{ $t('settings.sessions.logout-all') }}
         </v-button>
       </div>
@@ -90,8 +84,8 @@ const onDeleteConfirm = () => {
         <v-skeleton v-for="i in 3" :key="i" class="settings-security__skeleton" />
       </template>
 
-      <template v-else-if="sessionsStatus === 'success' && sessions?.length">
-        <div v-for="session in sessions" :key="session.id" class="settings-security__session">
+      <template v-else-if="sessionsStatus === 'success' && sessions.items?.length">
+        <div v-for="session in sessions.items" :key="session.id" class="settings-security__session">
           <div class="settings-security__session-info">
             <div class="settings-security__session-device">
               {{ session.device }}
@@ -120,9 +114,11 @@ const onDeleteConfirm = () => {
     </div>
 
     <div class="settings-security__block">
-      <h3 class="settings-security__block-title settings-security__block-title--danger">
-        {{ $t('settings.danger-zone.section-title') }}
-      </h3>
+      <div class="settings-security__block-header">
+        <h2 class="settings-security__block-title settings-security__block-title--danger">
+          {{ $t('settings.danger-zone.section-title') }}
+        </h2>
+      </div>
 
       <div class="settings-security__row">
         <div class="settings-security__row-info">
@@ -131,7 +127,7 @@ const onDeleteConfirm = () => {
         </div>
         <dialog-root v-model:open="deleteOpen">
           <dialog-trigger as-child>
-            <v-button :variant="ButtonVariants.DESTRUCTIVE" :size="ButtonSizes.SM">
+            <v-button :variant="ButtonVariants.DESTRUCTIVE" :size="ButtonSizes.LG">
               {{ $t('settings.danger-zone.button') }}
             </v-button>
           </dialog-trigger>

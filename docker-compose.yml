@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_CURRENT_LANGUAGE: ${VITE_CURRENT_LANGUAGE:-ru}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

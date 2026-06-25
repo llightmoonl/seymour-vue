@@ -11,17 +11,6 @@ export {};
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ArrowLeft: typeof import('./src/01_app/assets/icons/arrow-left.svg')['default']
-    ArrowRight: typeof import('./src/01_app/assets/icons/arrow-right.svg')['default']
-    Check: typeof import('./src/01_app/assets/icons/check.svg')['default']
-    ChevronDown: typeof import('./src/01_app/assets/icons/chevron-down.svg')['default']
-    ChevronUp: typeof import('./src/01_app/assets/icons/chevron-up.svg')['default']
-    ChevronVertical: typeof import('./src/01_app/assets/icons/chevron-vertical.svg')['default']
-    Close: typeof import('./src/01_app/assets/icons/close.svg')['default']
-    Compass: typeof import('./src/01_app/assets/icons/compass.svg')['default']
-    Docs: typeof import('./src/01_app/assets/icons/docs.svg')['default']
-    Ellipsis: typeof import('./src/01_app/assets/icons/ellipsis.svg')['default']
-    Home: typeof import('./src/01_app/assets/icons/home.svg')['default']
     ICustomArrowLeft: typeof import('~icons/custom/arrow-left')['default']
     ICustomArrowRight: typeof import('~icons/custom/arrow-right')['default']
     ICustomCheck: typeof import('~icons/custom/check')['default']
@@ -35,18 +24,7 @@ declare module 'vue' {
     ICustomSettings: typeof import('~icons/custom/settings')['default']
     ICustomStepBack: typeof import('~icons/custom/step-back')['default']
     ICustomStepForward: typeof import('~icons/custom/step-forward')['default']
-    Info: typeof import('./src/01_app/assets/icons/info.svg')['default']
-    Language: typeof import('./src/01_app/assets/icons/language.svg')['default']
-    Logo: typeof import('./src/01_app/assets/icons/logo.svg')['default']
-    Minus: typeof import('./src/01_app/assets/icons/minus.svg')['default']
-    PanelLeft: typeof import('./src/01_app/assets/icons/panel-left.svg')['default']
-    Play: typeof import('./src/01_app/assets/icons/play.svg')['default']
-    Plus: typeof import('./src/01_app/assets/icons/plus.svg')['default']
-    Projects: typeof import('./src/01_app/assets/icons/projects.svg')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Search: typeof import('./src/01_app/assets/icons/search.svg')['default']
-    StepBack: typeof import('./src/01_app/assets/icons/step-back.svg')['default']
-    StepForward: typeof import('./src/01_app/assets/icons/step-forward.svg')['default']
   }
 }

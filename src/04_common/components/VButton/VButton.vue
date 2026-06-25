@@ -126,7 +126,7 @@ const modifiers = computed(() => [
 
   &.--destructive {
     --bg: var(--destructive);
-    --color: var(--foreground);
+    --color: var(--primary-foreground);
   }
 
   &.--xs {
