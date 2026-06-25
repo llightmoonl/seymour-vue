@@ -17,7 +17,7 @@ const router = useRouter();
 
 const userName = computed(() => authStore.user?.name ?? '');
 const avatarFallback = computed(() => userName.value.charAt(0).toUpperCase());
-const avatarUrl = computed(() => authStore.user?.avatarUrl ?? '');
+const avatarUrl = computed(() => authStore.avatarSrc);
 </script>
 
 <template>

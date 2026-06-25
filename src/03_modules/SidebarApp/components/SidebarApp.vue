@@ -119,7 +119,7 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
             <div class="sidebar-app__profile" :class="{ '--open': open }">
               <v-avatar
                 class="sidebar-app__avatar"
-                :src="authStore.user?.avatarUrl ?? ''"
+                :src="authStore.avatarSrc"
                 :alt="avatarFallback"
                 :size="AvatarSizes['3XS']" />
               <div v-if="open" class="sidebar-app__profile-info">

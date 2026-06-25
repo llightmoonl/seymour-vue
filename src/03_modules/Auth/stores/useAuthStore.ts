@@ -8,6 +8,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuthenticated = computed(() => user.value !== null);
   const isAdmin = computed(() => user.value?.role === 'ADMIN');
+  const avatarSrc = computed(() => {
+    const url = user.value?.avatarUrl;
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return `${import.meta.env.VITE_API_URL}${url}`;
+  });
 
   const fetchProfile = async () => {
     const profile = await authApi.fetchProfile();
@@ -56,6 +62,7 @@ export const useAuthStore = defineStore('auth', () => {
     isReady,
     isAuthenticated,
     isAdmin,
+    avatarSrc,
     fetchProfile,
     login,
     register,

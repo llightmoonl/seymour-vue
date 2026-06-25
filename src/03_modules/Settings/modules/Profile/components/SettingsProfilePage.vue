@@ -172,7 +172,7 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
     <h2 class="settings-profile__title">{{ $t('settings.profile.title') }}</h2>
 
     <div class="settings-profile__avatar-section">
-      <v-avatar :src="authStore.user?.avatarUrl ?? ''" :alt="avatarFallback" :size="AvatarSizes['2XL']" />
+      <v-avatar :src="authStore.avatarSrc" :alt="avatarFallback" :size="AvatarSizes['2XL']" />
       <div class="settings-profile__avatar-meta">
         <div class="settings-profile__avatar-name">{{ authStore.user?.name }}</div>
         <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.SM" @click="fileInputRef?.click()">

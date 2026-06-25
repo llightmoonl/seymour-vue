@@ -19,9 +19,6 @@ async function doRefresh(): Promise<void> {
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_URL,
   credentials: 'include',
-  headers: {
-    'Content-Type': 'application/json',
-  },
   retry: {
     limit: 1,
     statusCodes: [401],
