@@ -13,7 +13,7 @@ ARG VITE_CURRENT_LANGUAGE=ru
 ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_CURRENT_LANGUAGE=$VITE_CURRENT_LANGUAGE
 
-RUN npm run build
+RUN npm run build-only
 
 # ── Stage 2: serve ────────────────────────────────────────────────────────────
 FROM node:22-alpine AS runner
