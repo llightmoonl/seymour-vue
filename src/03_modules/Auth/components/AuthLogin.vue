@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
 
 import VInput from '@common/components/VInput/VInput.vue';
 import VPasswordInput from '@common/components/VInput/VPasswordInput.vue';
@@ -11,9 +13,15 @@ import VCheckbox from '@common/components/VCheckbox/VCheckbox.vue';
 import { ButtonSizes, ButtonTypes } from '@common/components/VButton/VButton.types';
 
 import { useAuthSchema } from '../composables/useAuthSchema';
+import { useAuthStore } from '../stores/useAuthStore';
 
 const { t } = useI18n();
 const { loginSchema } = useAuthSchema(t);
+const authStore = useAuthStore();
+const router = useRouter();
+
+const serverError = ref('');
+const isLoading = ref(false);
 
 const SETTINGS_FIELDS = {
   validateOnBlur: false,
@@ -33,8 +41,21 @@ const [email] = defineField('email', SETTINGS_FIELDS);
 const [password] = defineField('password', SETTINGS_FIELDS);
 const [remember] = defineField('remember');
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
+const onSubmit = handleSubmit(async (values) => {
+  serverError.value = '';
+  isLoading.value = true;
+  try {
+    await authStore.login({
+      email: values.email,
+      password: values.password,
+      rememberMe: values.remember,
+    });
+    router.push('/');
+  } catch {
+    serverError.value = t('auth.sign-in.error');
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -68,7 +89,8 @@ const onSubmit = handleSubmit((values) => {
       </label>
       <router-link class="auth-login__forgot-password" to="#">{{ $t('auth.sign-in.forgot-password') }}</router-link>
     </div>
-    <v-button :type="ButtonTypes.SUBMIT" :size="ButtonSizes.XL" class="auth-login__submit">
+    <p v-if="serverError" class="auth-login__error">{{ serverError }}</p>
+    <v-button :type="ButtonTypes.SUBMIT" :size="ButtonSizes.XL" class="auth-login__submit" :is-loading="isLoading">
       {{ $t('auth.sign-in.button') }}
     </v-button>
     <p class="auth-login__no-account">
@@ -102,6 +124,13 @@ const onSubmit = handleSubmit((values) => {
   &__submit {
     inline-size: 100%;
     margin-block-start: rem(36);
+  }
+
+  &__error {
+    margin-block-start: rem(8);
+    font-size: rem(13);
+    color: var(--destructive);
+    font-weight: 600;
   }
 
   &__no-account {

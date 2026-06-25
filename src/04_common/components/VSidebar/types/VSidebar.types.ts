@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref } from 'vue';
+import type { Component, InjectionKey, Ref } from 'vue';
 
 export const SidebarVariants = {
   SIDEBAR: 'sidebar',
@@ -41,6 +41,6 @@ export interface SidebarProps {
 export interface SidebarMenuItemProps {
   href: string;
   title?: string;
-  icon?: string;
+  icon?: string | Component;
   opened?: boolean;
 }

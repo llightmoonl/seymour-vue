@@ -25,12 +25,14 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
       <dropdown-menu-content class="dropdown__menu-content" :class="modifiersContent" :side-offset="5">
         <template v-for="item in items" :key="item.id">
           <dropdown-menu-item
-            v-if="item.type === 'item'"
+            v-if="item.type === 'item' && !item.hidden"
             :value="item.label"
             class="dropdown__menu-item"
-            :class="{ '--danger': item.danger }">
+            :class="{ '--danger': item.danger }"
+            @click="item.onClick?.()">
             <component v-if="item.icon" class="dropdown__menu-icon" :is="item.icon" />
-            {{ item.label }}
+            <span class="dropdown__menu-label">{{ item.label }}</span>
+            <span v-if="item.meta" class="dropdown__menu-meta">{{ item.meta }}</span>
           </dropdown-menu-item>
           <dropdown-menu-separator v-if="item.type === 'separator'" class="dropdown__menu-separator" />
         </template>
@@ -108,6 +110,16 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
           background-color: color-mix(in srgb, var(--destructive) 15%, transparent);
         }
       }
+    }
+
+    &-label {
+      flex: 1;
+    }
+
+    &-meta {
+      font-size: rem(11);
+      color: var(--muted-foreground);
+      margin-inline-start: rem(8);
     }
 
     &-separator {

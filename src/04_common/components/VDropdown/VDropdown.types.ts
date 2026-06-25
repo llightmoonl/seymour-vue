@@ -12,6 +12,9 @@ export interface DropdownItem {
   label?: string;
   action?: string;
   danger?: true;
+  hidden?: boolean;
+  meta?: string;
+  onClick?: () => void;
 }
 
 export interface DropdownProps {

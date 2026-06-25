@@ -21,4 +21,8 @@ app.use(PiniaColada);
 app.use(head);
 app.use(router);
 app.use(i18n);
+
+import { useLocaleStore } from '@modules/locale';
+useLocaleStore().init();
+
 app.mount('#app');

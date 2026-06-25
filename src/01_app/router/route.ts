@@ -15,40 +15,28 @@ export const routes: Readonly<RouteRecordRaw[]> = [
   {
     path: '/',
     component: DefaultLayout,
+    meta: { requiresAuth: true },
     children: [
+      { path: '', component: HomeView },
+      { path: '/docs', redirect: '/docs/hebbian' },
+      { path: '/docs/:slug', component: DocsView },
+      { path: '/projects', component: ProjectsView },
+      { path: '/projects/hebbian/:id', component: HebbianView },
+      { path: '/projects/delta/:id', component: DeltaView },
+      { path: '/projects/backpropagation/:id', component: BackpropagationView },
+      { path: '/settings', component: () => import('@pages/SettingsView.vue') },
       {
-        path: '',
-        component: HomeView,
-      },
-      {
-        path: '/docs',
-        redirect: '/docs/hebbian',
-      },
-      {
-        path: '/docs/:slug',
-        component: DocsView,
-      },
-      {
-        path: '/projects',
-        component: ProjectsView,
-      },
-      {
-        path: '/projects/hebbian/:id',
-        component: HebbianView,
-      },
-      {
-        path: '/projects/delta/:id',
-        component: DeltaView,
-      },
-      {
-        path: '/projects/backpropagation/:id',
-        component: BackpropagationView,
+        path: '/admin',
+        redirect: '/admin/users',
+        meta: { requiresAdmin: true },
+        children: [{ path: 'users', component: () => import('@pages/AdminUsersView.vue') }],
       },
     ],
   },
   {
     path: '/auth',
     component: AuthLayout,
+    meta: { guest: true },
     children: [
       { path: '/login', name: 'login', component: AuthView },
       { path: '/register', name: 'register', component: AuthView },

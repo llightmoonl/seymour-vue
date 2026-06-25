@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 import VButton from '@common/components/VButton/VButton.vue';
 import VLogo from '@common/components/VLogo/VLogo.vue';
@@ -25,8 +26,16 @@ import type { DropdownItem } from '@common/components/VDropdown/VDropdown.types.
 import { AvatarSizes } from '@common/components/VAvatar/VAvatar.types.ts';
 import { LogoSizes } from '@common/components/VLogo/VLogo.types.ts';
 
+import { useAuthStore } from '@modules/Auth/stores/useAuthStore';
+import { useThemeStore } from '@modules/themes';
+import { useLocaleStore } from '@modules/locale';
+
 const { open, setOpen } = useSidebar();
 const { t } = useI18n();
+const router = useRouter();
+const authStore = useAuthStore();
+const themeStore = useThemeStore();
+const localeStore = useLocaleStore();
 
 const sidebarElements = [
   { id: 1, title: t('sidebar.main.home'), href: '/', icon: HomeIcon },
@@ -35,15 +44,52 @@ const sidebarElements = [
 ];
 
 const profileSettingIsOpened = ref(false);
-const profileSettings: DropdownItem[] = [
-  { id: 1, icon: 'language', label: t('sidebar.profile.settings'), type: 'item' },
-  { id: 2, icon: '', label: t('sidebar.profile.theme'), type: 'item' },
-  { id: 3, icon: '', label: t('sidebar.profile.language'), type: 'item' },
-  { id: 4, type: 'separator' },
-  { id: 5, icon: '', label: t('sidebar.profile.admin'), type: 'item' },
-  { id: 6, type: 'separator' },
-  { id: 7, icon: '', label: t('sidebar.profile.logout'), type: 'item', danger: true },
-];
+
+const profileSettings = computed<DropdownItem[]>(() => [
+  {
+    id: 1,
+    type: 'item',
+    label: t('sidebar.profile.settings'),
+    onClick: () => router.push('/settings/profile'),
+  },
+  { id: 2, type: 'separator' },
+  {
+    id: 3,
+    type: 'item',
+    label: t('sidebar.profile.theme'),
+    meta: themeStore.theme === 'dark' ? t('settings.appearance.theme-dark') : t('settings.appearance.theme-light'),
+    onClick: () => themeStore.setTheme(themeStore.theme === 'dark' ? 'light' : 'dark'),
+  },
+  {
+    id: 4,
+    type: 'item',
+    label: t('sidebar.profile.language'),
+    meta: localeStore.locale === 'ru' ? 'RU' : 'EN',
+    onClick: () => localeStore.setLocale(localeStore.locale === 'ru' ? 'en' : 'ru'),
+  },
+  { id: 5, type: 'separator' },
+  {
+    id: 6,
+    type: 'item',
+    label: t('sidebar.profile.admin'),
+    hidden: !authStore.isAdmin,
+    onClick: () => router.push('/admin/users'),
+  },
+  { id: 7, type: 'separator', hidden: !authStore.isAdmin },
+  {
+    id: 8,
+    type: 'item',
+    label: t('sidebar.profile.logout'),
+    danger: true,
+    onClick: async () => {
+      await authStore.logout();
+      router.push('/login');
+    },
+  },
+]);
+
+const avatarFallback = computed(() => (authStore.user?.name ?? '?').charAt(0).toUpperCase());
+const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`));
 </script>
 
 <template>
@@ -73,12 +119,12 @@ const profileSettings: DropdownItem[] = [
             <div class="sidebar-app__profile" :class="{ '--open': open }">
               <v-avatar
                 class="sidebar-app__avatar"
-                src="https://images.cybersport.ru/images/as-is/plain/23/234e7096-0e10-4ec8-b41b-7cd380bc9f67.png"
-                alt="O"
+                :src="authStore.user?.avatarUrl ?? ''"
+                :alt="avatarFallback"
                 :size="AvatarSizes['3XS']" />
               <div v-if="open" class="sidebar-app__profile-info">
-                <div class="sidebar-app__profile-name">Олег Скворцов</div>
-                <div class="sidebar-app__profile-role">Администратор</div>
+                <div class="sidebar-app__profile-name">{{ authStore.user?.name }}</div>
+                <div class="sidebar-app__profile-role">{{ roleLabel }}</div>
               </div>
               <i-custom-chevron-vertical v-if="open" class="sidebar-app__profile-vertical" />
             </div>

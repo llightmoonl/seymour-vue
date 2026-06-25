@@ -1,15 +1,33 @@
 import { api } from '@common/api';
-import type { ProjectsResponse } from './getProjects.d';
+import type { Pagination } from '@common/api/types';
 
-export const getProjects = async (page: number, limit: number, search: string, filter: string): ProjectsResponse => {
-  try {
-    const limitQuery = limit ? `&limit=${limit}` : '';
-    const searchQuery = search ? `&search=${search}` : '';
-    const filterQuery = filter ? `&filter=${filter}` : '';
+export interface ProjectItem {
+  id: string;
+  title: string;
+  type: number;
+  status: 'DRAFT' | 'IN_PROGRESS' | 'TRAINED';
+  createdAt: string;
+  updatedAt: string;
+}
 
-    return await api.get(`research?page=${page}${limitQuery}${searchQuery}${filterQuery}`).json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+export interface GetProjectsParams {
+  page?: number;
+  limit?: number;
+  status?: string;
+  filter?: string;
+  sort?: string;
+  search?: string;
+}
+
+export type ProjectsResponse = Pagination<ProjectItem>;
+
+export const getProjects = (params: GetProjectsParams = {}): Promise<ProjectsResponse> => {
+  const searchParams: Record<string, string | number> = {};
+  if (params.page) searchParams.page = params.page;
+  if (params.limit) searchParams.limit = params.limit;
+  if (params.status) searchParams.status = params.status;
+  if (params.filter) searchParams.filter = params.filter;
+  if (params.sort) searchParams.sort = params.sort;
+  if (params.search) searchParams.search = params.search;
+  return api.get('research', { searchParams }).json<ProjectsResponse>();
 };

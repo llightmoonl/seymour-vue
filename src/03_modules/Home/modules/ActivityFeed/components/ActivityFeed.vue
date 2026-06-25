@@ -1,43 +1,13 @@
 <script setup lang="ts">
+import { useQuery } from '@pinia/colada';
 import ActivityFeedItem from '../components/ActivityFeedItem.vue';
-const items = [
-  {
-    id: 1,
-    title: 'Хебба',
-    type: 'start',
-    date: '2026-06-10',
-  },
-  {
-    id: 2,
-    title: 'Хебба',
-    type: 'end',
-    date: '2026-06-10',
-  },
-  {
-    id: 3,
-    title: 'Хебба',
-    type: 'end',
-    date: '2026-06-10',
-  },
-  {
-    id: 4,
-    title: 'Хебба',
-    type: 'end',
-    date: '2026-06-10',
-  },
-  {
-    id: 5,
-    title: 'Хебба',
-    type: 'end',
-    date: '2026-06-10',
-  },
-  {
-    id: 6,
-    title: 'Хебба',
-    type: 'end',
-    date: '2026-06-10',
-  },
-];
+import ActivityFeedItemSkeleton from '../components/ActivityFeedItemSkeleton.vue';
+import { getActivity } from '@modules/Home/api/getActivity';
+
+const { data, status } = useQuery({
+  key: ['activity'],
+  query: () => getActivity(1, 6),
+});
 </script>
 
 <template>
@@ -47,12 +17,18 @@ const items = [
       <RouterLink class="activity-feed__all" to="/activity">{{ $t('activity.log') }} →</RouterLink>
     </div>
     <div class="activity-feed__list">
-      <activity-feed-item
-        v-for="item in items"
-        :key="item.id"
-        :title="item.title"
-        :type="item.type"
-        :date="item.date" />
+      <template v-if="status === 'pending'">
+        <activity-feed-item-skeleton v-for="i in 4" :key="i" />
+      </template>
+      <template v-else-if="status === 'success' && data?.items.length">
+        <activity-feed-item
+          v-for="item in data.items"
+          :key="item.id"
+          :title="item.projectTitle"
+          :type="item.type"
+          :date="item.createdAt" />
+      </template>
+      <p v-else-if="status === 'success'" class="activity-feed__empty">{{ $t('activity.empty') }}</p>
     </div>
   </div>
 </template>
@@ -81,6 +57,11 @@ const items = [
   }
 
   &__all {
+    font-size: rem(13);
+    color: var(--muted-foreground);
+  }
+
+  &__empty {
     font-size: rem(13);
     color: var(--muted-foreground);
   }

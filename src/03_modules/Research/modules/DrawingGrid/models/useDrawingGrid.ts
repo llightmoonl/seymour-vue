@@ -1,5 +1,5 @@
 import { clone2DArray } from '@common/utils/array.ts';
-import  { type ModelRef } from 'vue';
+import { type ModelRef } from 'vue';
 
 export function useDrawingGrid(grid: ModelRef<number[][]>) {
   const paintOverCell = (rowIndex: number, columnIndex: number) => {

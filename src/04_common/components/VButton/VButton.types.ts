@@ -5,7 +5,8 @@ export const ButtonVariants = {
   SUBTLE: 'subtle',
   GHOST: 'ghost',
   LINK: 'link',
-};
+  DESTRUCTIVE: 'destructive',
+} as const;
 
 export const ButtonTypes = {
   BUTTON: 'button',

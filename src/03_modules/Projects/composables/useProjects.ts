@@ -9,7 +9,13 @@ import type { ProjectsListItem } from '../types/projects.types.ts';
 export function useProjects(search: MaybeRefOrGetter<string>, filter: MaybeRefOrGetter<string>) {
   const { data, ...queries } = useInfiniteQuery({
     key: () => ['projects', toValue(search), toValue(filter)],
-    query: ({ pageParam }) => getProjects(pageParam, 20, toValue(search), toValue(filter)),
+    query: ({ pageParam }) =>
+      getProjects({
+        page: pageParam,
+        limit: 20,
+        search: toValue(search) || undefined,
+        filter: toValue(filter),
+      }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage?.pagination.hasNextPage ? lastPage?.pagination.currentPage + 1 : null),
   });

@@ -10,7 +10,13 @@
     "updated": "Updated by {time}",
     "show-more": "Show more",
     "cancel": "Cancel",
+    "save": "Save",
     "create": "Create",
+    "delete": "Delete",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "empty": "No data",
     "algorithms": {
       "hebbian": "The Hebbian Rule",
       "delta": "The Delta Rule",
@@ -73,12 +79,8 @@
       "recognition": "Recognition"
     },
     "buttons": {
-      "even": {
-        "title": "Even"
-      },
-      "odd": {
-        "title": "Odd"
-      }
+      "even": { "title": "Even" },
+      "odd": { "title": "Odd" }
     },
     "tables": {
       "examples": "Examples"
@@ -141,7 +143,14 @@
   },
   "activity": {
     "title": "Activity",
-    "log": "Full log"
+    "log": "Full log",
+    "empty": "No activity yet",
+    "types": {
+      "start": "Training started",
+      "end": "Training completed",
+      "create": "Project created",
+      "delete": "Project deleted"
+    }
   },
   "auth": {
     "sign-in": {
@@ -153,6 +162,7 @@
       "button": "Sign in",
       "no-account": "No account?",
       "link": "Sign up",
+      "error": "Invalid email or password",
       "validation": {
         "email": {
           "empty": "Enter a email",
@@ -179,18 +189,197 @@
       "button": "Create account",
       "exist-account": "Already have an account?",
       "link": "Sign in",
+      "error": "Registration error. Please try again",
       "validation": {
-        "name": {
-          "empty": "Enter a first and last name"
-        },
+        "name": { "empty": "Enter a first and last name" },
         "email": {
           "empty": "Enter an email",
           "correct": "Enter a valid email"
         },
-        "password": {
-          "empty": "Enter a password"
-        }
+        "password": { "empty": "Enter a password" }
       }
+    },
+    "change-password": {
+      "title": "Change password",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Change password",
+      "success": "Password changed successfully",
+      "error": "Failed to change password",
+      "validation": {
+        "current": { "empty": "Enter your current password" },
+        "new": { "empty": "Enter a new password", "min": "Minimum 6 characters" },
+        "confirm": { "empty": "Confirm your password", "match": "Passwords do not match" }
+      }
+    },
+    "email": {
+      "title": "Email",
+      "placeholder": "Enter email"
+    },
+    "password": {
+      "title": "Password",
+      "placeholder": "Enter password"
+    }
+  },
+  "dashboard": {
+    "greeting": "Welcome to Seymour!",
+    "stats": {
+      "total": "Total projects",
+      "trained": "Trained",
+      "inProgress": "In progress"
+    },
+    "distribution": {
+      "title": "Distribution",
+      "total": "Total",
+      "hebb": "Hebbian Rule",
+      "delta": "Delta Rule",
+      "backprop": "Backpropagation"
+    },
+    "projects": {
+      "title": "My projects",
+      "all": "All projects →",
+      "empty": "You have no projects yet"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "nav": {
+      "profile": "General",
+      "appearance": "Appearance",
+      "security": "Security"
+    },
+    "profile": {
+      "title": "General",
+      "account-info": "Account information",
+      "username-label": "Username",
+      "change": "Change",
+      "change-name-title": "Change username",
+      "change-name-description": "Enter your new username.",
+      "name-required": "Enter a username",
+      "show": "Show",
+      "hide": "Hide",
+      "verified": "Verified",
+      "verify-error": "Invalid code",
+      "name": "Name",
+      "name-placeholder": "Enter your name",
+      "email": "Email",
+      "role": "Role",
+      "save": "Save",
+      "verify-email": "Verify",
+      "email-not-verified": "Please verify your email for full access",
+      "verify-sent": "Verification email sent",
+      "confirm-token": "Enter the code from the email",
+      "confirm-submit": "Confirm",
+      "success": "Profile updated",
+      "avatar-upload": "Upload photo",
+      "password-label": "Password"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "theme-label": "Theme",
+      "theme-light": "Light",
+      "theme-dark": "Dark",
+      "locale-label": "Interface language",
+      "locale-ru": "Русский",
+      "locale-en": "English"
+    },
+    "security": {
+      "title": "Security",
+      "password-section": "Password",
+      "last-changed": "Last changed",
+      "change-password": "Change password"
+    },
+    "sessions": {
+      "title": "Active sessions",
+      "current": "Current",
+      "logout-one": "End session",
+      "logout-all": "Sign out of all devices",
+      "empty": "No sessions found",
+      "device": "Device",
+      "location": "Location",
+      "last-active": "Last active"
+    },
+    "danger-zone": {
+      "section-title": "Danger zone",
+      "title": "Delete account",
+      "description": "Deleting your account is irreversible. All data will be deleted after 30 days.",
+      "button": "Delete account",
+      "confirm-title": "Are you sure?",
+      "confirm-description": "This action cannot be undone. Your account and all data will be permanently deleted.",
+      "password-label": "Enter your password to confirm",
+      "confirm-button": "Delete permanently",
+      "error": "Wrong password or deletion failed"
+    }
+  },
+  "roles": {
+    "STUDENT": "Student",
+    "TEACHER": "Teacher",
+    "ADMIN": "Administrator"
+  },
+  "admin": {
+    "title": "Admin panel",
+    "users": {
+      "title": "Users",
+      "total": "Total",
+      "active": "Active",
+      "students": "Students",
+      "teachers": "Teachers",
+      "add": "Add user",
+      "export": "Export",
+      "search-placeholder": "Search by name or email...",
+      "all-roles": "All roles",
+      "all-statuses": "All statuses",
+      "columns": {
+        "user": "User",
+        "role": "Role",
+        "group": "Group",
+        "status": "Status",
+        "projects": "Projects",
+        "created": "Registered",
+        "actions": "Actions"
+      },
+      "empty": "No users found",
+      "delete-confirm": "Delete user {name}?",
+      "delete-confirm-description": "This action cannot be undone"
+    },
+    "user-projects": {
+      "title": "User projects",
+      "total": "Total projects: {n}",
+      "download-report": "Download report",
+      "empty": "No projects"
+    },
+    "edit-user": {
+      "title": "Edit user",
+      "subtitle": "Changes to \"{name}\" will be saved immediately.",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "group": "Group",
+      "status": "Status",
+      "save": "Save changes",
+      "cancel": "Cancel"
+    },
+    "create-user": {
+      "title": "Add user",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "group": "Group",
+      "status": "Status",
+      "create": "Create",
+      "cancel": "Cancel"
+    },
+    "delete-doc": {
+      "title": "Delete document?",
+      "description": "Document \"{title}\" ({words} words) will be permanently deleted. This action cannot be undone.",
+      "confirm": "Delete permanently",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "BLOCKED": "Blocked"
     }
   }
 }

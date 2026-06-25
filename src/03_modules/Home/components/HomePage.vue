@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import VContainer from '@common/components/VContainer/VContainer.vue';
 import { ActivityFeed } from '../modules/ActivityFeed';
 import { RecentProjects } from '@modules/Home/modules/RecentProjects';
@@ -8,24 +10,32 @@ import VButton from '@common/components/VButton/VButton.vue';
 import { AvatarSizes } from '@common/components/VAvatar/VAvatar.types.ts';
 import { DistributionStats } from '@modules/Home/modules/DistributionStats';
 import MainStats from '@modules/Home/modules/MainStats/components/MainStats.vue';
+import { useAuthStore } from '@modules/Auth/stores/useAuthStore';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+const userName = computed(() => authStore.user?.name ?? '');
+const avatarFallback = computed(() => userName.value.charAt(0).toUpperCase());
+const avatarUrl = computed(() => authStore.user?.avatarUrl ?? '');
 </script>
 
 <template>
   <div class="home">
     <v-container size="lg">
       <div class="profile">
-        <v-avatar
-          class="profile-avatar"
-          src="https://images.cybersport.ru/images/as-is/plain/23/234e7096-0e10-4ec8-b41b-7cd380bc9f67.png"
-          alt="O"
-          :size="AvatarSizes['3XL']" />
+        <v-avatar class="profile-avatar" :src="avatarUrl" :alt="avatarFallback" :size="AvatarSizes['3XL']" />
         <div class="profile__meta">
-          <h1 class="profile__title">Олег Скворцов</h1>
-          <div class="profile__gretting-message">Добро пожаловать в Seymour!</div>
+          <h1 class="profile__title">{{ userName }}</h1>
+          <div class="profile__gretting-message">{{ $t('dashboard.greeting') }}</div>
         </div>
-        <v-button class="profile__settings" :variant="ButtonVariants.SOFT" :size="ButtonSizes.XL">
+        <v-button
+          class="profile__settings"
+          :variant="ButtonVariants.SOFT"
+          :size="ButtonSizes.XL"
+          @click="router.push('/settings')">
           <i-custom-settings />
-          Настройки
+          {{ $t('settings.title') }}
         </v-button>
       </div>
       <div class="home__main">

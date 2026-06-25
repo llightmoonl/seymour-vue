@@ -1,87 +1,23 @@
 <script setup lang="ts">
-import { RecentProjectsList } from '@modules/Home/modules/RecentProjects';
+import { RecentProjectsList, RecentProjectsListSkeleton } from '@modules/Home/modules/RecentProjects';
+import { useRecentProjects } from '../composables/useRecentProjects';
 
-const recentProjects = [
-  {
-    id: '1',
-    title: 'Хебба',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '2',
-    title: 'Хебба2',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-  {
-    id: '3',
-    title: 'Хебба3',
-    typeName: 'Правило Хебба',
-    url: 'ewcwec',
-    updatedAt: '12.11.2025',
-  },
-];
+const { recentProjects, isLoading, status } = useRecentProjects();
 </script>
 
 <template>
   <div class="recent-projects">
     <div class="recent-projects__header">
-      <div class="recent-projects__title">Мои проекты</div>
-      <RouterLink class="recent-projects__all" to="/projects">Все проекты →</RouterLink>
+      <div class="recent-projects__title">{{ $t('dashboard.projects.title') }}</div>
+      <RouterLink class="recent-projects__all" to="/projects">{{ $t('dashboard.projects.all') }}</RouterLink>
     </div>
-    <recent-projects-list class="recent-projects__list" :items="recentProjects" />
+    <template v-if="isLoading">
+      <recent-projects-list-skeleton class="recent-projects__list" />
+    </template>
+    <template v-else-if="recentProjects.length">
+      <recent-projects-list class="recent-projects__list" :items="recentProjects" />
+    </template>
+    <p v-else-if="status === 'success'" class="recent-projects__empty">{{ $t('dashboard.projects.empty') }}</p>
   </div>
 </template>
 
@@ -107,6 +43,13 @@ const recentProjects = [
   }
 
   &__all {
+    font-size: rem(13);
+    color: var(--muted-foreground);
+  }
+
+  &__empty {
+    margin-block-start: rem(12);
+    padding-inline: rem(8);
     font-size: rem(13);
     color: var(--muted-foreground);
   }

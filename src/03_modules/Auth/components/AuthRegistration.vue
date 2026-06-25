@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
 
 import { ButtonSizes, ButtonTypes } from '@common/components/VButton/VButton.types.ts';
 import VFormField from '@common/components/VFormField/VFormField.vue';
@@ -10,9 +12,15 @@ import VCheckbox from '@common/components/VCheckbox/VCheckbox.vue';
 import VPasswordInput from '@common/components/VInput/VPasswordInput.vue';
 
 import { useAuthSchema } from '@modules/Auth/composables/useAuthSchema';
+import { useAuthStore } from '../stores/useAuthStore';
 
 const { t } = useI18n();
 const { registerSchema } = useAuthSchema(t);
+const authStore = useAuthStore();
+const router = useRouter();
+
+const serverError = ref('');
+const isLoading = ref(false);
 
 const SETTINGS_FIELDS = {
   validateOnBlur: false,
@@ -30,8 +38,21 @@ const [email] = defineField('email', SETTINGS_FIELDS);
 const [password] = defineField('password', SETTINGS_FIELDS);
 const [agreement] = defineField('agreement', SETTINGS_FIELDS);
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
+const onSubmit = handleSubmit(async (values) => {
+  serverError.value = '';
+  isLoading.value = true;
+  try {
+    await authStore.register({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    });
+    router.push('/');
+  } catch {
+    serverError.value = t('auth.sign-up.error');
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -88,8 +109,13 @@ const onSubmit = handleSubmit((values) => {
         </span>
       </label>
     </div>
-    <v-button :type="ButtonTypes.SUBMIT" :size="ButtonSizes.XL" class="auth-registration__submit">
-      {{ $t('auth.sign-in.button') }}
+    <p v-if="serverError" class="auth-registration__error">{{ serverError }}</p>
+    <v-button
+      :type="ButtonTypes.SUBMIT"
+      :size="ButtonSizes.XL"
+      class="auth-registration__submit"
+      :is-loading="isLoading">
+      {{ $t('auth.sign-up.button') }}
     </v-button>
     <p class="auth-registration__no-account">
       {{ $t('auth.sign-up.exist-account') }}
@@ -122,6 +148,13 @@ const onSubmit = handleSubmit((values) => {
   &__submit {
     inline-size: 100%;
     margin-block-start: rem(36);
+  }
+
+  &__error {
+    margin-block-start: rem(8);
+    font-size: rem(13);
+    color: var(--destructive);
+    font-weight: 600;
   }
 
   &__no-account {

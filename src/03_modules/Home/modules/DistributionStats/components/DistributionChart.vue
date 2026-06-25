@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   segments: {
-    key: number;
+    id: number;
     value: number;
     color: string;
     title: string;
