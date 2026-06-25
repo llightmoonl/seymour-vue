@@ -11,8 +11,9 @@ import { DetailList, DrawingGridView } from '../../_';
 
 import { useHebbianData } from '../composables/useHebbianData';
 import { useRecognition } from '../composables/useRecognition';
-import { useHebbian } from '../composables/useHebbian';
 import { useNextStage } from '../composables/useNextStage';
+
+import { useHebbian } from '../composables/useHebbian';
 
 import { COLS, ROWS } from '../models/constant';
 

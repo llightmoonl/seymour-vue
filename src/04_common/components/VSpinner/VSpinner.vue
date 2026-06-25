@@ -1,23 +1,42 @@
 <script setup lang="ts">
-import type { SpinnerProps } from './VSpinner';
+import { type SpinnerProps, SpinnerSizes } from './VSpinner.types.ts';
 
-defineProps<SpinnerProps>();
+withDefaults(defineProps<SpinnerProps>(), {
+  size: SpinnerSizes.MD,
+});
 </script>
 
 <template>
-  <div :style="{ width: size, height: size }" class="spinner"></div>
+  <div class="spinner"></div>
 </template>
 
 <style scoped lang="scss">
 .spinner {
+  --size: rem(18);
   display: inline-block;
-  width: rem(18);
-  height: rem(18);
+  block-size: var(--size);
+  inline-size: var(--size);
   vertical-align: middle;
   border: 2px solid currentColor;
   border-bottom-color: transparent;
   border-radius: 50%;
   animation: spinner 1s ease-in-out infinite;
+
+  &.--xs {
+    --size: rem(14);
+  }
+
+  &.--sm {
+    --size: rem(16);
+  }
+
+  &.--lg {
+    --size: rem(20);
+  }
+
+  &.--xl {
+    --size: rem(22);
+  }
 }
 
 @keyframes spinner {

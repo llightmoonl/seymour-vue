@@ -22,6 +22,8 @@ import DocsIcon from '~icons/custom/docs';
 import ProjectsIcon from '~icons/custom/projects';
 
 import type { DropdownItem } from '@common/components/VDropdown/VDropdown.types.ts';
+import { AvatarSizes } from '@common/components/VAvatar/VAvatar.types.ts';
+import { LogoSizes } from '@common/components/VLogo/VLogo.types.ts';
 
 const { open, setOpen } = useSidebar();
 const { t } = useI18n();
@@ -48,7 +50,7 @@ const profileSettings: DropdownItem[] = [
   <v-sidebar-provider :open="open">
     <v-sidebar class="sidebar-app">
       <v-sidebar-header class="sidebar-app__header">
-        <v-logo class="sidebar-app__logo" />
+        <v-logo :size="LogoSizes['3XS']" class="sidebar-app__logo" />
         <v-button class="sidebar-app__button" variant="ghost" @click="setOpen">
           <i-custom-panel-left class="sidebar-app__button-icon" />
         </v-button>
@@ -69,10 +71,11 @@ const profileSettings: DropdownItem[] = [
         <v-dropdown :items="profileSettings" v-model:open="profileSettingIsOpened" match-trigger-width>
           <template #trigger>
             <div class="sidebar-app__profile" :class="{ '--open': open }">
-              <VAvatar
+              <v-avatar
                 class="sidebar-app__avatar"
                 src="https://images.cybersport.ru/images/as-is/plain/23/234e7096-0e10-4ec8-b41b-7cd380bc9f67.png"
-                alt="O" />
+                alt="O"
+                :size="AvatarSizes['3XS']" />
               <div v-if="open" class="sidebar-app__profile-info">
                 <div class="sidebar-app__profile-name">Олег Скворцов</div>
                 <div class="sidebar-app__profile-role">Администратор</div>

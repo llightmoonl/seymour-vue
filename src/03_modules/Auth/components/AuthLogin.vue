@@ -1,39 +1,79 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+import { useForm } from 'vee-validate';
+
 import VInput from '@common/components/VInput/VInput.vue';
+import VPasswordInput from '@common/components/VInput/VPasswordInput.vue';
 import VFormField from '@common/components/VFormField/VFormField.vue';
 import VButton from '@common/components/VButton/VButton.vue';
 import VCheckbox from '@common/components/VCheckbox/VCheckbox.vue';
-import { ButtonSizes } from '@common/components/VButton/VButton.types.ts';
+
+import { ButtonSizes, ButtonTypes } from '@common/components/VButton/VButton.types';
+
+import { useAuthSchema } from '../composables/useAuthSchema';
+
+const { t } = useI18n();
+const { loginSchema } = useAuthSchema(t);
+
+const SETTINGS_FIELDS = {
+  validateOnBlur: false,
+  validateOnModelUpdate: false,
+  validateOnInput: false,
+  validateOnChange: false,
+};
+
+const { errors, defineField, handleSubmit } = useForm({
+  validationSchema: loginSchema,
+  initialValues: {
+    remember: false,
+  },
+});
+
+const [email] = defineField('email', SETTINGS_FIELDS);
+const [password] = defineField('password', SETTINGS_FIELDS);
+const [remember] = defineField('remember');
+
+const onSubmit = handleSubmit((values) => {
+  console.log(values);
+});
 </script>
 
 <template>
-  <form class="auth-login">
+  <form class="auth-login" novalidate @submit="onSubmit">
     <h1 class="auth-login__title">{{ $t('auth.sign-in.title') }}</h1>
     <p class="auth-login__pretitle">{{ $t('auth.sign-in.pretitle') }}</p>
     <div class="auth-login__fields">
-      <v-form-field size="sm" class="auth-login__input" :title="$t('auth.email.title')">
-        <v-input variant="soft" size="xl" :placeholder="$t('auth.email.placeholder')" name="email" type="email" />
-      </v-form-field>
-      <v-form-field size="sm" class="auth-login__input" :title="$t('auth.password.title')">
+      <v-form-field size="sm" class="auth-login__input" :title="$t('auth.email.title')" :error="errors.email">
         <v-input
+          v-model="email"
+          variant="soft"
+          size="xl"
+          name="email"
+          type="email"
+          :placeholder="$t('auth.email.placeholder')" />
+      </v-form-field>
+      <v-form-field size="sm" class="auth-login__input" :title="$t('auth.password.title')" :error="errors.password">
+        <v-password-input
+          v-model="password"
           variant="soft"
           size="xl"
           :placeholder="$t('auth.password.placeholder')"
-          name="password"
-          type="password" />
+          name="password" />
       </v-form-field>
     </div>
     <div class="auth-login__bottom">
       <label class="auth-login__remember-me">
-        <v-checkbox />
+        <v-checkbox v-model="remember" />
         {{ $t('auth.sign-in.remember-me') }}
       </label>
       <router-link class="auth-login__forgot-password" to="#">{{ $t('auth.sign-in.forgot-password') }}</router-link>
     </div>
-    <v-button :size="ButtonSizes.XL" class="auth-login__submit">{{ $t('auth.sign-in.button') }}</v-button>
+    <v-button :type="ButtonTypes.SUBMIT" :size="ButtonSizes.XL" class="auth-login__submit">
+      {{ $t('auth.sign-in.button') }}
+    </v-button>
     <p class="auth-login__no-account">
       {{ $t('auth.sign-in.no-account') }}
-      <router-link class="auth-login__no-account-link" to="#">{{ $t('auth.sign-in.link') }}</router-link>
+      <router-link class="auth-login__no-account-link" to="/register">{{ $t('auth.sign-in.link') }}</router-link>
     </p>
   </form>
 </template>

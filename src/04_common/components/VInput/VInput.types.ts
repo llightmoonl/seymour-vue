@@ -40,6 +40,11 @@ export const InputModes = {
   URL: 'url',
 } as const;
 
+export const InputIconPositions = {
+  LEFT: 'left',
+  RIGHT: 'right',
+};
+
 type InputVariant = (typeof InputVariants)[keyof typeof InputVariants];
 type InputColor = (typeof InputColors)[keyof typeof InputColors];
 type InputSize = (typeof InputSizes)[keyof typeof InputSizes];
@@ -56,12 +61,15 @@ export interface InputProps {
   size?: InputSize;
   type?: InputType;
   inputmode?: InputMode;
-  error?: string;
 }
 
 export type SearchInputProps = Omit<InputProps, 'required' | 'type' | 'inputmode' | 'error'> & {
   type?: Extract<InputType, 'text' | 'search'>;
   inputmode?: Extract<InputMode, 'text' | 'search'>;
+};
+
+export type PasswordInputProps = Omit<InputProps, 'type' | 'inputmode'> & {
+  inputmode?: Extract<InputMode, 'text'>;
 };
 
 export interface InputEmits {

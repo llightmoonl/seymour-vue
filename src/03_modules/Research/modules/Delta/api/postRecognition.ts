@@ -1,5 +1,5 @@
 import { api } from '@common/api';
-import type { RecognitionBody, RecognitionResponse } from './types.d';
+import type { RecognitionBody, RecognitionResponse } from './types.ts';
 
 export const postRecognition = async (body: RecognitionBody): RecognitionResponse => {
   try {

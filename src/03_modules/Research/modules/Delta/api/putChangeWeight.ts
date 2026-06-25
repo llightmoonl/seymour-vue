@@ -1,5 +1,5 @@
 import { api } from '@common/api';
-import type { ChangeWeightBody, ChangeWeightResponse } from './types.d';
+import type { ChangeWeightBody, ChangeWeightResponse } from './types.ts';
 
 export const putChangeWeight = async (body: ChangeWeightBody): ChangeWeightResponse => {
   try {

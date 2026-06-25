@@ -23,20 +23,17 @@ const modifiers = computed(() => [
 </script>
 
 <template>
-  <div class="input" :class="modifiers">
-    <Component v-if="icon" class="input__icon" :is="icon" />
-    <input
-      v-model="model"
-      @update:model-value="updateInput"
-      class="input__field"
-      :type="type"
-      :inputmode="inputmode"
-      :id="name"
-      :name="name"
-      :placeholder="placeholder"
-      autocomplete="off" />
-    <div v-if="error" class="input__error">{{ error }}</div>
-  </div>
+  <input
+    v-model="model"
+    @update:model-value="updateInput"
+    class="input"
+    :class="modifiers"
+    :type="type"
+    :inputmode="inputmode"
+    :id="name"
+    :name="name"
+    :placeholder="placeholder"
+    autocomplete="off" />
 </template>
 
 <style scoped lang="scss">
@@ -47,82 +44,42 @@ const modifiers = computed(() => [
   --input-border-color: transparent;
   --input-font-size: #{rem(16)};
 
-  $item: &;
   position: relative;
+  width: 100%;
+  padding: var(--input-padding);
   display: flex;
-  flex-direction: column;
-  row-gap: rem(4);
+  justify-content: space-between;
+  background-color: var(--input-bg);
+  color: var(--input-color);
+  border: 2px solid var(--input-border-color);
+  border-radius: rem(8);
+  font-size: var(--input-font-size);
+  transition: border-color 0.25s ease-in-out;
 
-  &:has(#{$item}__icon) {
-    #{$item}__field {
-      padding-left: rem(40);
-    }
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.3);
   }
 
-  &__icon {
-    position: absolute;
-    left: rem(12);
-    @include abs-y;
-    width: rem(20);
-    height: rem(20);
+  &:focus-visible {
+    outline: none;
   }
 
-  &__error {
-    color: var(--destructive);
-    font-weight: 600;
-    font-size: rem(13);
-    margin-inline: rem(12);
+  &[type='number'] {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    -moz-appearance: textfield;
   }
 
-  &__field {
-    position: relative;
-    width: 100%;
-    padding: var(--input-padding);
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--input-bg);
-    color: var(--input-color);
-    border: 2px solid var(--input-border-color);
-    border-radius: rem(8);
-    font-size: var(--input-font-size);
-    transition: border-color 0.25s ease-in-out;
-
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    &:focus-visible {
-      outline: none;
-    }
-
-    &[type='number'] {
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-      -moz-appearance: textfield;
-    }
-  }
-
-  &:has(#{$item}__error) {
-    #{$item} {
-      &__title {
-        color: var(--destructive);
-      }
-      &__field {
-        border-color: var(--destructive);
-      }
-    }
-  }
-
-  &.--outline #{$item}__field {
+  &.--outline {
     --input-bg: transparent;
     --input-color: var(--primary);
     --input-border-color: var(--input);
   }
 
-  &.--soft #{$item}__field {
+  &.--soft {
     --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
     --input-color: var(--primary);
 
@@ -132,7 +89,7 @@ const modifiers = computed(() => [
     }
   }
 
-  &.--subtle #{$item}__field {
+  &.--subtle {
     --input-bg: color-mix(in srgb, var(--primary) 5%, transparent);
     --input-color: var(--primary);
     --input-border-color: var(--input);
@@ -143,7 +100,7 @@ const modifiers = computed(() => [
     }
   }
 
-  &.--ghost #{$item}__field {
+  &.--ghost {
     --input-bg: transparent;
     --input-color: var(--primary);
 
@@ -176,6 +133,14 @@ const modifiers = computed(() => [
   &.--xl {
     --input-padding: #{rem(9.2)} #{rem(10)};
     --input-font-size: #{rem(16)};
+  }
+
+  &__icon {
+    position: absolute;
+    left: rem(12);
+    @include abs-y;
+    width: rem(20);
+    height: rem(20);
   }
 }
 </style>

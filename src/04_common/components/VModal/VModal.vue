@@ -9,8 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from 'reka-ui';
-import type { ModalProps } from './VModal';
+
 import VButton from '../VButton/VButton.vue';
+
+import type { ModalProps } from './VModal.types';
 
 import CloseIcon from '~icons/custom/close';
 
@@ -18,29 +20,29 @@ defineProps<ModalProps>();
 </script>
 
 <template>
-  <DialogRoot class="modal" v-slot="{ close, open }">
-    <DialogTrigger class="modal__trigger" as-child>
+  <dialog-root class="modal" v-slot="{ close, open }">
+    <dialog-trigger class="modal__trigger" as-child>
       <slot>
         <v-button variant="solid" size="md"></v-button>
       </slot>
-    </DialogTrigger>
-    <DialogPortal>
-      <DialogOverlay class="modal__overlay" />
-      <DialogContent class="modal__content">
-        <DialogTitle v-if="title" class="modal__title">
+    </dialog-trigger>
+    <dialog-portal>
+      <dialog-overlay class="modal__overlay" />
+      <dialog-content class="modal__content">
+        <dialog-title v-if="title" class="modal__title">
           {{ title }}
-        </DialogTitle>
-        <DialogDescription v-if="description" class="modal__description">
+        </dialog-title>
+        <dialog-description v-if="description" class="modal__description">
           {{ description }}
-        </DialogDescription>
+        </dialog-description>
         <slot name="content"></slot>
-        <DialogClose class="modal__close" as-child>
+        <dialog-close class="modal__close" as-child>
           <v-button variant="ghost" size="icon-sm"><CloseIcon /></v-button>
-        </DialogClose>
+        </dialog-close>
         <slot name="footer" :close="close" :open="open"></slot>
-      </DialogContent>
-    </DialogPortal>
-  </DialogRoot>
+      </dialog-content>
+    </dialog-portal>
+  </dialog-root>
 </template>
 
 <style scoped lang="scss">

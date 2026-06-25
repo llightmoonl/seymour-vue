@@ -42,7 +42,7 @@ watch(
         <tr class="row" v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
           <th v-for="header in headerGroup.headers" :key="header.id" :colSpan="header.colSpan" class="column">
             <template v-if="!header.isPlaceholder">
-              <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
+              <flex-render :render="header.column.columnDef.header" :props="header.getContext()" />
             </template>
           </th>
         </tr>
@@ -67,7 +67,7 @@ watch(
               column__highlight: isCellHighlighted(rowIndex, cellIndex),
             }"
             :key="cell.id">
-            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+            <flex-render :render="cell.column.columnDef.cell" :props="cell.getContext()" />
           </td>
         </tr>
       </tbody>

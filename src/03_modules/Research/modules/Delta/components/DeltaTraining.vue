@@ -4,35 +4,30 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import VButton from '@common/components/VButton/VButton.vue';
-import VTable from '@common/components/VTable/VTable.vue';
 
-import { DeltaNeuron } from '../';
+import DeltaNeuron from './DeltaNeuron.vue';
+import DeltaSamplesTable from './DeltaSamplesTable.vue';
+import DeltaWeightsTable from './DeltaWeightsTable.vue';
+
 import { DetailList } from '../../_';
 
-import {
-  createEpsilonColumns,
-  createOutputsColumns,
-  createSamplesColumns,
-  createSumColumns,
-  createWeightColumns,
-} from '../composables/useDelta';
-import { useGetDeltaData } from '../composables/useGetDeltaData';
-import { useChangeWeight } from '../composables/useChangeWeight';
+import { useDeltaData } from '../queries/useDeltaData';
+import { useChangeWeight } from '../queries/useChangeWeight';
+import { useNextStage } from '../queries/useNextStage';
 
-import { SAMPLE_LENGTH } from '../models/constant';
+import { useDeltaTables } from '../composables/useDeltaTables';
 
 import { formatArray } from '@common/utils/array';
 
-const samplesColumns = createSamplesColumns(SAMPLE_LENGTH);
-const weightColumns = createWeightColumns(SAMPLE_LENGTH);
-
 const { t } = useI18n();
-
 const route = useRoute();
-const pageId = route.params.id ? String(route.params.id) : '';
+const pageId = String(route.params.id ?? '');
 
-const { state, refetch } = useGetDeltaData(pageId);
-const { changeWeight, asyncStatus: changeWeightAsyncStatus } = useChangeWeight(pageId);
+const { state } = useDeltaData(pageId);
+const { changeWeight, asyncStatus } = useChangeWeight(pageId);
+const { nextStage } = useNextStage(pageId);
+
+const { outputsColumns, sumColumns, epsilonColumns } = useDeltaTables(3);
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -42,9 +37,9 @@ const data = computed(() => {
     y: data?.y_pred ?? [],
     s: formatArray(data?.s) ?? [],
     eta: data?.eta.toFixed(2) ?? 0,
-
     samples: (data?.data ?? []).map(({ x, y_true }) => [...x, y_true]),
     epsilon: data?.epsilon ?? [],
+
     weights: data?.w ?? [],
     weightsTable: [data?.w ?? []],
 
@@ -56,15 +51,7 @@ const data = computed(() => {
   };
 });
 
-const handleChangeWeight = () => {
-  changeWeight().then(() => refetch());
-};
-
-const outputsColumns = createOutputsColumns(3);
-const sumColumns = createSumColumns(3);
-const epsilonColumns = createEpsilonColumns(3);
-
-const detailsData = computed(() => [
+const calculationsData = computed(() => [
   {
     id: 1,
     title: t('delta.training.epochs'),
@@ -86,124 +73,73 @@ const detailsData = computed(() => [
     title: t('delta.shared.sumInput'),
     formula: '$S_i = \\sum_{j=1}^{15} w_{ij} x_j$',
     tableData: [data.value.s],
-    tableColumns: sumColumns,
+    tableColumns: sumColumns(),
   },
   {
     id: 5,
     title: t('delta.shared.output'),
     formula: '$y_{ipred} = \\begin{cases} 1, & \\text{если } S_i \\geq 0\\\\ 0, & \\text{если } S_i < 0 \\end{cases}$',
     tableData: [data.value.y],
-    tableColumns: outputsColumns,
+    tableColumns: outputsColumns(),
   },
   {
     id: 6,
     title: t('delta.shared.epsilon'),
     tableData: [data.value.epsilon],
-    tableColumns: epsilonColumns,
+    tableColumns: epsilonColumns(),
   },
 ]);
-
-const handleCompleteData = () => {};
 </script>
 
 <template>
-  <div class="root">
-    <div class="header">
+  <div class="delta-training">
+    <div class="delta-training__content">
       <delta-neuron :s="data.s" :y="data.y" />
-      <div class="tables-data">
-        <div class="table">
-          <VTable
-            :data="data.samples"
-            :columns="samplesColumns"
-            :row-index-highlight="data.i"
-            :column-index-highlight="data.j" />
-        </div>
-        <div class="table">
-          <VTable
-            :data="data.weights"
-            :columns="weightColumns"
-            :row-index-highlight="data.k"
-            :column-index-highlight="data.j" />
-        </div>
+      <div class="delta-training__tables">
+        <delta-samples-table :data="data.samples" :row-index-highlight="data.i" :column-index-highlight="data.j" />
+        <delta-weights-table :data="data.weights" :row-index-highlight="data.k" :column-index-highlight="data.j" />
       </div>
     </div>
 
-    <div class="controller-section">
-      <div class="group group__right">
-        <VButton @click="handleCompleteData" v-if="data.isTrained">
-          {{ $t('hebbian.training.completeLearning') }}
-        </VButton>
-        <VButton
-          v-if="!data.isTrained"
-          @click="handleChangeWeight"
-          :disabled="changeWeightAsyncStatus === 'loading'"
-          size="md"
-          icon-only>
-          <i-custom-play></i-custom-play>
-        </VButton>
-      </div>
+    <div class="delta-training__controllers">
+      <VButton @click="nextStage" v-if="data.isTrained">
+        {{ $t('delta.training.completeLearning') }}
+      </VButton>
+      <VButton v-if="!data.isTrained" @click="changeWeight" :disabled="asyncStatus === 'loading'" size="md" icon-only>
+        <i-custom-play></i-custom-play>
+      </VButton>
     </div>
-    <DetailList class="information-list" :details="detailsData" />
+    <detail-list class="delta-training__calculations" :details="calculationsData" />
   </div>
 </template>
 
 <style scoped lang="scss">
-.root {
+.delta-training {
   margin-top: rem(32);
-}
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  column-gap: rem(128);
-}
+  &__content {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.drawing-section {
-  display: flex;
-  column-gap: rem(32);
-  flex-shrink: 0;
-
-  & .detail-information {
+  &__tables {
     display: flex;
     flex-direction: column;
     row-gap: rem(20);
+    align-items: start;
+    overflow: auto;
   }
-}
 
-.tables-data {
-  display: flex;
-  flex-direction: column;
-  row-gap: rem(20);
-  align-items: start;
-  overflow-x: auto;
-
-  & .table-element {
-    flex-shrink: 1;
-    max-height: rem(215);
-    min-width: max-content;
-    overflow-x: auto;
-    overflow-y: auto;
-    scrollbar-gutter: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(203, 203, 203) rgb(48, 48, 48);
-    scroll-behavior: smooth;
-  }
-}
-
-.controller-section {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-top: rem(16);
-
-  & .group {
+  &__controllers {
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    justify-content: end;
+    margin-top: rem(16);
     gap: rem(8);
   }
-}
 
-.information-list {
-  margin-top: rem(64);
+  &__calculations {
+    margin-top: rem(64);
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 import { api } from '@common/api';
-import type { DeltaDataResponse } from './types.d';
+import type { DeltaDataResponse } from './types.ts';
 
 export const getDeltaData = async (id: string): DeltaDataResponse => {
   try {

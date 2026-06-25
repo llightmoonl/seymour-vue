@@ -1,74 +1,48 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useI18n } from 'vue-i18n';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
+// common
 import VContainer from '@common/components/VContainer/VContainer.vue';
 import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
-import VTabs from '@common/components/VTabs/VTabs.vue';
 
-import {
-  DeltaGeneration,
-  DeltaQuality,
-  DeltaRecognition,
-  DeltaTraining,
-  useProgressTabs,
-  useTabs,
-} from '@modules/Research';
+// common-value
+import { ContainerSizes } from '@common/components/VContainer/VContainer.types';
 
-const { t } = useI18n();
+// components
+import DeltaTabs from './DeltaTabs.vue';
+
+// queries
+import { useDeltaData } from '../queries/useDeltaData';
+
 const route = useRoute();
+const pageId = String(route.params.id ?? '');
 
-const ALL_TABS = [
-  { id: 1, title: t('delta.tabs.dataGeneration'), value: 'generation', component: DeltaGeneration },
-  { id: 2, title: t('delta.tabs.training'), value: 'training', component: DeltaTraining },
-  { id: 3, title: t('delta.tabs.qualityAssessment'), value: 'quality', component: DeltaQuality },
-  { id: 4, title: t('delta.tabs.recognition'), value: 'recognition', component: DeltaRecognition },
-];
-
-const { activeTab } = storeToRefs(useTabs());
-const completedTabs = ref<string[]>([]);
-
-const tabsPages = computed(() =>
-  ALL_TABS.map((tab) => ({
-    ...tab,
-    disabled: tab.value !== activeTab.value || completedTabs.value.includes(tab.value),
-  })),
-);
-
-const id = String(route.params.id);
-const { state } = useProgressTabs(id);
+const { state } = useDeltaData(pageId);
+const activeTab = ref('generation');
 
 watch(
-  state,
-  (val) => {
-    if (val.status !== 'success') return;
-    const data = val.data ?? [];
-
-    completedTabs.value = data.filter((t) => t.completed).map((t) => t.key);
-
-    const firstAvailable = ALL_TABS.find((tab) => !completedTabs.value.includes(tab.value));
-    if (firstAvailable) {
-      activeTab.value = firstAvailable.value;
+  () => state.value.data?.activeStage,
+  (newStage) => {
+    if (newStage) {
+      activeTab.value = newStage;
     }
   },
-  { immediate: true },
+  {
+    immediate: true,
+  },
 );
 </script>
 
 <template>
   <div class="delta">
-    <v-container size="lg" class="delta__container">
+    <v-container :size="ContainerSizes.LG" class="delta__container">
       <div class="delta__content">
-        <h1 class="delta__title">Дельта-правило: распознавание печатных букв</h1>
+        <h1 class="delta__title">{{ $t('delta.shared.title') }}</h1>
         <p class="delta__subtitle">
-          <v-markdown
-            class="markdown"
-            :content="`Пояснение к задаче: Обучить сеть по дельта-правилу: настроить синаптические веса $w_j$, так, чтобы нейрон корректно распознавал печатные буквы, минимизируя ошибку между желаемым и фактическим выходным
-        сигналом.`" />
+          <v-markdown class="markdown" :content="$t('delta.shared.subtitle')" />
         </p>
-        <v-tabs class="delta__tabs" :items="tabsPages" v-model="activeTab" />
+        <delta-tabs v-model="activeTab" />
       </div>
     </v-container>
   </div>

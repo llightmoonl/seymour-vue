@@ -103,6 +103,8 @@
   },
   "delta": {
     "shared": {
+      "title": "Delta Rule: Printed Letter Recognition",
+      "subtitle": "Task description: Train the network using the delta rule: adjust the synaptic weights $w_j$ so that the neuron correctly recognizes printed letters, minimizing the error between the desired and actual output signal.",
       "speed": "Learning speed",
       "sumInput": "Weighted summation of input signals",
       "output": "The output signal",
@@ -145,29 +147,50 @@
     "sign-in": {
       "tab-name": "Sign in",
       "title": "Welcome back",
-      "pretitle": "Войдите, чтобы продолжить с того места, где остановились",
+      "pretitle": "Sign in to continue where you left off",
       "remember-me": "Remember me",
       "forgot-password": "Forgot password?",
       "button": "Sign in",
       "no-account": "No account?",
-      "link": "Sign up"
+      "link": "Sign up",
+      "validation": {
+        "email": {
+          "empty": "Enter a email",
+          "correct": "Enter a valid email"
+        },
+        "password": {
+          "empty": "Enter a password"
+        }
+      }
     },
     "sign-up": {
-      "tab-name": "Регистрация",
-      "title": "Создайте аккаунт",
-      "pretitle": "Минута на регистрацию - и можно создать первый проект.",
+      "tab-name": "Sign up",
+      "title": "Create an account",
+      "pretitle": "A minute to sign up — and you can create your first project.",
       "name-surname": {
-        "title": "Имя и фамилия",
-        "placeholder": "Алексей Иванов"
+        "title": "Full name",
+        "placeholder": "Alexey Ivanov"
       },
-      "remember-me": "Запомните меня",
-      "agreement": "Я соглашаюсь с",
-      "terms": "Условиями",
-      "and": "и",
-      "policy": "Политикой конфиленциальности",
-      "button": "Создать аккаунт",
-      "exist-account": "Уже есть аккаунт?",
-      "link": "Войдите"
+      "remember-me": "Remember me",
+      "agreement": "I agree to the",
+      "terms": "Terms",
+      "and": "and",
+      "policy": "Privacy Policy",
+      "button": "Create account",
+      "exist-account": "Already have an account?",
+      "link": "Sign in",
+      "validation": {
+        "name": {
+          "empty": "Enter a first and last name"
+        },
+        "email": {
+          "empty": "Enter an email",
+          "correct": "Enter a valid email"
+        },
+        "password": {
+          "empty": "Enter a password"
+        }
+      }
     }
   }
 }

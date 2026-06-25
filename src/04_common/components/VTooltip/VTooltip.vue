@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import { TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui';
-import type { TooltipBaseProps } from './VTooltip';
+import { type TooltipProps, TooltipSides } from './VTooltip.types.ts';
 
-defineProps<TooltipBaseProps>();
+withDefaults(defineProps<TooltipProps>(), {
+  side: TooltipSides.BOTTOM,
+});
 </script>
 
 <template>
-  <TooltipProvider class="tooltip">
-    <TooltipRoot class="root">
-      <TooltipTrigger class="trigger"><slot name="trigger"></slot></TooltipTrigger>
-      <TooltipPortal class="portal">
-        <TooltipContent class="content" :side="side" :side-offset="sideOffset">
+  <tooltip-provider class="tooltip">
+    <tooltip-root class="root">
+      <tooltip-trigger class="trigger"><slot name="trigger"></slot></tooltip-trigger>
+      <tooltip-portal class="portal">
+        <tooltip-content class="content" :side="side" :side-offset="sideOffset">
           <slot name="content"></slot>
-        </TooltipContent>
-      </TooltipPortal>
-    </TooltipRoot>
-  </TooltipProvider>
+        </tooltip-content>
+      </tooltip-portal>
+    </tooltip-root>
+  </tooltip-provider>
 </template>
 
 <style scoped lang="scss">

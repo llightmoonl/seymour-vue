@@ -5,22 +5,24 @@ import { useRoute } from 'vue-router';
 
 import VButton from '@common/components/VButton/VButton.vue';
 
-import { DeltaNeuron } from '../';
+import DeltaNeuron from './DeltaNeuron.vue';
 import { DetailList, DrawingGridEditable } from '../../_';
 
-import { useGetDeltaData } from '../composables/useGetDeltaData';
-import { useRecognition } from '../composables/useRecognition';
+import { useDeltaData } from '../queries/useDeltaData.ts';
+import { useRecognition } from '../queries/useRecognition.ts';
 import { COLS, ROWS } from '../models/constant';
 
 import { formatArray } from '@common/utils/array';
-import { createOutputsColumns, createSumColumns } from '@modules/Research/modules/Delta/composables/useDelta';
+import { useDeltaTables } from '@modules/Research/modules/Delta/composables/useDeltaTables.ts';
 
 const route = useRoute();
 const { t } = useI18n();
 
 const pageId = route.params.id ? String(route.params.id) : '';
 
-const { state, refetch } = useGetDeltaData(pageId);
+const { state, refetch } = useDeltaData(pageId);
+
+const { outputsColumns, sumColumns } = useDeltaTables(3);
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -52,9 +54,6 @@ const handleRecognition = () => {
   x.value = initialX;
 };
 
-const outputsColumns = createOutputsColumns(3);
-const sumColumns = createSumColumns(3);
-
 const detailsData = computed(() => [
   {
     id: 1,
@@ -66,13 +65,13 @@ const detailsData = computed(() => [
     id: 2,
     title: `${t('delta.shared.sumInput')} (S)`,
     tableData: [data.value.s],
-    tableColumns: sumColumns,
+    tableColumns: sumColumns(),
   },
   {
     id: 3,
     title: `Выходной вектор (y)`,
     tableData: [resultRecognition.value ?? []],
-    tableColumns: outputsColumns,
+    tableColumns: outputsColumns(),
   },
   {
     id: 4,

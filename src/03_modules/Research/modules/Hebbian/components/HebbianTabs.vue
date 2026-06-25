@@ -9,7 +9,7 @@ import HebbianQuality from './HebbianQuality.vue';
 import HebbianRecognition from './HebbianRecognition.vue';
 import HebbianTraining from './HebbianTraining.vue';
 
-import type { Stage } from '../api/types.ts';
+import type { Stage } from '../api/types';
 
 const { t } = useI18n();
 

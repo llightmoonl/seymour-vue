@@ -1,18 +1,23 @@
 <script setup lang="ts">
-import type { VFormFieldProps } from './VFormField';
 import { computed } from 'vue';
+import { FormFieldSizes, type VFormFieldProps } from './VFormField.types';
 
-const props = defineProps<VFormFieldProps>();
-const sizesObject = computed(() => (props.size ? `form-field__${props.size}` : 'form-field__md'));
+const props = withDefaults(defineProps<VFormFieldProps>(), {
+  size: FormFieldSizes.MD,
+  required: false,
+  hideError: false,
+});
+const modifiers = computed(() => [props.size && `--${props.size}`, props.error && `--error`]);
 </script>
 
 <template>
-  <div class="form-field" :class="sizesObject">
+  <div class="form-field" :class="modifiers">
     <label v-if="title" class="form-field-label">
       {{ title }}
       <span v-if="required" class="form-field__required">*</span>
     </label>
     <slot></slot>
+    <div v-if="error && !hideError" class="form-field__error">{{ error }}</div>
   </div>
 </template>
 
@@ -33,34 +38,49 @@ const sizesObject = computed(() => (props.size ? `form-field__${props.size}` : '
     color: var(--muted-foreground);
   }
 
-  &__xs {
+  &.--xs {
     #{$item}-label {
       font-size: rem(12);
     }
   }
 
-  &__sm {
+  &.--sm {
     #{$item}-label {
       font-size: rem(12);
     }
   }
 
-  &__md {
+  &.--md {
     #{$item}-label {
       font-size: rem(14);
     }
   }
 
-  &__lg {
+  &.--lg {
     #{$item}-label {
       font-size: rem(14);
     }
   }
 
-  &__xl {
+  &.--xl {
     #{$item}-label {
       font-size: rem(16);
     }
+  }
+
+  &.--error {
+    :deep(.input) {
+      border-color: var(--destructive);
+    }
+    :deep(.checkbox) {
+      background-color: var(--destructive);
+    }
+  }
+
+  &__error {
+    color: var(--destructive);
+    font-weight: 600;
+    font-size: rem(13);
   }
 }
 </style>

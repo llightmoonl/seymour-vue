@@ -8,8 +8,8 @@ import HebbianSamplesTable from './HebbianSamplesTable.vue';
 import { DrawingGridEditable, DrawingGridView } from '../../_';
 
 import { useGenerateData } from '../composables/useGenerateData';
-
 import { useHebbian } from '../composables/useHebbian';
+
 import { EVEN, ODD } from '../models/constant';
 
 import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types';

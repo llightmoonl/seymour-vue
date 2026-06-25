@@ -12,7 +12,7 @@ const modifiers = computed(() => [props.direction && `--${props.direction}`]);
 
 <template>
   <div class="detail-list" :class="modifiers">
-    <DetailBlock v-for="detail in details" :key="detail.id" v-bind="detail" />
+    <detail-block v-for="detail in details" :key="detail.id" v-bind="detail" />
   </div>
 </template>
 

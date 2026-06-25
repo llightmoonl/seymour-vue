@@ -32,6 +32,7 @@ declare module 'vue' {
     ICustomPanelLeft: typeof import('~icons/custom/panel-left')['default']
     ICustomPlay: typeof import('~icons/custom/play')['default']
     ICustomPlus: typeof import('~icons/custom/plus')['default']
+    ICustomSettings: typeof import('~icons/custom/settings')['default']
     ICustomStepBack: typeof import('~icons/custom/step-back')['default']
     ICustomStepForward: typeof import('~icons/custom/step-forward')['default']
     Info: typeof import('./src/01_app/assets/icons/info.svg')['default']

@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui';
-import type { CheckboxProps, CheckboxEmits } from './VCheckbox';
+import { type CheckboxProps, type CheckboxEmits, CheckboxColors, CheckboxSizes } from './VCheckbox.types';
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  color: 'primary',
-  size: 'md',
+  color: CheckboxColors.PRIMARY,
+  size: CheckboxSizes.MD,
 });
 
 defineEmits<CheckboxEmits>();
 
-const colorsObject = computed(() => (props.color ? `checkbox__${props.color}` : 'checkbox__primary'));
-const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'checkbox__md'));
+const modifiers = computed(() => [props.color && `--${props.color}`, props.size && `--${props.size}`]);
 </script>
 
 <template>
-  <CheckboxRoot
+  <checkbox-root
     class="checkbox"
-    :class="[colorsObject, sizesObject]"
-    :model-value="props.modelValue"
+    :class="modifiers"
+    :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)">
-    <CheckboxIndicator class="checkbox__indicator">
-      <i-custom-minus v-if="props.modelValue === 'indeterminate'" class="checkbox-icon" />
+    <checkbox-indicator class="checkbox__indicator">
+      <i-custom-minus v-if="modelValue === 'indeterminate'" class="checkbox-icon" />
       <i-custom-check v-else class="checkbox-icon" />
-    </CheckboxIndicator>
-  </CheckboxRoot>
+    </checkbox-indicator>
+  </checkbox-root>
 </template>
 
 <style scoped lang="scss">
@@ -44,27 +43,27 @@ const sizesObject = computed(() => (props.size ? `checkbox__${props.size}` : 'ch
     height: var(--icon-size);
   }
 
-  &__xs {
+  &.--xs {
     --size: #{rem(12)};
     --icon-size: #{rem(10)};
   }
 
-  &__sm {
+  &.--sm {
     --size: #{rem(14)};
     --icon-size: #{rem(12)};
   }
 
-  &__md {
+  &.--md {
     --size: #{rem(16)};
     --icon-size: #{rem(14)};
   }
 
-  &__lg {
+  &.--lg {
     --size: #{rem(18)};
     --icon-size: #{rem(16)};
   }
 
-  &__xl {
+  &.--xl {
     --size: #{rem(20)};
     --icon-size: #{rem(18)};
   }

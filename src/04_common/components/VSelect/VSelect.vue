@@ -13,43 +13,50 @@ import {
   SelectViewport,
 } from 'reka-ui';
 
-//types
-import type { SelectProps, SelectModel } from './VSelect';
+// types
+import { type SelectProps, type SelectModel, SelectVariants, SelectColors, SelectSizes } from './VSelect.types.ts';
 
 // icons
 import ChevronUpIcon from '~icons/custom/chevron-up.svg';
 import ChevronDownIcon from '~icons/custom/chevron-down.svg';
 
-const props = defineProps<SelectProps>();
+const props = withDefaults(defineProps<SelectProps>(), {
+  variant: SelectVariants.OUTLINE,
+  color: SelectColors.PRIMARY,
+  size: SelectSizes.MD,
+});
+
 const selectedValue = defineModel<SelectModel>('value');
 const onSelect = (value: AcceptableValue) => (selectedValue.value = value);
 
-const variantsObject = computed(() => (props.variant ? `select__${props.variant}` : 'select__outline'));
-const colorsObject = computed(() => (props.color ? `select__${props.color}` : 'select__primary'));
-const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'select__md'));
+const modifiers = computed(() => [
+  props.variant && `--${props.variant}`,
+  props.color && `--${props.color}`,
+  props.size && `--${props.size}`,
+]);
 </script>
 
 <template>
-  <div class="select" :class="[variantsObject, colorsObject, sizesObject]">
-    <SelectRoot v-model:value="selectedValue" @update:modelValue="onSelect($event)" class="select__root">
-      <SelectTrigger ref="selectTrigger" class="select__trigger">
-        <SelectValue :placeholder="placeholder" class="select__value" />
+  <div class="select" :class="modifiers">
+    <select-root v-model:value="selectedValue" class="select__root" @update:model-value="onSelect($event)">
+      <select-trigger ref="selectTrigger" class="select__trigger">
+        <select-value :placeholder="placeholder" class="select__value" />
         <chevron-down-icon class="select__icon"></chevron-down-icon>
-      </SelectTrigger>
-      <SelectContent :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="4">
-        <SelectScrollUpButton class="select__scroll-up">
+      </select-trigger>
+      <select-content :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="4">
+        <select-scroll-up-button class="select__scroll-up">
           <chevron-up-icon></chevron-up-icon>
-        </SelectScrollUpButton>
-        <SelectViewport class="select__viewport">
-          <SelectItem v-for="option in options" :value="option" :key="option.id" class="select__item">
-            <SelectItemText>{{ option.name }}</SelectItemText>
-          </SelectItem>
-        </SelectViewport>
-        <SelectScrollDownButton class="select__scroll-down">
+        </select-scroll-up-button>
+        <select-viewport class="select__viewport">
+          <select-item v-for="option in options" :key="option.id" :value="option" class="select__item">
+            <select-item-text>{{ option.name }}</select-item-text>
+          </select-item>
+        </select-viewport>
+        <select-scroll-down-button class="select__scroll-down">
           <chevron-down-icon></chevron-down-icon>
-        </SelectScrollDownButton>
-      </SelectContent>
-    </SelectRoot>
+        </select-scroll-down-button>
+      </select-content>
+    </select-root>
     <div v-if="error" class="select__error">{{ error }}</div>
   </div>
 </template>
@@ -141,16 +148,16 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     margin-top: rem(4);
   }
 
-  &__outline {
-    & #{$item}__trigger {
+  &.--outline {
+    #{$item}__trigger {
       --select-bg: transparent;
       --select-color: var(--popover-foreground);
       --select-border-color: var(--input);
     }
   }
 
-  &__soft {
-    & #{$item}__trigger {
+  &.--soft {
+    #{$item}__trigger {
       --select-bg: color-mix(in srgb, var(--popover-foreground) 5%, transparent);
       --select-color: var(--popover-foreground);
 
@@ -161,8 +168,8 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     }
   }
 
-  &__subtle {
-    & #{$item}__trigger {
+  &.--subtle {
+    #{$item}__trigger {
       --select-bg: color-mix(in srgb, var(--popover-foreground) 5%, transparent);
       --select-color: var(--popover-foreground);
       --select-border-color: var(--border);
@@ -174,8 +181,8 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     }
   }
 
-  &__ghost {
-    & #{$item}__trigger {
+  &.--ghost {
+    #{$item}__trigger {
       --select-bg: transparent;
       --select-color: var(--popover-foreground);
 
@@ -186,31 +193,31 @@ const sizesObject = computed(() => (props.size ? `select__${props.size}` : 'sele
     }
   }
 
-  &__xs {
+  &.--xs {
     --select-padding: #{rem(2.4)} #{rem(8)};
     --select-font-size: #{rem(12)};
     --select-size-icon: #{rem(16)};
   }
 
-  &__sm {
+  &.--sm {
     --select-padding: #{rem(4.4)} #{rem(10)};
     --select-font-size: #{rem(12)};
     --select-size-icon: #{rem(16)};
   }
 
-  &__md {
+  &.--md {
     --select-padding: #{rem(4.4)} #{rem(10)};
     --select-font-size: #{rem(14)};
     --select-size-icon: #{rem(20)};
   }
 
-  &__lg {
+  &.--lg {
     --select-padding: #{rem(7.2)} #{rem(10)};
     --select-font-size: #{rem(16)};
     --select-size-icon: #{rem(20)};
   }
 
-  &__xl {
+  &.--xl {
     --select-padding: #{rem(9.2)} #{rem(10)};
     --select-font-size: #{rem(16)};
     --select-size-icon: #{rem(24)};

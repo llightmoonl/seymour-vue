@@ -1,5 +1,5 @@
 import { api } from '@common/api';
-import type { GenerateDataBody, GenerateDataResponse } from './types.d';
+import type { GenerateDataBody, GenerateDataResponse } from './types.ts';
 
 export const putGenerateData = async (body: GenerateDataBody): GenerateDataResponse => {
   try {

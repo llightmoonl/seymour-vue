@@ -6,21 +6,49 @@ import { useI18n } from 'vue-i18n';
 import VButton from '@common/components/VButton/VButton.vue';
 import VCarousel from '@common/components/VCarousel/VCarousel.vue';
 
-import { DeltaNeuron } from '../';
+import DeltaNeuron from './DeltaNeuron.vue';
 import { DetailList, DrawingGridView } from '../../_';
 
-import { useGetDeltaData } from '../composables/useGetDeltaData';
-import { useRecognition } from '../composables/useRecognition';
+import { useDeltaData } from '../queries/useDeltaData';
+import { useRecognition } from '../queries/useRecognition';
+import { useNextStage } from '../queries/useNextStage';
+
+import { useDelta } from '../composables/useDelta';
+import { useDeltaTables } from '../composables/useDeltaTables.ts';
+
 import { COLS, ROWS } from '../models/constant';
 
 import { formatArray } from '@common/utils/array';
-import { createOutputsColumns, createSumColumns } from '@modules/Research/modules/Delta/composables/useDelta.ts';
+
+const { t } = useI18n();
 
 const route = useRoute();
-const { t } = useI18n();
-const pageId = route.params.id ? String(route.params.id) : '';
+const pageId = String(route.params.id ?? '');
 
-const { state, refetch } = useGetDeltaData(pageId);
+const { x, isUnchanged } = useDelta();
+const { state } = useDeltaData(pageId);
+const { nextStage } = useNextStage(pageId);
+const { outputsColumns, sumColumns } = useDeltaTables(3);
+const { recognition, state: stateRecognition } = useRecognition(pageId, x);
+
+const checkedItems = ref(new Set<number>());
+const currentIndex = ref(0);
+
+const resultRecognition = computed(() => {
+  const data = stateRecognition.value?.data;
+
+  return data?.y_pred ?? null;
+});
+
+const clickItem = (item: number[][], index: number) => {
+  x.value = item;
+  currentIndex.value = index;
+};
+
+const runRecognition = () => {
+  recognition();
+  checkedItems.value.add(currentIndex.value);
+};
 
 const data = computed(() => {
   const data = state.value?.data;
@@ -36,34 +64,6 @@ const data = computed(() => {
   };
 });
 
-const initialX: number[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-const x = ref(initialX);
-const countCheckedElement = ref(0);
-
-const clickItem = (item) => {
-  x.value = item;
-};
-
-const { recognition, state: stateRecognition } = useRecognition(pageId, x);
-
-const resultRecognition = computed(() => {
-  const data = stateRecognition.value?.data;
-
-  return data?.y_pred ?? null;
-});
-
-const isUnchanged = computed(() => JSON.stringify(x.value) === JSON.stringify(initialX));
-
-const handleRecognition = () => {
-  recognition().then(() => refetch());
-  countCheckedElement.value += 1;
-};
-
-const handleComplete = () => {};
-
-const outputsColumns = createOutputsColumns(3);
-const sumColumns = createSumColumns(3);
-
 const detailsData = computed(() => [
   {
     id: 1,
@@ -75,13 +75,13 @@ const detailsData = computed(() => [
     id: 2,
     title: `${t('delta.shared.sumInput')} (S)`,
     tableData: [data.value.s],
-    tableColumns: sumColumns,
+    tableColumns: sumColumns(),
   },
   {
     id: 3,
     title: `${t('delta.shared.sumInput')} (y)`,
     tableData: [resultRecognition.value ?? []],
-    tableColumns: outputsColumns,
+    tableColumns: outputsColumns(),
   },
   {
     id: 4,
@@ -99,61 +99,60 @@ const detailsData = computed(() => [
 </script>
 
 <template>
-  <div class="root">
-    <div class="header">
-      <div class="drawing-canvas">
+  <div class="delta-quality">
+    <div class="delta-quality__content">
+      <div class="delta-quality__input-panel">
         <drawing-grid-view :grid="x"></drawing-grid-view>
-        <v-button :disabled="isUnchanged" class="drawing-canvas__button" @click="handleRecognition">
+        <v-button :disabled="isUnchanged" class="delta-quality__input-panel-button" @click="runRecognition">
           {{ $t('hebbian.recognition.button') }}
         </v-button>
         <v-button
-          v-show="countCheckedElement === data.samples.length"
-          @click="handleComplete"
-          class="drawing-canvas__button">
+          v-if="checkedItems.size === data.samples.length"
+          @click="nextStage"
+          class="delta-quality__input-panel-button">
           {{ $t('hebbian.recognition.complete') }}
         </v-button>
       </div>
-      <delta-neuron :s="data.s" :y="data.y" />
-      <detail-list :details="detailsData" direction="column"></detail-list>
+      <delta-neuron class="delta-quality__neuron" :s="data.s" :y="data.y" />
+      <detail-list class="delta-quality__calculations" :details="detailsData" direction="column"></detail-list>
     </div>
 
-    <v-carousel class="carousel-samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
-      <template #slide="{ item }">
+    <v-carousel class="delta-quality__samples" :options="{ slidesToScroll: 8 }" :items="data.samples">
+      <template #slide="{ item, index }">
         <drawing-grid-view
-          class="carousel-samples-item"
+          class="delta-quality__samples-item"
           :size="50"
           :grid="item"
-          @click="() => clickItem(item)"></drawing-grid-view>
+          @click="() => clickItem(item, index)"></drawing-grid-view>
       </template>
     </v-carousel>
   </div>
 </template>
 
 <style scoped lang="scss">
-.root {
+.delta-quality {
   margin-top: rem(32);
-}
 
-.header {
-  display: flex;
-  column-gap: rem(48);
-}
-
-.drawing-canvas {
-  display: flex;
-  flex-direction: column;
-  gap: rem(16);
-
-  &__button {
-    width: 100%;
+  &__content {
+    display: flex;
+    column-gap: rem(48);
   }
-}
 
-.carousel-samples {
-  margin-block: rem(32);
+  &__input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
 
-  &-item {
-    cursor: pointer;
+    &-button {
+      width: 100%;
+    }
+  }
+
+  &__samples {
+    margin-block: rem(32);
+    &-item {
+      cursor: pointer;
+    }
   }
 }
 </style>

@@ -82,8 +82,8 @@ const calculationsData = computed(() => [
       <div class="hebbian-training__neuron">
         <hebbian-neuron :w="data.weights" :s="data.s" :y="data.y" :neuron="data.neuron" />
         <div v-if="data.correction !== 'none'" class="hebbian-training__rule">
-          <VMarkdown v-if="data.correction === 'plus'" content="$w_i = w_i + x_i$" />
-          <VMarkdown v-if="data.correction === 'minus'" content="$w_i = w_i - x_i$" />
+          <v-markdown v-if="data.correction === 'plus'" content="$w_i = w_i + x_i$" />
+          <v-markdown v-if="data.correction === 'minus'" content="$w_i = w_i - x_i$" />
         </div>
       </div>
 

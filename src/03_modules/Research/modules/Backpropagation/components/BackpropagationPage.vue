@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import VButton from '@common/components/VButton/VButton.vue';
 import VContainer from '@common/components/VContainer/VContainer.vue';
 
-import { DetailList } from '@modules/Research';
+import { DetailList } from '../../_';
 import { BackpropagationNeuron, BackpropagationTabs } from '../';
 import { useBackpropagationStore } from '../stores/backpropagation';
 

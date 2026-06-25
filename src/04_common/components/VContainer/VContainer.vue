@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { ContainerProps } from './VContainer';
+import { type ContainerProps, ContainerSizes } from './VContainer.types';
 
-const props = defineProps<ContainerProps>();
-
-const sizeObject = computed(() => props.size ?? 'md');
+const props = withDefaults(defineProps<ContainerProps>(), {
+  size: ContainerSizes.MD,
+});
+const modifiers = computed(() => [props.size && `--${props.size}`]);
 </script>
 
 <template>
-  <div class="container" :class="sizeObject">
+  <div class="container" :class="modifiers">
     <slot></slot>
   </div>
 </template>
@@ -19,19 +20,19 @@ const sizeObject = computed(() => props.size ?? 'md');
   margin-inline: auto;
   padding-inline: rem(16);
 
-  &.xs {
+  &.--xs {
     max-width: rem(420);
   }
 
-  &.sm {
+  &.--sm {
     max-width: rem(768);
   }
 
-  &.md {
+  &.--md {
     max-width: rem(1024);
   }
 
-  &.lg {
+  &.--lg {
     max-width: rem(1440);
   }
 }

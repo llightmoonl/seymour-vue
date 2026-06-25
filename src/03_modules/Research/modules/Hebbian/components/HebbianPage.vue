@@ -6,6 +6,9 @@ import { useRoute } from 'vue-router';
 import VContainer from '@common/components/VContainer/VContainer.vue';
 import VMarkdown from '@common/components/VMarkdown/VMarkdown.vue';
 
+// common-value
+import { ContainerSizes } from '@common/components/VContainer/VContainer.types';
+
 // components
 import HebbianTabs from './HebbianTabs.vue';
 
@@ -33,7 +36,7 @@ watch(
 
 <template>
   <div class="hebbian">
-    <v-container class="hebbian__container" size="lg">
+    <v-container :size="ContainerSizes.LG" class="hebbian__container">
       <div class="hebbian__content">
         <h1 class="hebbian__title">{{ $t('hebbian.shared.title') }}</h1>
         <p class="hebbian__subtitle">

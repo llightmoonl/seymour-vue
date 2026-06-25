@@ -50,10 +50,8 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     path: '/auth',
     component: AuthLayout,
     children: [
-      {
-        path: '',
-        component: AuthView,
-      },
+      { path: '/login', name: 'login', component: AuthView },
+      { path: '/register', name: 'register', component: AuthView },
     ],
   },
 ];

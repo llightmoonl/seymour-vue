@@ -9,30 +9,29 @@ const props = withDefaults(defineProps<TabsProps>(), {
   variant: TabsVariants.PILLS,
   orientation: TabsOrientations.HORIZONTAL,
 });
-
 const model = defineModel<AcceptableValue>();
 
 const modifiers = computed(() => [props.variant && `--${props.variant}`]);
 </script>
 
 <template>
-  <TabsRoot class="tabs" v-model="model" :class="modifiers" :orientation="orientation" :default-value="defaultValue">
-    <TabsList class="tabs__list">
-      <TabsTrigger
+  <tabs-root class="tabs" v-model="model" :class="modifiers" :orientation="orientation" :default-value="defaultValue">
+    <tabs-list class="tabs__list">
+      <tabs-trigger
         v-for="item in items"
         :key="`trigger-${item.id}`"
         :value="item.value"
         :disabled="item.disabled"
         class="tabs__trigger">
         {{ item.title }}
-      </TabsTrigger>
-    </TabsList>
+      </tabs-trigger>
+    </tabs-list>
     <template v-for="item in items" :key="`content-${item.id}`">
-      <TabsContent v-if="item.component" class="tabs__content" :value="item.value">
-        <Component :is="item.component" />
-      </TabsContent>
+      <tabs-content v-if="item.component" class="tabs__content" :value="item.value">
+        <component :is="item.component" />
+      </tabs-content>
     </template>
-  </TabsRoot>
+  </tabs-root>
 </template>
 
 <style scoped lang="scss">

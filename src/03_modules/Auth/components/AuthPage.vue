@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 import AuthTabs from './AuthTabs.vue';
 import VContainer from '@common/components/VContainer/VContainer.vue';
 import VLogo from '@common/components/VLogo/VLogo.vue';
-
-const currentTab = ref('sign-in');
 </script>
 
 <template>
@@ -14,7 +10,7 @@ const currentTab = ref('sign-in');
       <div class="auth__logo">
         <VLogo />
       </div>
-      <auth-tabs class="auth__tabs" v-model="currentTab" />
+      <auth-tabs class="auth__tabs" />
     </div>
   </v-container>
 </template>
