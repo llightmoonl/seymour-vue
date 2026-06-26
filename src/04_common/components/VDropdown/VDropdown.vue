@@ -42,7 +42,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
             <span class="dropdown__menu-label">{{ item.label }}</span>
             <span v-if="item.meta" class="dropdown__menu-meta">{{ item.meta }}</span>
           </dropdown-menu-item>
-          <dropdown-menu-separator v-if="item.type === 'separator'" class="dropdown__menu-separator" />
+          <dropdown-menu-separator v-if="item.type === 'separator' && !item.hidden" class="dropdown__menu-separator" />
         </template>
       </dropdown-menu-content>
     </dropdown-menu-portal>
@@ -69,7 +69,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
   &__menu {
     &-content {
       min-width: rem(220);
-      padding: rem(8);
+      padding: rem(8) 0;
       animation-duration: 200ms;
       animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
@@ -98,7 +98,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
     &-header {
       font-size: rem(12);
       color: var(--muted-foreground);
-      padding: rem(6) rem(8) rem(4);
+      padding: rem(6) rem(12) rem(4);
       user-select: none;
     }
 
@@ -106,12 +106,12 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
       font-size: rem(13);
       line-height: 1;
       color: var(--foreground);
-      border-radius: rem(4);
+      border-radius: 0;
       display: flex;
       align-items: center;
       gap: rem(8);
       height: rem(34);
-      padding: 0 rem(8);
+      padding: 0 rem(12);
       position: relative;
       user-select: none;
       outline: none;
@@ -153,7 +153,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
     &-separator {
       height: rem(1);
       background-color: var(--border);
-      margin: rem(4) rem(-8);
+      margin: rem(4) 0;
     }
   }
 }

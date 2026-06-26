@@ -327,7 +327,7 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
   &__avatar-meta {
     display: flex;
     flex-direction: column;
-    gap: rem(8);
+    gap: rem(16);
   }
 
   &__avatar-name {

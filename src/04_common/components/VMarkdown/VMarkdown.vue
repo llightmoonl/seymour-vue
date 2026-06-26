@@ -57,8 +57,13 @@ const props = defineProps<{
 
 const tp = new Typograf({ locale: ['ru', 'en-US'] });
 
+const typographExcludeFormulas = (content: string): string => {
+  const parts = content.split(/(\$\$[\s\S]+?\$\$|\$[^$\n]+?\$)/g);
+  return parts.map((part, i) => (i % 2 === 0 ? tp.execute(part) : part)).join('');
+};
+
 const renderedMarkdown = computed(() => {
-  return props.content ? tp.execute(md.render(String(props.content))) : '';
+  return props.content ? md.render(typographExcludeFormulas(String(props.content))) : '';
 });
 </script>
 
