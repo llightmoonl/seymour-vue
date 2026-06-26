@@ -22,10 +22,18 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
       <slot name="trigger" :open="open"><i-custom-ellipsis class="dropdown__trigger-icon" /></slot>
     </dropdown-menu-trigger>
     <dropdown-menu-portal class="dropdown__portal">
-      <dropdown-menu-content class="dropdown__menu-content" :class="modifiersContent" :side-offset="5">
+      <dropdown-menu-content
+        class="dropdown__menu-content"
+        :class="modifiersContent"
+        :side="side ?? 'bottom'"
+        :align="align ?? 'start'"
+        :side-offset="5">
         <template v-for="item in items" :key="item.id">
+          <div v-if="item.type === 'header' && !item.hidden" class="dropdown__menu-header">
+            {{ item.label }}
+          </div>
           <dropdown-menu-item
-            v-if="item.type === 'item' && !item.hidden"
+            v-else-if="item.type === 'item' && !item.hidden"
             :value="item.label"
             class="dropdown__menu-item"
             :class="{ '--danger': item.danger }"
@@ -45,23 +53,24 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
 [data-reka-popper-content-wrapper] {
   z-index: 1000 !important;
   border: 1px solid var(--border);
-
-  border-radius: rem(6);
-  padding: rem(8);
+  border-radius: rem(8);
+  background-color: var(--popover);
+  overflow: hidden;
+  box-shadow:
+    0 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0 10px 20px -15px rgba(22, 23, 24, 0.2);
 }
 
 .dropdown {
   &__trigger {
     @include reset-btn;
   }
+
   &__menu {
     &-content {
       min-width: rem(220);
-      background-color: var(--background);
-      box-shadow:
-        0 10px 38px -10px rgba(22, 23, 24, 0.35),
-        0 10px 20px -15px rgba(22, 23, 24, 0.2);
-      animation-duration: 400ms;
+      padding: rem(8);
+      animation-duration: 200ms;
       animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, opacity;
 
@@ -70,7 +79,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
       }
 
       &[data-side='top'] {
-        animation-name: slideDownAndFade;
+        animation-name: slideUpAndFade;
       }
 
       &[data-side='right'] {
@@ -78,38 +87,58 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
       }
 
       &[data-side='bottom'] {
-        animation-name: slideUpAndFade;
+        animation-name: slideDownAndFade;
       }
 
       &[data-side='left'] {
         animation-name: slideRightAndFade;
       }
     }
+
+    &-header {
+      font-size: rem(12);
+      color: var(--muted-foreground);
+      padding: rem(6) rem(8) rem(4);
+      user-select: none;
+    }
+
     &-item {
-      font-size: 13px;
+      font-size: rem(13);
       line-height: 1;
-      color: var(--grass-11);
-      border-radius: 3px;
+      color: var(--foreground);
+      border-radius: rem(4);
       display: flex;
       align-items: center;
-      height: 25px;
-      padding: 0 5px;
+      gap: rem(8);
+      height: rem(34);
+      padding: 0 rem(8);
       position: relative;
       user-select: none;
       outline: none;
+      cursor: pointer;
+
+      @include hover {
+        background-color: var(--accent);
+      }
 
       &[data-disabled] {
-        color: var(--mauve-8);
+        color: var(--muted-foreground);
         pointer-events: none;
       }
 
       &.--danger {
         color: var(--destructive);
 
-        &:hover {
-          background-color: color-mix(in srgb, var(--destructive) 15%, transparent);
+        @include hover {
+          background-color: color-mix(in srgb, var(--destructive) 12%, transparent);
         }
       }
+    }
+
+    &-icon {
+      width: rem(16);
+      height: rem(16);
+      flex-shrink: 0;
     }
 
     &-label {
@@ -119,13 +148,12 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
     &-meta {
       font-size: rem(11);
       color: var(--muted-foreground);
-      margin-inline-start: rem(8);
     }
 
     &-separator {
       height: rem(1);
       background-color: var(--border);
-      margin: rem(5) 0;
+      margin: rem(4) rem(-8);
     }
   }
 }
@@ -133,7 +161,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
 @keyframes slideUpAndFade {
   from {
     opacity: 0;
-    transform: translateY(2px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -144,7 +172,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
 @keyframes slideRightAndFade {
   from {
     opacity: 0;
-    transform: translateX(-2px);
+    transform: translateX(-4px);
   }
   to {
     opacity: 1;
@@ -155,7 +183,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
 @keyframes slideDownAndFade {
   from {
     opacity: 0;
-    transform: translateY(-2px);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
@@ -166,7 +194,7 @@ const modifiersContent = computed(() => [props.matchTriggerWidth && `--match-wid
 @keyframes slideLeftAndFade {
   from {
     opacity: 0;
-    transform: translateX(2px);
+    transform: translateX(4px);
   }
   to {
     opacity: 1;

@@ -7,6 +7,12 @@ import type {
   CreateUserDto,
   UpdateUserDto,
   AdminProject,
+  AdminDocFull,
+  AdminDocFilters,
+  AdminDocsResponse,
+  AdminDocStats,
+  UpdateDocDto,
+  CreateDocDto,
 } from '../types/admin.types';
 
 export const getAdminUsers = (filters: AdminUserFilters = {}): Promise<AdminUsersResponse> => {
@@ -32,8 +38,23 @@ export const patchAdminUser = (id: string, dto: UpdateUserDto) =>
 export const deleteAdminUser = (id: string) => api.delete(`admin/users/${id}`);
 
 export const getAdminUserProjects = (userId: string) =>
-  api.get(`admin/users/${userId}/projects`).json<AdminProject[]>();
+  api.get(`admin/users/${userId}/research`).json<AdminProject[]>();
 
-export const getAdminUserProjectsReport = (userId: string) => api.get(`admin/users/${userId}/projects/report`).blob();
+export const getAdminUserProjectsReport = (userId: string) => api.get(`admin/users/${userId}/research/report`).blob();
+
+export const getAdminDocs = (filters: AdminDocFilters = {}): Promise<AdminDocsResponse> => {
+  const searchParams: Record<string, string | number> = {};
+  if (filters.page) searchParams.page = filters.page;
+  if (filters.limit) searchParams.limit = filters.limit;
+  if (filters.search) searchParams.search = filters.search;
+  return api.get('admin/docs', { searchParams }).json<AdminDocsResponse>();
+};
+
+export const getAdminDocStats = () => api.get('admin/docs/stats').json<AdminDocStats>();
+
+export const patchAdminDoc = (id: string, dto: UpdateDocDto) =>
+  api.patch(`admin/docs/${id}`, { json: dto }).json<AdminDocFull>();
+
+export const postAdminDoc = (dto: CreateDocDto) => api.post('admin/docs', { json: dto }).json<AdminDocFull>();
 
 export const deleteAdminDoc = (id: string) => api.delete(`admin/docs/${id}`);

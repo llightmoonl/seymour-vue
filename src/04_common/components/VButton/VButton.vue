@@ -27,7 +27,7 @@ const modifiers = computed(() => [
 
 <template>
   <button class="button" :disabled="disabled || isLoading" :type="type" :class="modifiers">
-    <v-spinner v-if="isLoading" />
+    <v-spinner v-if="isLoading" :size="size" />
     <slot v-else>{{ $t('ui.button.default') }}</slot>
   </button>
 </template>

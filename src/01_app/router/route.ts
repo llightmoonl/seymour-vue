@@ -29,7 +29,10 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         path: '/admin',
         redirect: '/admin/users',
         meta: { requiresAdmin: true },
-        children: [{ path: 'users', component: () => import('@pages/AdminUsersView.vue') }],
+        children: [
+          { path: 'users', component: () => import('@pages/AdminUsersView.vue') },
+          { path: 'docs', component: () => import('@pages/AdminDocsView.vue') },
+        ],
       },
     ],
   },

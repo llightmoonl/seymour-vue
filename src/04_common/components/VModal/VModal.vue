@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
 import {
   DialogClose,
   DialogContent,
@@ -11,16 +12,29 @@ import {
 } from 'reka-ui';
 
 import VButton from '../VButton/VButton.vue';
-
 import type { ModalProps } from './VModal.types';
-
 import CloseIcon from '~icons/custom/close';
 
-defineProps<ModalProps>();
+const props = defineProps<ModalProps>();
+const emit = defineEmits<{ 'update:open': [value: boolean] }>();
+
+const localOpen = ref(props.open ?? false);
+
+watch(
+  () => props.open,
+  (val) => {
+    if (val !== undefined) localOpen.value = val;
+  },
+);
+
+function onOpenChange(val: boolean) {
+  localOpen.value = val;
+  if (props.open !== undefined) emit('update:open', val);
+}
 </script>
 
 <template>
-  <dialog-root class="modal" v-slot="{ close, open }">
+  <dialog-root :open="localOpen" @update:open="onOpenChange" v-slot="{ close, open: dialogOpen }">
     <dialog-trigger class="modal__trigger" as-child>
       <slot>
         <v-button variant="solid" size="md"></v-button>
@@ -29,17 +43,13 @@ defineProps<ModalProps>();
     <dialog-portal>
       <dialog-overlay class="modal__overlay" />
       <dialog-content class="modal__content">
-        <dialog-title v-if="title" class="modal__title">
-          {{ title }}
-        </dialog-title>
-        <dialog-description v-if="description" class="modal__description">
-          {{ description }}
-        </dialog-description>
+        <dialog-title v-if="title" class="modal__title">{{ title }}</dialog-title>
+        <dialog-description v-if="description" class="modal__description">{{ description }}</dialog-description>
         <slot name="content"></slot>
         <dialog-close class="modal__close" as-child>
-          <v-button variant="ghost" size="icon-sm"><CloseIcon /></v-button>
+          <v-button variant="ghost" :icon-only="true" size="sm"><CloseIcon /></v-button>
         </dialog-close>
-        <slot name="footer" :close="close" :open="open"></slot>
+        <slot name="footer" :close="close" :open="dialogOpen"></slot>
       </dialog-content>
     </dialog-portal>
   </dialog-root>
@@ -51,6 +61,7 @@ defineProps<ModalProps>();
     background-color: var(--overlay);
     position: fixed;
     inset: 0;
+    z-index: 100;
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -63,9 +74,10 @@ defineProps<ModalProps>();
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90vw;
-    max-width: 450px;
+    max-width: rem(450);
     max-height: 85vh;
-    padding: rem(25);
+    padding: rem(24);
+    z-index: 101;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
     &:focus {
@@ -78,19 +90,20 @@ defineProps<ModalProps>();
     font-weight: 500;
     color: var(--foreground);
     font-size: rem(20);
+    padding-inline-end: rem(32);
   }
 
   &__description {
     margin: rem(10) 0 rem(20);
-    color: var(--foreground);
-    font-size: rem(15);
+    color: var(--muted-foreground);
+    font-size: rem(14);
     line-height: 1.5;
   }
 
   &__close {
     position: absolute;
-    top: rem(10);
-    right: rem(10);
+    top: rem(12);
+    right: rem(12);
   }
 }
 

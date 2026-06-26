@@ -3,15 +3,6 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMutation, useQuery } from '@pinia/colada';
 import { useRouter } from 'vue-router';
-import {
-  DialogRoot,
-  DialogTrigger,
-  DialogPortal,
-  DialogOverlay,
-  DialogContent,
-  DialogTitle,
-  DialogClose,
-} from 'reka-ui';
 import { useAuthStore } from '@modules/Auth/stores/useAuthStore';
 import { getSessions, deleteSession, deleteAllSessions } from '../../Sessions/api/sessions.api';
 import { deleteAccount } from '../../DangerZone/api/deleteAccount';
@@ -19,6 +10,7 @@ import { timeAgo } from '@common/utils/timeAgo';
 import VFormField from '@common/components/VFormField/VFormField.vue';
 import VPasswordInput from '@common/components/VInput/VPasswordInput.vue';
 import VButton from '@common/components/VButton/VButton.vue';
+import VModal from '@common/components/VModal/VModal.vue';
 import VSkeleton from '@common/components/VSkeleton/VSkeleton.vue';
 import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types';
 
@@ -51,7 +43,7 @@ const deleteOpen = ref(false);
 const deletePassword = ref('');
 const deleteError = ref('');
 
-const { mutate: doDeleteAccount, status: deleteStatus } = useMutation({
+const { mutate: doDeleteAccount, isLoading: deleteIsLoading } = useMutation({
   mutation: () => deleteAccount(deletePassword.value),
   onSuccess: async () => {
     deleteOpen.value = false;
@@ -72,10 +64,10 @@ const onDeleteConfirm = () => {
 
 <template>
   <div class="settings-security">
-    <div class="settings-security__block">
+    <div id="sessions" class="settings-security__block">
       <div class="settings-security__block-header">
         <h2 class="settings-security__block-title">{{ $t('settings.sessions.title') }}</h2>
-        <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.MD" @click="endAllSessions()">
+        <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.LG" @click="endAllSessions()">
           {{ $t('settings.sessions.logout-all') }}
         </v-button>
       </div>
@@ -113,7 +105,7 @@ const onDeleteConfirm = () => {
       </p>
     </div>
 
-    <div class="settings-security__block">
+    <div id="danger-zone" class="settings-security__block">
       <div class="settings-security__block-header">
         <h2 class="settings-security__block-title settings-security__block-title--danger">
           {{ $t('settings.danger-zone.section-title') }}
@@ -125,38 +117,34 @@ const onDeleteConfirm = () => {
           <div class="settings-security__row-name">{{ $t('settings.danger-zone.title') }}</div>
           <p class="settings-security__row-description">{{ $t('settings.danger-zone.description') }}</p>
         </div>
-        <dialog-root v-model:open="deleteOpen">
-          <dialog-trigger as-child>
-            <v-button :variant="ButtonVariants.DESTRUCTIVE" :size="ButtonSizes.LG">
-              {{ $t('settings.danger-zone.button') }}
-            </v-button>
-          </dialog-trigger>
-          <dialog-portal>
-            <dialog-overlay class="danger-dialog__overlay" />
-            <dialog-content class="danger-dialog__content">
-              <dialog-title class="danger-dialog__title">{{ $t('settings.danger-zone.confirm-title') }}</dialog-title>
-              <p class="danger-dialog__description">{{ $t('settings.danger-zone.confirm-description') }}</p>
-              <v-form-field :title="$t('settings.danger-zone.password-label')">
-                <v-password-input v-model="deletePassword" variant="soft" size="xl" name="deletePassword" />
-              </v-form-field>
-              <p v-if="deleteError" class="danger-dialog__error">{{ deleteError }}</p>
-              <div class="danger-dialog__actions">
-                <dialog-close as-child>
-                  <v-button :variant="ButtonVariants.OUTLINE" :size="ButtonSizes.MD">
-                    {{ $t('shared.cancel') }}
-                  </v-button>
-                </dialog-close>
-                <v-button
-                  :variant="ButtonVariants.DESTRUCTIVE"
-                  :size="ButtonSizes.MD"
-                  :is-loading="deleteStatus === 'pending'"
-                  @click="onDeleteConfirm">
-                  {{ $t('settings.danger-zone.confirm-button') }}
-                </v-button>
-              </div>
-            </dialog-content>
-          </dialog-portal>
-        </dialog-root>
+        <v-modal
+          v-model:open="deleteOpen"
+          :title="$t('settings.danger-zone.confirm-title')"
+          :description="$t('settings.danger-zone.confirm-description')">
+          <v-button :variant="ButtonVariants.DESTRUCTIVE" :size="ButtonSizes.LG">
+            {{ $t('settings.danger-zone.button') }}
+          </v-button>
+          <template #content>
+            <v-form-field :title="$t('settings.danger-zone.password-label')">
+              <v-password-input v-model="deletePassword" variant="soft" size="xl" name="deletePassword" />
+            </v-form-field>
+            <p v-if="deleteError" class="delete-error">{{ deleteError }}</p>
+          </template>
+          <template #footer="{ close }">
+            <div class="modal-actions">
+              <v-button :variant="ButtonVariants.OUTLINE" :size="ButtonSizes.MD" @click="close">
+                {{ $t('shared.cancel') }}
+              </v-button>
+              <v-button
+                :variant="ButtonVariants.DESTRUCTIVE"
+                :size="ButtonSizes.MD"
+                :is-loading="deleteIsLoading"
+                @click="onDeleteConfirm">
+                {{ $t('settings.danger-zone.confirm-button') }}
+              </v-button>
+            </div>
+          </template>
+        </v-modal>
       </div>
     </div>
   </div>
@@ -169,6 +157,7 @@ const onDeleteConfirm = () => {
   }
 
   &__block {
+    scroll-margin-top: rem(24);
     margin-block-end: rem(48);
 
     &-header {
@@ -255,76 +244,16 @@ const onDeleteConfirm = () => {
   }
 }
 
-.danger-dialog {
-  &__overlay {
-    background-color: var(--overlay);
-    position: fixed;
-    inset: 0;
-    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  &__content {
-    border: 1px solid var(--border);
-    background-color: var(--popover);
-    border-radius: rem(8);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: rem(440);
-    padding: rem(24);
-    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    gap: rem(16);
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__title {
-    font-size: rem(18);
-    font-weight: 600;
-  }
-
-  &__description {
-    font-size: rem(14);
-    color: var(--muted-foreground);
-  }
-
-  &__error {
-    font-size: rem(13);
-    color: var(--destructive);
-    font-weight: 600;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: rem(8);
-    margin-block-start: rem(4);
-  }
+.delete-error {
+  font-size: rem(13);
+  color: var(--destructive);
+  font-weight: 600;
 }
 
-@keyframes overlayShow {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: rem(8);
+  margin-block-start: rem(20);
 }
 </style>

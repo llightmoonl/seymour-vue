@@ -32,6 +32,9 @@
     "profile": {
       "settings": "Настройки",
       "theme": "Тема",
+      "theme-light": "Светлая",
+      "theme-dark": "Тёмная",
+      "theme-system": "Системная",
       "language": "Язык",
       "admin": "Администрирование",
       "logout": "Выйти"
@@ -255,7 +258,9 @@
     "nav": {
       "profile": "Основное",
       "appearance": "Внешний вид",
-      "security": "Безопасность"
+      "security": "Безопасность",
+      "sessions": "Активные сессии",
+      "danger-zone": "Опасная зона"
     },
     "profile": {
       "title": "Основное",
@@ -281,6 +286,12 @@
       "confirm-submit": "Подтвердить",
       "success": "Профиль обновлён",
       "avatar-upload": "Загрузить фото",
+      "avatar-modal-title": "Загрузить фото",
+      "avatar-modal-description": "Загрузите фотографию профиля. Используйте чёткое изображение с нейтральным фоном.",
+      "avatar-modal-formats": "Допустимые форматы: JPEG, PNG, WEBP",
+      "avatar-modal-max-size": "Максимальный размер файла: 5 МБ",
+      "avatar-modal-recommended": "Рекомендуемый размер: от 400×400 пикселей",
+      "avatar-modal-select": "Выбрать файл",
       "password-label": "Пароль"
     },
     "appearance": {
@@ -349,7 +360,11 @@
       },
       "empty": "Пользователи не найдены",
       "delete-confirm": "Удалить пользователя {name}?",
-      "delete-confirm-description": "Это действие нельзя отменить"
+      "delete-confirm-description": "Это действие нельзя отменить",
+      "delete-title": "Удалить пользователя?",
+      "delete-description": "Пользователь «{name}» ({email}) будет удалён вместе со всеми проектами и историей прогресса.",
+      "delete-irreversible": "Это действие нельзя отменить.",
+      "delete-confirm-btn": "Удалить навсегда"
     },
     "user-projects": {
       "title": "Проекты пользователя",
@@ -383,6 +398,48 @@
       "description": "Документ «{title}» ({words} слов) будет удалён навсегда. Это действие нельзя отменить.",
       "confirm": "Удалить навсегда",
       "cancel": "Отмена"
+    },
+    "docs": {
+      "nav": "Документация",
+      "title": "Документация",
+      "total": "Всего документов",
+      "published": "Опубликовано",
+      "total-views": "Всего просмотров",
+      "total-words": "Объём",
+      "words-unit": "слов",
+      "search-placeholder": "Поиск по названию...",
+      "all-sections": "Все разделы",
+      "all-statuses": "Все статусы",
+      "columns": {
+        "num": "№",
+        "title": "Название",
+        "section": "Раздел",
+        "author": "Автор",
+        "status": "Статус",
+        "updated": "Обновлено",
+        "views": "Просмотры",
+        "words": "Слов",
+        "actions": "Действия"
+      },
+      "status": {
+        "published": "Опубликован",
+        "draft": "Черновик",
+        "review": "На проверке"
+      },
+      "empty": "Документы не найдены",
+      "publish": "Опубликовать",
+      "unpublish": "Снять с публикации",
+      "edit-title": "Редактировать документ",
+      "edit-content-label": "Содержимое (Markdown)",
+      "edit-title-label": "Заголовок",
+      "save": "Сохранить",
+      "delete": "Удалить",
+      "delete-confirm": "Удалить «{title}»?",
+      "delete-description": "Документ будет удалён навсегда.",
+      "delete-confirm-btn": "Удалить навсегда",
+      "add": "Добавить документ",
+      "create-title": "Новый документ",
+      "create-btn": "Создать"
     },
     "status": {
       "ACTIVE": "Активен",

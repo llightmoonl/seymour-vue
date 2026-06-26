@@ -32,6 +32,9 @@
     "profile": {
       "settings": "Settings",
       "theme": "Theme",
+      "theme-light": "Light",
+      "theme-dark": "Dark",
+      "theme-system": "System",
       "language": "Language",
       "admin": "Admin panel",
       "logout": "Logout"
@@ -247,7 +250,9 @@
     "nav": {
       "profile": "General",
       "appearance": "Appearance",
-      "security": "Security"
+      "security": "Security",
+      "sessions": "Active sessions",
+      "danger-zone": "Danger zone"
     },
     "profile": {
       "title": "General",
@@ -273,6 +278,12 @@
       "confirm-submit": "Confirm",
       "success": "Profile updated",
       "avatar-upload": "Upload photo",
+      "avatar-modal-title": "Upload photo",
+      "avatar-modal-description": "Upload a profile photo. Use a clear image with a neutral background.",
+      "avatar-modal-formats": "Allowed formats: JPEG, PNG, WEBP",
+      "avatar-modal-max-size": "Maximum file size: 5 MB",
+      "avatar-modal-recommended": "Recommended size: at least 400×400 pixels",
+      "avatar-modal-select": "Choose file",
       "password-label": "Password"
     },
     "appearance": {
@@ -341,7 +352,11 @@
       },
       "empty": "No users found",
       "delete-confirm": "Delete user {name}?",
-      "delete-confirm-description": "This action cannot be undone"
+      "delete-confirm-description": "This action cannot be undone",
+      "delete-title": "Delete user?",
+      "delete-description": "User \"{name}\" ({email}) will be deleted along with all projects and progress history.",
+      "delete-irreversible": "This action cannot be undone.",
+      "delete-confirm-btn": "Delete permanently"
     },
     "user-projects": {
       "title": "User projects",
@@ -375,6 +390,48 @@
       "description": "Document \"{title}\" ({words} words) will be permanently deleted. This action cannot be undone.",
       "confirm": "Delete permanently",
       "cancel": "Cancel"
+    },
+    "docs": {
+      "nav": "Documentation",
+      "title": "Documentation",
+      "total": "Total documents",
+      "published": "Published",
+      "total-views": "Total views",
+      "total-words": "Volume",
+      "words-unit": "words",
+      "search-placeholder": "Search by title...",
+      "all-sections": "All sections",
+      "all-statuses": "All statuses",
+      "columns": {
+        "num": "#",
+        "title": "Title",
+        "section": "Section",
+        "author": "Author",
+        "status": "Status",
+        "updated": "Updated",
+        "views": "Views",
+        "words": "Words",
+        "actions": "Actions"
+      },
+      "status": {
+        "published": "Published",
+        "draft": "Draft",
+        "review": "Under review"
+      },
+      "empty": "No documents found",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "edit-title": "Edit document",
+      "edit-content-label": "Content (Markdown)",
+      "edit-title-label": "Title",
+      "save": "Save",
+      "delete": "Delete",
+      "delete-confirm": "Delete \"{title}\"?",
+      "delete-description": "The document will be permanently deleted.",
+      "delete-confirm-btn": "Delete permanently",
+      "add": "Add document",
+      "create-title": "New document",
+      "create-btn": "Create"
     },
     "status": {
       "ACTIVE": "Active",

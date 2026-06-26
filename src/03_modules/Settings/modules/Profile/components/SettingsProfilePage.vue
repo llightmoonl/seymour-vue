@@ -5,15 +5,6 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useMutation } from '@pinia/colada';
-import {
-  DialogRoot,
-  DialogTrigger,
-  DialogPortal,
-  DialogOverlay,
-  DialogContent,
-  DialogTitle,
-  DialogClose,
-} from 'reka-ui';
 import { useAuthStore } from '@modules/Auth/stores/useAuthStore';
 import { patchProfile } from '../api/patchProfile';
 import { postAvatarUpload } from '../api/postAvatarUpload';
@@ -35,7 +26,7 @@ const avatarFallback = computed(() => (authStore.user?.name ?? '?').charAt(0).to
 // Avatar upload
 const fileInputRef = ref<HTMLInputElement | null>(null);
 
-const { mutate: uploadAvatar } = useMutation({
+const { mutate: uploadAvatar, isLoading: avatarIsLoading } = useMutation({
   mutation: (file: File) => postAvatarUpload(file),
   onSuccess: (profile) => {
     authStore.user = profile;
@@ -149,7 +140,7 @@ const [currentPassword] = defineField('currentPassword', SETTINGS_FIELDS);
 const [newPassword] = defineField('newPassword', SETTINGS_FIELDS);
 const [confirmPassword] = defineField('confirmPassword', SETTINGS_FIELDS);
 
-const { mutate: changePassword, status: changePasswordStatus } = useMutation({
+const { mutate: changePassword, isLoading: changePasswordIsLoading } = useMutation({
   mutation: (dto: { currentPassword: string; newPassword: string }) => authStore.changePassword(dto),
   onSuccess: () => {
     passwordSuccess.value = true;
@@ -175,13 +166,37 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
       <v-avatar :src="authStore.avatarSrc" :alt="avatarFallback" :size="AvatarSizes['2XL']" />
       <div class="settings-profile__avatar-meta">
         <div class="settings-profile__avatar-name">{{ authStore.user?.name }}</div>
-        <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.SM" @click="fileInputRef?.click()">
-          {{ $t('settings.profile.avatar-upload') }}
-        </v-button>
+        <v-modal
+          :title="$t('settings.profile.avatar-modal-title')"
+          :description="$t('settings.profile.avatar-modal-description')">
+          <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.SM" :is-loading="avatarIsLoading">
+            {{ $t('settings.profile.avatar-upload') }}
+          </v-button>
+          <template #content>
+            <ul class="avatar-requirements">
+              <li>{{ $t('settings.profile.avatar-modal-formats') }}</li>
+              <li>{{ $t('settings.profile.avatar-modal-max-size') }}</li>
+              <li>{{ $t('settings.profile.avatar-modal-recommended') }}</li>
+            </ul>
+          </template>
+          <template #footer="{ close }">
+            <v-button
+              :size="ButtonSizes.XL"
+              class="avatar-requirements__btn"
+              @click="
+                () => {
+                  close();
+                  fileInputRef?.click();
+                }
+              ">
+              {{ $t('settings.profile.avatar-modal-select') }}
+            </v-button>
+          </template>
+        </v-modal>
         <input
           ref="fileInputRef"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           class="settings-profile__file-input"
           @change="onFileChange" />
       </div>
@@ -194,33 +209,29 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
       <div class="settings-profile__row">
         <span class="settings-profile__row-label">{{ $t('settings.profile.username-label') }}</span>
         <span class="settings-profile__row-value">{{ authStore.user?.name }}</span>
-        <dialog-root v-model:open="nameModalOpen">
-          <dialog-trigger as-child>
-            <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.LG" @click="resetNameForm">
-              {{ $t('settings.profile.change') }}
-            </v-button>
-          </dialog-trigger>
-          <dialog-portal>
-            <dialog-overlay class="profile-dialog__overlay" />
-            <dialog-content class="profile-dialog__content">
-              <dialog-title class="profile-dialog__title">{{ $t('settings.profile.change-name-title') }}</dialog-title>
-              <p class="profile-dialog__description">{{ $t('settings.profile.change-name-description') }}</p>
-              <v-form-field :title="$t('settings.profile.username-label')" :error="nameError">
-                <v-input v-model="nameValue" variant="soft" size="xl" name="name" @keydown.enter="onNameSubmit" />
-              </v-form-field>
-              <div class="profile-dialog__actions">
-                <dialog-close as-child>
-                  <v-button :variant="ButtonVariants.OUTLINE" :size="ButtonSizes.MD">
-                    {{ $t('shared.cancel') }}
-                  </v-button>
-                </dialog-close>
-                <v-button :size="ButtonSizes.MD" :is-loading="saveNameIsLoading" @click="onNameSubmit">
-                  {{ $t('shared.save') }}
-                </v-button>
-              </div>
-            </dialog-content>
-          </dialog-portal>
-        </dialog-root>
+        <v-modal
+          v-model:open="nameModalOpen"
+          :title="$t('settings.profile.change-name-title')"
+          :description="$t('settings.profile.change-name-description')">
+          <v-button :variant="ButtonVariants.SOFT" :size="ButtonSizes.LG" @click="resetNameForm">
+            {{ $t('settings.profile.change') }}
+          </v-button>
+          <template #content>
+            <v-form-field :title="$t('settings.profile.username-label')" :error="nameError">
+              <v-input v-model="nameValue" variant="soft" size="xl" name="name" @keydown.enter="onNameSubmit" />
+            </v-form-field>
+          </template>
+          <template #footer="{ close }">
+            <div class="modal-actions">
+              <v-button :variant="ButtonVariants.OUTLINE" :size="ButtonSizes.MD" @click="close">
+                {{ $t('shared.cancel') }}
+              </v-button>
+              <v-button :size="ButtonSizes.MD" :is-loading="saveNameIsLoading" @click="onNameSubmit">
+                {{ $t('shared.save') }}
+              </v-button>
+            </div>
+          </template>
+        </v-modal>
       </div>
 
       <!-- Email -->
@@ -289,7 +300,7 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
                 class="change-password-form__submit"
                 :type="ButtonTypes.SUBMIT"
                 :size="ButtonSizes.XL"
-                :is-loading="changePasswordStatus === 'pending'">
+                :is-loading="changePasswordIsLoading">
                 {{ $t('auth.change-password.submit') }}
               </v-button>
             </form>
@@ -409,64 +420,43 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
   }
 }
 
-.profile-dialog {
-  &__overlay {
-    background-color: var(--overlay);
-    position: fixed;
-    inset: 0;
-    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
+.avatar-requirements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: rem(6);
 
-  &__content {
-    border: 1px solid var(--border);
-    background-color: var(--popover);
-    border-radius: rem(8);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: rem(440);
-    padding: rem(24);
-    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    gap: rem(16);
+  li {
+    font-size: rem(13);
+    color: var(--muted-foreground);
+    padding-inline-start: rem(16);
+    position: relative;
 
-    &:focus {
-      outline: none;
+    &::before {
+      content: '—';
+      position: absolute;
+      inset-inline-start: 0;
     }
   }
 
-  &__title {
-    font-size: rem(20);
+  &__btn {
+    inline-size: 100%;
   }
+}
 
-  &__description {
-    font-size: rem(14);
-    color: var(--muted-foreground);
-    margin-block-start: rem(-8);
-  }
-
-  &__error {
-    font-size: rem(13);
-    color: var(--destructive);
-    font-weight: 600;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: rem(8);
-    margin-block-start: rem(4);
-  }
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: rem(8);
+  margin-block-start: rem(20);
 }
 
 .change-password-form {
   display: flex;
   flex-direction: column;
   gap: rem(16);
-  margin-block-start: rem(8);
 
   &__error {
     font-size: rem(13);
@@ -481,27 +471,6 @@ const onPasswordSubmit = handlePasswordSubmit((values) => {
 
   &__submit {
     inline-size: 100%;
-    margin-block-start: rem(8);
-  }
-}
-
-@keyframes overlayShow {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
   }
 }
 </style>

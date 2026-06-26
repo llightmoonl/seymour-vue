@@ -69,3 +69,45 @@ export interface AdminDoc {
   status: string;
   createdAt: string;
 }
+
+export type DocStatus = 'published' | 'draft' | 'review';
+
+export interface AdminDocFull {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  section?: string;
+  author?: string;
+  status: DocStatus;
+  published: boolean;
+  updatedAt: string;
+  viewsCount?: number;
+  wordsCount?: number;
+}
+
+export interface AdminDocStats {
+  total: number;
+  published: number;
+  totalViews: number;
+  totalWords: number;
+}
+
+export interface UpdateDocDto {
+  title?: string;
+  content?: string;
+  published?: boolean;
+}
+
+export interface CreateDocDto {
+  title: string;
+  content: string;
+}
+
+export interface AdminDocFilters {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export type AdminDocsResponse = Pagination<AdminDocFull>;

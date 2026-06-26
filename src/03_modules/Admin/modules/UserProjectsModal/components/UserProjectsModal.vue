@@ -9,6 +9,8 @@ import VButton from '@common/components/VButton/VButton.vue';
 import VSkeleton from '@common/components/VSkeleton/VSkeleton.vue';
 import { ButtonSizes, ButtonVariants } from '@common/components/VButton/VButton.types';
 import { timeAgo } from '@common/utils/timeAgo';
+import DownloadIcon from '~icons/custom/download';
+import CloseIcon from '~icons/custom/close';
 
 const props = defineProps<{ userId: string }>();
 const emit = defineEmits<{ close: [] }>();
@@ -81,9 +83,13 @@ const onDownloadReport = async () => {
 
         <div class="projects-modal__footer">
           <v-button :variant="ButtonVariants.OUTLINE" :size="ButtonSizes.SM" @click="onDownloadReport">
+            <download-icon class="projects-modal__btn-icon" />
             {{ $t('admin.user-projects.download-report') }}
           </v-button>
-          <v-button :size="ButtonSizes.SM" @click="emit('close')">{{ $t('shared.close') }}</v-button>
+          <v-button :size="ButtonSizes.SM" @click="emit('close')">
+            <close-icon class="projects-modal__btn-icon" />
+            {{ $t('shared.close') }}
+          </v-button>
         </div>
 
         <button class="projects-modal__close" @click="emit('close')">×</button>
@@ -199,6 +205,11 @@ const onDownloadReport = async () => {
     margin-block-start: rem(8);
     padding-block-start: rem(16);
     border-block-start: 1px solid var(--border);
+  }
+
+  &__btn-icon {
+    width: rem(16);
+    height: rem(16);
   }
 
   &__close {

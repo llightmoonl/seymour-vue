@@ -40,7 +40,12 @@ const modifiers = computed(() => [
   <div class="select" :class="modifiers">
     <select-root v-model:value="selectedValue" class="select__root" @update:model-value="onSelect($event)">
       <select-trigger ref="selectTrigger" class="select__trigger">
-        <select-value :placeholder="placeholder" class="select__value" />
+        <select-value :placeholder="placeholder" class="select__value">
+          <template
+            v-if="selectedValue != null && typeof selectedValue === 'object' && 'name' in (selectedValue as object)">
+            {{ (selectedValue as { name: string }).name }}
+          </template>
+        </select-value>
         <chevron-down-icon class="select__icon"></chevron-down-icon>
       </select-trigger>
       <select-content :align="align" :side="side" :avoid-collisions="false" position="popper" :side-offset="4">

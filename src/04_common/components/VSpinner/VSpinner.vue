@@ -7,7 +7,7 @@ withDefaults(defineProps<SpinnerProps>(), {
 </script>
 
 <template>
-  <div class="spinner"></div>
+  <div class="spinner" :class="size && `--${size}`"></div>
 </template>
 
 <style scoped lang="scss">

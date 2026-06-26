@@ -23,9 +23,12 @@ const modifiers = computed(() => [props.size && `--${props.size}`]);
   justify-content: center;
   vertical-align: middle;
   user-select: none;
-  width: var(--size);
-  height: var(--size);
-  border-radius: 100%;
+  max-width: var(--size);
+  max-height: var(--size);
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   background-color: var(--black-a3);
 
   &__image {

@@ -9,5 +9,5 @@ export const SpinnerSizes = {
 type SpinnerSize = (typeof SpinnerSizes)[keyof typeof SpinnerSizes];
 
 export interface SpinnerProps {
-  size: SpinnerSize;
+  size?: SpinnerSize;
 }

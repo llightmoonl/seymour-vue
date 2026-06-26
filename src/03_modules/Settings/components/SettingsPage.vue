@@ -11,7 +11,8 @@ const { t } = useI18n();
 const navItems = [
   { id: 'profile', label: t('settings.nav.profile') },
   { id: 'appearance', label: t('settings.nav.appearance') },
-  { id: 'security', label: t('settings.nav.security') },
+  { id: 'sessions', label: t('settings.nav.sessions') },
+  { id: 'danger-zone', label: t('settings.nav.danger-zone') },
 ];
 
 const activeSection = ref('profile');
@@ -68,9 +69,7 @@ onUnmounted(() => {
           <section id="appearance" class="settings__section">
             <settings-appearance-page />
           </section>
-          <section id="security" class="settings__section">
-            <settings-security-page />
-          </section>
+          <settings-security-page />
         </div>
       </div>
     </v-container>

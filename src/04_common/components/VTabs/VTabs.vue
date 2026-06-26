@@ -60,15 +60,20 @@ const modifiers = computed(() => [props.variant && `--${props.variant}`]);
       &__list {
         border-radius: rem(14);
         padding: rem(4);
-        background-color: var(--muted);
+        background-color: color-mix(in srgb, var(--foreground) 8%, transparent);
       }
 
       &__trigger {
         background-color: transparent;
         padding: rem(4) rem(8);
         border-radius: rem(12);
+        color: var(--muted-foreground);
 
-        &:hover,
+        &:hover {
+          background-color: color-mix(in srgb, var(--foreground) 8%, transparent);
+          color: var(--foreground);
+        }
+
         &[data-state='active'] {
           background-color: var(--primary);
           color: var(--primary-foreground);

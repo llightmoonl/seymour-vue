@@ -21,6 +21,10 @@ import { useSidebar } from '@common/components/VSidebar/composables/useSidebar';
 import HomeIcon from '~icons/custom/home';
 import DocsIcon from '~icons/custom/docs';
 import ProjectsIcon from '~icons/custom/projects';
+import SettingsIcon from '~icons/custom/settings';
+import LanguageIcon from '~icons/custom/language';
+import LogoutIcon from '~icons/custom/logout';
+import ThemeIcon from '~icons/custom/theme';
 
 import type { DropdownItem } from '@common/components/VDropdown/VDropdown.types.ts';
 import { AvatarSizes } from '@common/components/VAvatar/VAvatar.types.ts';
@@ -45,29 +49,49 @@ const sidebarElements = [
 
 const profileSettingIsOpened = ref(false);
 
+const themeLabels: Record<string, string> = {
+  light: t('sidebar.profile.theme-light'),
+  dark: t('sidebar.profile.theme-dark'),
+  system: t('sidebar.profile.theme-system'),
+};
+const themeOrder: Array<'light' | 'dark' | 'system'> = ['light', 'dark', 'system'];
+const cycleTheme = () => {
+  const cur = themeStore.theme as 'light' | 'dark' | 'system';
+  const next = themeOrder[(themeOrder.indexOf(cur) + 1) % themeOrder.length]!;
+  themeStore.setTheme(next);
+};
+
 const profileSettings = computed<DropdownItem[]>(() => [
   {
-    id: 1,
-    type: 'item',
-    label: t('sidebar.profile.settings'),
-    onClick: () => router.push('/settings/profile'),
+    id: 0,
+    type: 'header',
+    label: authStore.user?.email ?? '',
   },
-  { id: 2, type: 'separator' },
+  { id: 1, type: 'separator' },
+  {
+    id: 2,
+    type: 'item',
+    icon: SettingsIcon,
+    label: t('sidebar.profile.settings'),
+    onClick: () => router.push('/settings'),
+  },
   {
     id: 3,
     type: 'item',
-    label: t('sidebar.profile.theme'),
-    meta: themeStore.theme === 'dark' ? t('settings.appearance.theme-dark') : t('settings.appearance.theme-light'),
-    onClick: () => themeStore.setTheme(themeStore.theme === 'dark' ? 'light' : 'dark'),
-  },
-  {
-    id: 4,
-    type: 'item',
+    icon: LanguageIcon,
     label: t('sidebar.profile.language'),
     meta: localeStore.locale === 'ru' ? 'RU' : 'EN',
     onClick: () => localeStore.setLocale(localeStore.locale === 'ru' ? 'en' : 'ru'),
   },
-  { id: 5, type: 'separator' },
+  {
+    id: 4,
+    type: 'item',
+    icon: ThemeIcon,
+    label: t('sidebar.profile.theme'),
+    meta: themeLabels[themeStore.theme] ?? themeStore.theme,
+    onClick: cycleTheme,
+  },
+  { id: 5, type: 'separator', hidden: !authStore.isAdmin },
   {
     id: 6,
     type: 'item',
@@ -75,10 +99,18 @@ const profileSettings = computed<DropdownItem[]>(() => [
     hidden: !authStore.isAdmin,
     onClick: () => router.push('/admin/users'),
   },
-  { id: 7, type: 'separator', hidden: !authStore.isAdmin },
   {
-    id: 8,
+    id: 7,
     type: 'item',
+    hidden: !authStore.isAdmin,
+    label: t('admin.docs.nav'),
+    onClick: () => router.push('/admin/docs'),
+  },
+  { id: 8, type: 'separator', hidden: !authStore.isAdmin },
+  {
+    id: 9,
+    type: 'item',
+    icon: LogoutIcon,
     label: t('sidebar.profile.logout'),
     danger: true,
     onClick: async () => {
@@ -114,7 +146,12 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
         </v-sidebar-menu>
       </v-sidebar-content>
       <v-sidebar-footer class="sidebar-app__footer">
-        <v-dropdown :items="profileSettings" v-model:open="profileSettingIsOpened" match-trigger-width>
+        <v-dropdown
+          :items="profileSettings"
+          v-model:open="profileSettingIsOpened"
+          :match-trigger-width="open"
+          side="top"
+          align="start">
           <template #trigger>
             <div class="sidebar-app__profile" :class="{ '--open': open }">
               <v-avatar
@@ -122,11 +159,15 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
                 :src="authStore.avatarSrc"
                 :alt="avatarFallback"
                 :size="AvatarSizes['3XS']" />
-              <div v-if="open" class="sidebar-app__profile-info">
-                <div class="sidebar-app__profile-name">{{ authStore.user?.name }}</div>
-                <div class="sidebar-app__profile-role">{{ roleLabel }}</div>
-              </div>
-              <i-custom-chevron-vertical v-if="open" class="sidebar-app__profile-vertical" />
+              <Transition name="sidebar-info">
+                <div v-if="open" class="sidebar-app__profile-info">
+                  <div class="sidebar-app__profile-name">{{ authStore.user?.name }}</div>
+                  <div class="sidebar-app__profile-role">{{ roleLabel }}</div>
+                </div>
+              </Transition>
+              <Transition name="sidebar-info">
+                <i-custom-chevron-vertical v-if="open" class="sidebar-app__profile-chevron" />
+              </Transition>
             </div>
           </template>
         </v-dropdown>
@@ -172,16 +213,17 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
   }
 
   &__profile {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     column-gap: rem(8);
-    padding-block: rem(8);
+    padding: rem(8) rem(6);
     margin-bottom: rem(12);
-    border-radius: rem(12);
+    border-radius: rem(8);
+    transition: padding 0.2s ease;
 
     &.--open {
-      padding-inline: rem(8);
+      padding-inline: rem(10);
     }
 
     @include hover() {
@@ -190,15 +232,30 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
 
     &-info {
       flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
     }
 
     &-name {
       font-size: rem(14);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &-role {
-      font-size: rem(12);
+      font-size: rem(11);
+      color: var(--muted-foreground);
+      margin-top: rem(1);
+      white-space: nowrap;
     }
+  }
+
+  &__profile-chevron {
+    width: rem(16);
+    height: rem(16);
+    flex-shrink: 0;
+    color: var(--muted-foreground);
   }
 
   &__menu {
@@ -209,8 +266,22 @@ const roleLabel = computed(() => t(`roles.${authStore.user?.role ?? 'STUDENT'}`)
 
   &__footer {
     & :deep(.dropdown__trigger) {
-      inline-size: 100%;
+      display: block;
+      width: 100%;
     }
   }
+}
+
+.sidebar-info-enter-active {
+  transition: opacity 0.15s ease 0.1s;
+}
+
+.sidebar-info-leave-active {
+  transition: opacity 0.08s ease;
+}
+
+.sidebar-info-enter-from,
+.sidebar-info-leave-to {
+  opacity: 0;
 }
 </style>
